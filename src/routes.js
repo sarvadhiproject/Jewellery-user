@@ -1,9 +1,9 @@
 import ProductsByCategory from './components/Categories/ProductByCategory';
+import Cart from './components/cart/Cart';
 import Products from './components/product/Products';
 import UserAccount from './components/userProfile/UserAccount';
 import HomePage from './pages/Indexmain/HomePage';
 import IndexMain from './pages/Indexmain/IndexMain';
-import CartProduct from './components/cart/CartProduct';
 
 const routes = [
   { path: "/", component: <IndexMain /> },
@@ -11,7 +11,7 @@ const routes = [
   { path: "/account", component: <UserAccount /> },
   { path: "/product-by-category/:category_id", component: <ProductsByCategory /> },
   { path: "/product-details/:product_id", component: <Products /> },
-  { path: "/cart", component: <CartProduct /> },
+  { path: "/cart", component: <Cart/> },
 ];
 
 export default routes;

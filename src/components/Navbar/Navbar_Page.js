@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Nav, NavbarBrand, NavbarToggler, NavItem, Container, Collapse, Input, InputGroupText } from "reactstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Nav, NavbarToggler, NavItem, Container, Collapse, Input, InputGroupText } from "reactstrap";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShop, faSearch, faUser, faHeart, faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import logo from "../../assets/images/logo.png";
@@ -17,7 +17,7 @@ const NavbarPage = ({setActiveComponent}) => {
   const [isUserCardOpen, setIsUserCardOpen] = useState(false);
   const accountLinkRef = useRef(null);
   const cardLinkRef = useRef(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -63,11 +63,11 @@ const NavbarPage = ({setActiveComponent}) => {
             style={{ backgroundColor: "#F2E9E9", height: "60px" }}
           >
             <Container>
-              <NavbarBrand className="logo text-uppercase" to="/">
+            <Link to="/" className="navbar-brand logo text-uppercase">
                 <div className="d-flex align-items-center">
                   <img src={logo} alt="logo" height="80" />
                 </div>
-              </NavbarBrand>
+              </Link>
 
               <div className="d-flex align-items-center justify-content-center flex-grow-1">
                 <Input

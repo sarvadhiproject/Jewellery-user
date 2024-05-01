@@ -10,12 +10,12 @@ import './assets/css/style.css';
 function App() {
   return (
     <React.Fragment>
-        <Routes>
-          {routes.map((route, idx) => (
-            <Route key={idx} path={route.path} element={route.component} exact={true} />
-          ))}
-        </Routes>
-      <ToastContainer />
+      <Routes>
+        {routes.map((route, idx) => (
+          <Route key={idx} path={route.path} element={route.component} exact={true} />
+        ))}
+      </Routes>
+      <ToastContainer/>
     </React.Fragment>
   );
 }

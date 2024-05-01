@@ -1187,6 +1187,15 @@ textarea.form-control {
 
 
 /*==== product details ===*/
+/* Custom styles for toast notifications */
+
+.Toastify__toast-container {
+  z-index: 9999;
+  top: 0;
+  right: 0;
+  width: auto;
+}
+
 .product-details-cart-btn {
   margin-bottom: 10px;
   min-width: 26rem;
@@ -1252,6 +1261,47 @@ textarea.form-control {
   font-weight: 500;
   padding-left: 0px;
 }
+
+
+/*==== cart ===== */
+
+.cart-product-name{
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.cart-product-name:hover{
+  text-decoration: underline #832729;
+}
+.cart-button{
+  border: none ;
+  background: none;
+  color: #832729 !important;
+  padding: 0;
+  align-items: center;
+  font-weight: 700;
+}
+
+.cart-button:hover{
+  background: none !important;
+  box-shadow: none;
+}
+
+.cart-qty{
+  margin-top: 6px;
+  border: none;
+  padding-left: 3px;
+  font-size: 15px
+  
+}
+
+select.cart-qty:focus {
+  outline: none;
+}
+
+
+
 /*===== 10.review ======*/
 /* Style for review cards */
 .review-card {

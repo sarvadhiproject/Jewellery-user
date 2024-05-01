@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function QuantityPicker({ min, max }) {
+function QuantityPicker({ min, max, onChange }) {
   const [value, setValue] = useState(min);
   const [disableDec, setDisableDec] = useState(true);
   const [disableInc, setDisableInc] = useState(false);
@@ -10,6 +10,7 @@ function QuantityPicker({ min, max }) {
     if (value < max) {
       setValue(newValue);
       setDisableDec(false);
+      onChange(newValue);
     }
     if (value === max - 1) {
       setDisableInc(true);
@@ -26,6 +27,7 @@ function QuantityPicker({ min, max }) {
       if (value === min + 1) {
         setDisableDec(true);
       }
+      onChange(newValue);
     } else {
       setValue(min);
     }

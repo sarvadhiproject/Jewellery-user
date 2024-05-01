@@ -27,7 +27,7 @@ const PersonalInfo = () => {
                     }
                 );
                 setUserProfile(response.data.user);
-                console.log(userProfile.id)
+                // console.log(userProfile.id)
             } catch (e) {
             }
         };

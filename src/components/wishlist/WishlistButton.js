@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
-import { ToastContainer, toast } from 'react-toastify';
+import {toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import ApiConfig from '../../config/ApiConfig';
@@ -11,6 +11,12 @@ const WishlistButton = ({ product_id }) => {
 
     useEffect(() => {
         async function fetchWishlistItems() {
+            const accessToken = localStorage.getItem('accessToken');
+
+            if (!accessToken) {
+                console.log('Login first');
+                return;
+            }
             try {
                 const userID = localStorage.getItem('userId');
                 const response = await axios.get(`${ApiConfig.ApiPrefix}/wishlist/${userID}`);
@@ -111,7 +117,6 @@ const WishlistButton = ({ product_id }) => {
                     <FaRegHeart style={{ marginRight: '0px', fontSize: '17px', color: '#832729' }} />
                 )}
             </button>
-            <ToastContainer />
         </>
     );
 };
