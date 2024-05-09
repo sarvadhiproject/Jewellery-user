@@ -72,12 +72,12 @@ const UserCard = ({ isOpen, toggle }) => {
                         <h3 className="user-card-header">Hello, {firstName}</h3>
                         <ul style={{ listStyleType: "none", padding: 0 }}>
                             <li>
-                                <NavLink to="/account" style={{ textDecoration: "none", color: "#832729", display: "block", marginBottom: "10px" }} >
+                                <NavLink to="/account?activeComponent=personalInformation" style={{ textDecoration: "none", color: "#832729", display: "block", marginBottom: "10px" }} >
                                     MY ACCOUNT
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to="/order-history" style={{ textDecoration: "none", color: "#832729", display: "block", marginBottom: "10px" }}>
+                                <NavLink to="/account?activeComponent=orderHistory" style={{ textDecoration: "none", color: "#832729", display: "block", marginBottom: "10px" }}>
                                     ORDER HISTORY
                                 </NavLink>
                             </li>

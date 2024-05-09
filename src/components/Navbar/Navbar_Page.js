@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Nav, NavbarToggler, NavItem, Container, Collapse, Input, InputGroupText } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShop, faSearch, faUser, faHeart, faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import logo from "../../assets/images/logo.png";
@@ -8,7 +8,7 @@ import AccountPopup from "../authentication/AccountPopup";
 import UserCard from "../userProfile/UserCard";
 
 
-const NavbarPage = ({setActiveComponent}) => {
+const NavbarPage = () => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -17,7 +17,7 @@ const NavbarPage = ({setActiveComponent}) => {
   const [isUserCardOpen, setIsUserCardOpen] = useState(false);
   const accountLinkRef = useRef(null);
   const cardLinkRef = useRef(null);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -42,8 +42,7 @@ const NavbarPage = ({setActiveComponent}) => {
 
   const handleWishlistClick = () => {
     console.log("Wishlist icon clicked");
-    setActiveComponent('wishlist');
-    console.log("Active component set to wishlist");
+    navigate('/account?activeComponent=wishlist');
   };
 
   const handleSearch = () => {
@@ -108,7 +107,7 @@ const NavbarPage = ({setActiveComponent}) => {
                         </div>
                       </Link>
                     ) : (
-                      <Link to="#" className="nav-link" ref={accountLinkRef} onClick={toggleAccountPopup}>
+                      <Link to="" className="nav-link" ref={accountLinkRef} onClick={toggleAccountPopup}>
                         <div style={{ textAlign: "center", padding: '15px 8px 10px' }}>
                           <FontAwesomeIcon icon={faUser} size="lg" color="#832729" /><br></br>
                           <span style={{ color: "#832729" }}>Account</span>
@@ -117,7 +116,7 @@ const NavbarPage = ({setActiveComponent}) => {
                     )}
                   </NavItem>
                   <NavItem>
-                    <Link to="/account" className="nav-link" onClick={handleWishlistClick}>
+                    <Link to="/account?activeComponent=wishlist" className="nav-link" onClick={handleWishlistClick}>
                       <div style={{ textAlign: "center", padding: '15px 8px 10px' }}>
                         <FontAwesomeIcon icon={faHeart} size="lg" color="#832729" /><br></br>
                         <span style={{ color: "#832729" }}>Wishlist</span>

@@ -1,22 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
-import {toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useSnackbar } from 'notistack';
 import axios from 'axios';
 import ApiConfig from '../../config/ApiConfig';
 
 const WishlistButton = ({ product_id }) => {
+    const { enqueueSnackbar } = useSnackbar();
     const [isAdded, setIsAdded] = useState(false);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function fetchWishlistItems() {
-            const accessToken = localStorage.getItem('accessToken');
-
-            if (!accessToken) {
-                console.log('Login first');
-                return;
-            }
             try {
                 const userID = localStorage.getItem('userId');
                 const response = await axios.get(`${ApiConfig.ApiPrefix}/wishlist/${userID}`);
@@ -40,7 +34,7 @@ const WishlistButton = ({ product_id }) => {
         const accessToken = localStorage.getItem('accessToken');
 
         if (!accessToken) {
-            console.log('Login first');
+            enqueueSnackbar('Login to add product in Wishlist', { variant: 'error' });
             return;
         }
 
@@ -60,13 +54,13 @@ const WishlistButton = ({ product_id }) => {
                 }
             );
 
-            if (response.status === 201) {
+            if (response.status === 200) {
                 setIsAdded(true);
-                toast.success('Product added to wishlist successfully');
+                enqueueSnackbar('Product added to wishlist successfully', { variant: 'success' });
             }
         } catch (error) {
             console.error('Error adding product to wishlist:', error.message);
-            toast.error('Error adding product to wishlist');
+            enqueueSnackbar('Error adding product to wishlist', { variant: 'error' });
         }
     };
 
@@ -74,7 +68,7 @@ const WishlistButton = ({ product_id }) => {
         const accessToken = localStorage.getItem('accessToken');
 
         if (!accessToken) {
-            console.log('Login first');
+            enqueueSnackbar('Login to add product in Wishlist', { variant: 'error' });
             return;
         }
 
@@ -96,11 +90,12 @@ const WishlistButton = ({ product_id }) => {
 
             if (response.status === 200) {
                 setIsAdded(false);
-                toast.success('Product removed from wishlist successfully');
+                enqueueSnackbar('Product removed from wishlist successfully', { variant: 'success' });
+                document.dispatchEvent(new CustomEvent('removeFromWishlist', { detail: { productId: product_id } }));
             }
         } catch (error) {
             console.error('Error removing product from wishlist:', error.message);
-            toast.error('Error removing product from wishlist');
+            enqueueSnackbar('Error removing product from wishlist', { variant: 'error' });
         }
     };
 

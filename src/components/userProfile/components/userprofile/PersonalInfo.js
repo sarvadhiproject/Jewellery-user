@@ -11,29 +11,27 @@ const PersonalInfo = () => {
 
     useEffect(() => {
         const accessToken = localStorage.getItem('accessToken');
-        if (!accessToken) {
-            return;
+        if (accessToken) {
+
+            const fetchUserProfile = async (e) => {
+                try {
+                    const response = await axios.post(
+                        `${ApiConfig.ApiPrefix}/user-profile`,
+                        {},
+                        {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        }
+                    );
+                    setUserProfile(response.data.user);
+                } catch (e) {
+                }
+            };
+
+            fetchUserProfile();
         }
-
-        const fetchUserProfile = async (e) => {
-            try {
-                const response = await axios.post(
-                    `${ApiConfig.ApiPrefix}/user-profile`,
-                    {},
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    }
-                );
-                setUserProfile(response.data.user);
-                // console.log(userProfile.id)
-            } catch (e) {
-            }
-        };
-
-        fetchUserProfile();
-    }, []); 
+    }, []);
 
     const toggleEditPopup = () => {
         setIsEditPopupOpen(!isEditPopupOpen);

@@ -1047,6 +1047,11 @@ textarea.form-control {
   margin: auto;
   overflow: hidden;
   cursor: pointer;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.view-category-card:hover {
+  box-shadow: 0 2px 4px rgb(181, 89, 91); /* Add a bottom shadow on hover */
 }
 
 .view-category-img {
@@ -1187,14 +1192,6 @@ textarea.form-control {
 
 
 /*==== product details ===*/
-/* Custom styles for toast notifications */
-
-.Toastify__toast-container {
-  z-index: 9999;
-  top: 0;
-  right: 0;
-  width: auto;
-}
 
 .product-details-cart-btn {
   margin-bottom: 10px;
@@ -1209,6 +1206,10 @@ textarea.form-control {
 .product-details-cart-btn:hover {
   background-color: #832729;
   color: #fff !important;
+}
+
+.size{
+  min-width: 160px !important;
 }
 
 .country {
@@ -1299,6 +1300,92 @@ textarea.form-control {
 select.cart-qty:focus {
   outline: none;
 }
+
+.custom-steps .ant-steps-item-title {
+  font-weight: 600;
+  font-family: 'Nunito Sans';
+  font-size: 18px; /* Adjust the font size as needed */
+}
+
+.save-address-btn {
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border-color: #832729 !important;
+  background-color: #fff;
+  color: #832729 !important;
+  font-weight: 700;
+}
+
+.save-address-btn:hover{
+  background-color: #832729;
+  color: #fff !important;
+}
+
+.edit-address-btn{
+  padding: 8px 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border-color: #832729 !important;
+  background-color: #fff;
+  color: #832729 !important;
+  font-weight: 700;
+}
+
+.edit-address-btn:hover{
+  background-color: #832729;
+  color: #fff !important;
+}
+
+.selector{
+  min-width: 210px;
+  min-height: 38px;
+}
+
+.order-success{
+  padding: 8px 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  /* border-color: #832729 !important; */
+  background-color: #832729 ;
+  color: #fff;
+  font-weight: 700;
+}
+
+.order-table-head {
+  background-color: #F2E9E9 !important;
+  color: #832729 !important;
+}
+
+
+/*===== detail order =====*/
+.order-info{
+  display: flex;
+  justify-content: space-between;
+  background-color: #F2E9E9;
+  border: 1.5px solid #832729;
+  border-radius: 5px;
+  padding: 12px;
+  margin: 20px 0px;
+  color: #832729;
+}
+
+.order-item{
+  display: flex;
+  justify-content: space-between;
+  background-color: #F7F7F7;
+  padding: 12px;
+  font-size: 17px;
+
+}
+
+.price-table-row{
+  width: 100px !important;
+}
+
+.price-table-col{
+  width: 50px !important;
+}
+
 
 
 

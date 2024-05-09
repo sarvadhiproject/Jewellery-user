@@ -1,16 +1,19 @@
 import React, { createContext, useState, useContext } from 'react';
 import axios from 'axios';
+import { useSnackbar } from 'notistack';
 import ApiConfig from '../../../config/ApiConfig';
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
+  const { enqueueSnackbar } = useSnackbar();
   const [cartItems, setCartItems] = useState([]);
 
-  const addToCart = async (productId, quantity, price) => {
+  const addToCart = async (productId, quantity, price, size) => {
     const accessToken = localStorage.getItem('accessToken');
 
     if (!accessToken) {
+      enqueueSnackbar('Login First', { variant: 'error' });
       console.log('Login first');
       return;
     }
@@ -21,14 +24,13 @@ export const CartProvider = ({ children }) => {
         product_id: productId,
         quantity: quantity,
         price: price,
+        size: size
       });
 
       const { cartItem } = response.data;
 
-      // Update cart items and total in state
       setCartItems([...cartItems, cartItem]);
       return { success: true, message: 'Product Added to Cart Successfully' };
-      // Update total in user context or store it in localStorage if needed
     } catch (error) {
       console.error('Error adding item to cart:', error);
       if (
@@ -50,12 +52,8 @@ export const CartProvider = ({ children }) => {
       const { total } = response.data;
       console.log(total);
 
-      // Remove the deleted item from cartItems state
       const updatedCartItems = cartItems.filter(item => item.cart_id !== cartId);
-      setCartItems  (updatedCartItems);
-
-      // Update total in user context or store it in localStorage if needed
-      // Example: setUserTotal(total);
+      setCartItems(updatedCartItems);
 
       return { success: true, message: 'Product Removed from Cart Successfully' };
     } catch (error) {

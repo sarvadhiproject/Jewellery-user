@@ -14,7 +14,7 @@ const ProductInfo = ({ product_id }) => {
         const fetchProductDetails = async () => {
             try {
                 const response = await axios.get(`${ApiConfig.ApiPrefix}/product-vendor-details/${product_id}`);
-                console.log('vendor api response:',response.data);
+                console.log('vendor api response:', response.data);
                 setProductDetails(response.data);
                 setLoading(false);
             } catch (error) {
@@ -39,6 +39,8 @@ const ProductInfo = ({ product_id }) => {
             [toggleId]: !prevState[toggleId]
         }));
     };
+
+
 
     if (loading) {
         return null;
@@ -77,34 +79,46 @@ const ProductInfo = ({ product_id }) => {
                                 <UncontrolledCollapse isOpen={collapseOpen.productDetailsToggle} toggler="#productDetailsToggle">
                                     <div style={{ padding: '0px 35px', fontWeight: '500', fontSize: '14px', marginBottom: '10px' }}>
                                         <Row>
-                                            <Col className='col-sm-6 mb-3'>
-                                                <label className='product-field'>Occasion Type</label><br />
-                                                <label className='product-value'>{productDetails.occasion_type}</label><br />
-                                            </Col>
-                                            <Col>
-                                                <label className='product-field'>Weight</label><br />
-                                                <label className='product-value' >{productDetails.weight}</label>
-                                            </Col>
+                                            {productDetails.occasion_type && (
+                                                <Col className='col-sm-6 mb-3'>
+                                                    <label className='product-field'>Occasion Type</label><br />
+                                                    <label className='product-value'>{productDetails.occasion_type}</label><br />
+                                                </Col>
+                                            )}
+                                            {productDetails.weight && (
+                                                <Col>
+                                                    <label className='product-field'>Weight</label><br />
+                                                    <label className='product-value'>{productDetails.weight}</label>
+                                                </Col>
+                                            )}
                                         </Row>
                                         <Row>
-                                            <Col>
-                                                <label className='product-field'>Gem Type</label><br />
-                                                <label className='product-value'>{productDetails.gem_type}</label>
-                                            </Col>
-                                            <Col>
-                                                <label className='product-field'>Gem Color</label><br />
-                                                <label className='product-value' style={{ marginBottom: '10px' }}>{productDetails.gem_color}</label><br />
-                                            </Col>
+                                            {productDetails.gem_type && (
+                                                <Col>
+                                                    <label className='product-field'>Gem Type</label><br />
+                                                    <label className='product-value'>{productDetails.gem_type}</label>
+                                                </Col>
+                                            )}
+                                            {productDetails.gem_color && (
+                                                <Col>
+                                                    <label className='product-field'>Gem Color</label><br />
+                                                    <label className='product-value' style={{ marginBottom: '10px' }}>{productDetails.gem_color}</label><br />
+                                                </Col>
+                                            )}
                                         </Row>
                                         <Row>
-                                            <Col>
-                                                <label className='product-field'>Number of Gems</label><br />
-                                                <label className='product-value'>{productDetails.no_of_gems}</label>
-                                            </Col>
-                                            <Col>
-                                                <label className='product-field'>Size</label><br />
-                                                <label className='product-value'>{productDetails.size}</label>
-                                            </Col>
+                                            {productDetails.no_of_gems !== 0 && (
+                                                <Col>
+                                                    <label className='product-field'>Number of Gems</label><br />
+                                                    <label className='product-value'>{productDetails.no_of_gems}</label>
+                                                </Col>
+                                            )}
+                                            {productDetails.category.category_name !== "Rings" && productDetails.category.category_name !== "Bangles" && productDetails.size && (
+                                                <Col>
+                                                    <label className='product-field'>Size</label><br />
+                                                    <label className='product-value'>{productDetails.size}</label>
+                                                </Col>
+                                            )}
                                         </Row>
                                     </div>
                                 </UncontrolledCollapse>
@@ -129,7 +143,7 @@ const ProductInfo = ({ product_id }) => {
                                     </div>
                                 </Button>
                                 <UncontrolledCollapse isOpen={collapseOpen.knowYourProductToggle} toggler="#knowYourProductToggle">
-                                    <div style={{ padding: '0px 30px', fontSize: '14px', marginBottom: '10px' }}>
+                                    <div style={{ padding: '0px 30px', fontSize: '13px', marginBottom: '10px' }}>
                                         <label className='product-value'>{productDetails.main_description}</label>
                                     </div>
                                 </UncontrolledCollapse>
@@ -150,7 +164,7 @@ const ProductInfo = ({ product_id }) => {
                                         ) : (
                                             <IoIosArrowDown style={{ color: 'black', position: 'absolute', left: '97%', transform: 'translate(-50%, -50%)', top: '50%', fontSize: '25px' }} />
                                         )}
-                                        <label style={{ paddingLeft: '22px', color: 'black', textTransform: 'capitalize', marginBottom: '1rem', fontWeight: '400' }}>Manufacture Details</label>
+                                        <label style={{ paddingLeft: '22px', color: 'black', textTransform: 'capitalize', marginBottom: '1rem'  }}>Manufacture Details</label>
                                     </div>
                                 </Button>
                                 <UncontrolledCollapse isOpen={collapseOpen.vendorDetailsToggle} toggler="#vendorDetailsToggle">

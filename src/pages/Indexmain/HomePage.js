@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from 'react';
+import React, { Suspense } from 'react';
 import NavbarPage from '../../components/Navbar/Navbar_Page';
 import Footer from '../../components/Footer/footer';
 import Section from '../Indexmain/component/section';
@@ -24,7 +24,6 @@ const Loader = () => {
 };
 
 const HomePage = () => {
-    const [activeComponent, setActiveComponent] = useState(null);
     const slides1 = [
         { image: banner1, link: "#" }, 
         { image: banner2, link: "#" }, 
@@ -38,7 +37,7 @@ const HomePage = () => {
     return (
         <React.Fragment>
             <Suspense fallback={<Loader />}>
-                <NavbarPage setActiveComponent={setActiveComponent} />
+                <NavbarPage />
                 <Section slides={slides1} />
                 <Category />
                 <Bestseller />

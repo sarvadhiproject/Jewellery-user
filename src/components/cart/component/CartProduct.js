@@ -1,16 +1,18 @@
 import React from 'react';
 import { Card, CardBody, CardImg, Button, Row, Col } from 'reactstrap';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useSnackbar } from 'notistack';
 import { TbHeartShare } from "react-icons/tb";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useCart } from '../Context/CartContext';
 import ApiConfig from '../../../config/ApiConfig';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+
 
 
 const CartProduct = ({ cartItems, updateCartItems }) => {
   const { removeFromCart } = useCart();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleRemoveFromCart = async (cartId) => {
     try {
@@ -20,23 +22,28 @@ const CartProduct = ({ cartItems, updateCartItems }) => {
         updateCartItems();
       } else {
         console.error(response.message);
-        toast.error(response.message);
+        enqueueSnackbar(response.message, { variant: 'error' });
       }
     } catch (error) {
       console.error('Error removing item from cart:', error);
-      toast.error('Error Removing product from Cart');
+      enqueueSnackbar('Error Removing product from Cart', { variant: 'error' });
     }
   };
-
-  const handleQuantityChange = (productId, quantity) => {
-    const updatedCartItems = cartItems.map((product) =>
-      product.Product.product_id === productId ? { ...product, quantity: quantity } : product
-    );
-    cartItems = updatedCartItems;
-  };
-
-  const handleMoveToWishlist = (productId) => {
-    console.log(`Moving product with ID ${productId} to wishlist`);
+  
+  const handleMoveToWishlist = async (cart_id) => {
+    try {
+      const response = await axios.post(`${ApiConfig.ApiPrefix}/cart-to-wishlist`, { cartItem_id: cart_id });
+      if (response.status === 200) {
+        console.log(response.data.message);
+        updateCartItems(); 
+      } else {
+        console.error('Error moving product to wishlist:', response.data.error);
+        enqueueSnackbar('Error moving product to wishlist', { variant: 'error' });
+      }
+    } catch (error) {
+      console.error('Error moving product to wishlist:', error);
+      enqueueSnackbar('Error moving product to wishlist', { variant: 'error' });
+    }
   };
 
   return (
@@ -53,10 +60,10 @@ const CartProduct = ({ cartItems, updateCartItems }) => {
               <CardBody style={{ padding: '5px', display: 'flex', flexDirection: 'column', height: '100%' }}>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', color: '#832729', justifyContent: 'space-between', alignItems: 'center', marginTop: '7px' }}>
-                    <Link to={`/product-details/${cartItem.Product.product_id}`} style={{color:'#832729'}}>
+                    <Link to={`/product-details/${cartItem.Product.product_id}`} style={{ color: '#832729' }}>
                       <label className='cart-product-name'>{cartItem.Product.product_name}</label>
                     </Link>
-                    <span> <RiDeleteBin6Line style={{ fontSize: '20px' }} onClick={() => handleRemoveFromCart(cartItem.cart_id)} /> </span>
+                    <span> <RiDeleteBin6Line style={{ fontSize: '20px' }} onClick={() => handleRemoveFromCart(cartItem.cartItem_id)} /> </span>
                   </div>
                   <div>
                     <label style={{ fontSize: '12px', fontWeight: 'bold' }} className='text-muted'>Gold: {cartItem.Product.gold_type} | Weight: {cartItem.Product.weight}</label>
@@ -67,18 +74,14 @@ const CartProduct = ({ cartItems, updateCartItems }) => {
                       <label style={{ marginLeft: '5px', fontSize: '13px', fontWeight: '600' }}>MRP</label>
                       <label className='text-muted' style={{ paddingLeft: '6px', textDecoration: 'line-through', fontSize: '13px', fontWeight: 'bold' }}>₹{cartItem.Product.mrp}</label>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <label style={{ fontSize: '15px', fontWeight: '600', marginTop: '5px' }}>Qty:</label><br></br>
-                      <select value={cartItem.quantity} onChange={(e) => handleQuantityChange(cartItem.Product.product_id, parseInt(e.target.value))} className='cart-qty'>
-                        {[...Array(10).keys()].map((value) => (
-                          <option key={value + 1} value={value + 1}>{value + 1}</option>
-                        ))}
-                      </select>
+                    <div style={{ display: 'flex', alignItems: 'center' , marginTop:'5px',fontSize: '15px', fontWeight: '600'}}>
+                      <label>Qty:</label>
+                      <label style={{marginLeft:'2px'}}>{cartItem.quantity}</label>
                     </div>
                   </div>
                 </div>
                 <div>
-                  <Button className="cart-button" onClick={() => handleMoveToWishlist(cartItem.product.product_id)}>
+                  <Button className="cart-button" onClick={() => handleMoveToWishlist(cartItem.cartItem_id)}>
                     <TbHeartShare style={{ fontSize: '20px' }} />
                     <label style={{ fontSize: '12px', textTransform: 'capitalize', paddingLeft: '3px' }}> Move to Wishlist </label>
                   </Button>

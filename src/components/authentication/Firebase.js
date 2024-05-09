@@ -12,6 +12,6 @@ const firebaseConfig = {
   };
   
 const firebaseApp = !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
-firebaseApp.auth().settings.appVerificationDisabledForTesting = false; // or true if you're testing
+firebaseApp.auth().settings.appVerificationDisabledForTesting = false; 
 
 export default firebaseApp;

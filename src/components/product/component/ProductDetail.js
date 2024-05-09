@@ -11,8 +11,7 @@ import StarRating from '../../bestseller/StarRating';
 import QuantityPicker from './QuantityPicker';
 import ApiConfig from '../../../config/ApiConfig';
 import { useCart } from '../../cart/Context/CartContext';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useSnackbar } from 'notistack';
 
 const countries = [
     { value: 'India', label: 'India' },
@@ -26,8 +25,10 @@ const ProductDetail = ({ product_id }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [quantity, setQuantity] = useState(1);
+    const [selectedSize, setSelectedSize] = useState(null);
     const [pincode, setPincode] = useState('');
     const [deliveryAvailability, setDeliveryAvailability] = useState('');
+    const { enqueueSnackbar } = useSnackbar();
 
     const { addToCart } = useCart();
 
@@ -35,7 +36,7 @@ const ProductDetail = ({ product_id }) => {
         async function fetchProductDetails() {
             try {
                 const response = await axios.get(`${ApiConfig.ApiPrefix}/product-details/${product_id}`);
-                console.log('product:',response.data);
+                console.log('product:', response.data);
                 if (response.data) {
                     const productDetails = response.data;
                     const Images = Array.isArray(productDetails.p_images) ? productDetails.p_images.map(image => `${ApiConfig.cloudprefix}${image}`) : [];
@@ -67,6 +68,35 @@ const ProductDetail = ({ product_id }) => {
         return null;
     }
 
+    const getSizeOptions = (sizeString) => {
+        if (sizeString) {
+            const sizes = sizeString.split(',');
+            return sizes.map(size => ({ value: size, label: size }));
+        }
+        return [];
+    };
+
+    const renderSizeOptions = () => {
+        const isRingOrBangles = ['ring', 'bangles'].includes(product.category?.category_name?.toLowerCase());
+
+        if (isRingOrBangles && product.size) {
+            return (
+                <div>
+                    <label style={{ textAlign: 'center' }}>Size:</label>
+                    <br />
+                    <Select
+                        className="country size"
+                        options={getSizeOptions(product.size)}
+                        onChange={(selectedOption) => setSelectedSize(selectedOption.value)}
+                    />
+                </div>
+            );
+        }
+
+        return null;
+    };
+
+
     const handleImageClick = (image) => {
         setSelectedImage(image);
     };
@@ -77,20 +107,20 @@ const ProductDetail = ({ product_id }) => {
 
     const handleAddToCart = async () => {
         try {
-            const response = await addToCart(product.product_id, quantity, product.selling_price);
+            const response = await addToCart(product.product_id, quantity, product.selling_price,selectedSize);
             if (response.success) {
-                toast.success(response.message);
+                enqueueSnackbar(response.message, { variant: 'success' });
             } else {
-                toast.error(response.message);
+                enqueueSnackbar(response.message, { variant: 'error' });
             }
         } catch (error) {
             console.error('Error adding item to cart:', error);
-            toast.error('Failed to add item to cart. Please try again later.');
+            enqueueSnackbar('Failed to add item to cart. Please try again later.', { variant: 'error' });
         }
     };
 
     const handleQuantityChange = (newQuantity) => {
-        setQuantity(newQuantity); // Update quantity when changed in QuantityPicker
+        setQuantity(newQuantity); 
     };
 
     const NextArrow = (props) => {
@@ -172,9 +202,14 @@ const ProductDetail = ({ product_id }) => {
                                     <label style={{ marginLeft: '5px' }}>MRP </label>
                                     <label className='text-muted' style={{ paddingLeft: '6px', textDecoration: 'line-through' }}>&#8377;{product.mrp}</label>
                                 </span>
-                                <div style={{ marginTop: '30px', paddingLeft: '8px' }}>
-                                    <label style={{ textAlign: 'center' }}>Quantity:</label><br></br>
-                                    <QuantityPicker min={1} max={10} onChange={handleQuantityChange} />
+                                <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '8px', alignItems: 'center', marginTop: '35px' }}>
+                                    <div>
+                                        <label style={{ textAlign: 'center' }}>Quantity:</label><br></br>
+                                        <QuantityPicker min={1} max={10} onChange={handleQuantityChange} />
+                                    </div>
+                                    <div>
+                                        {renderSizeOptions()}
+                                    </div>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0px 5px' }}>
                                     <CardText className="text-muted" style={{ margin: '30px 0px 15px', paddingLeft: '8px' }}>Gold Type: {product.gold_type} </CardText>

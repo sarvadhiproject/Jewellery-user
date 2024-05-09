@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { Row, Col } from 'reactstrap';
-import { BsBagXFill, BsFillBagDashFill } from "react-icons/bs";
 import NavbarPage from '../../components/Navbar/Navbar_Page';
 import Footer from '../../components/Footer/footer';
 import CartProduct from './component/CartProduct';
@@ -8,6 +7,9 @@ import OrderSummary from './component/OrderSummary';
 import { CartProvider } from './Context/CartContext';
 import axios from 'axios';
 import ApiConfig from '../../config/ApiConfig';
+import { Link } from 'react-router-dom';
+import emptycart from "../../assets/images/Empty Cart.svg";
+import loginfirst from "../../assets/images/login first.svg";
 
 const Loader = () => {
     return (
@@ -24,12 +26,10 @@ const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => {
-        // Check if access token exists in local storage
         const accessToken = localStorage.getItem('accessToken');
         setIsLoggedIn(accessToken ? true : false);
 
         if (isLoggedIn) {
-            // Call your API to get cart items
             fetchCartItems();
         }
 
@@ -42,7 +42,6 @@ const Cart = () => {
             setCartItems(response.data.cartItems);
         } catch (error) {
             if (error.response && error.response.status === 404) {
-                // Handle 404 Not Found error (empty cart)
                 setCartItems([]);
             } else {
                 console.error('Error fetching cart items:', error);
@@ -57,7 +56,6 @@ const Cart = () => {
             setCartItems(response.data.cartItems);
         } catch (error) {
             if (error.response && error.response.status === 404) {
-                // Handle 404 Not Found error (empty cart)
                 setCartItems([]);
             } else {
                 console.error('Error fetching updated cart items:', error);
@@ -72,15 +70,15 @@ const Cart = () => {
                 <Row>
                     {isLoggedIn ? (
                         cartItems.length === 0 ? (
-                            <Col md="12" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '50px', marginTop: '30px', color: '#832729' }}>
+                            <Col md="12" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '50px', marginTop: '30px' }}>
                                 <div style={{ textAlign: 'center' }}>
-                                    <BsFillBagDashFill style={{ fontSize: '100px' }} />
+                                    <img src={emptycart} alt='Empty Cart' style={{ width: '120px' }} />
                                     <h3 style={{ fontFamily: 'Nunito Sans' }}>Your cart is empty</h3>
+                                    <Link to="/" ><label className='cart-product-name' style={{ color: '#832729', fontSize: '13px' }} > Continue Shopping </label></Link>
                                 </div>
                             </Col>
                         ) : (
                             <React.Fragment>
-                                {/* Render CartProduct and OrderSummary if cartItems is not empty */}
                                 <Col md="7">
                                     <Suspense fallback={<Loader />}>
                                         <CartProvider>
@@ -98,7 +96,7 @@ const Cart = () => {
                     ) : (
                         <Col md="12" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '50px', marginTop: '30px', color: '#832729' }}>
                             <div style={{ textAlign: 'center' }}>
-                                <BsBagXFill style={{ fontSize: '100px' }} />
+                                <img src={loginfirst} alt='login first' />
                                 <h3 style={{ fontFamily: 'Nunito Sans' }}>Please login to view cart items</h3>
                             </div>
                         </Col>
