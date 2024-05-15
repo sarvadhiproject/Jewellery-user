@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Button, Form, FormGroup, Modal, ModalBody, Input, Card, CardBody } from 'reactstrap';
+import { Button, Form, FormGroup, Modal, ModalBody, Input, Card, CardBody, Spinner } from 'reactstrap';
 import firebaseApp from './Firebase';
 import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
 import IntlTelInput from 'react-intl-tel-input';
@@ -7,44 +7,80 @@ import 'react-intl-tel-input/dist/main.css';
 import axios from 'axios';
 import Signup from './SignUp';
 import { jwtDecode } from 'jwt-decode';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useSnackbar } from 'notistack';
+import Countdown from 'react-countdown';
 import ApiConfig from '../../config/ApiConfig';
 
 const Login = ({ isOpen, toggle }) => {
+  const { enqueueSnackbar } = useSnackbar();
   const [phoneNo, setPhoneNo] = useState('');
   const [otp, setOtp] = useState('');
   const [showSignup, setShowSignup] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const confirmationResultRef = useRef(null);
   const [countryCode, setCountryCode] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [countdownDate, setCountdownDate] = useState(null);
+  const [countdownKey, setCountdownKey] = useState(Date.now());
+  const recaptchaVerifierRef = useRef(null);
+
+  const createRecaptchaInstance = (auth) => {
+    if (recaptchaVerifierRef.current) {
+      recaptchaVerifierRef.current.clear();
+      console.log('reCAPTCHA cleared');
+
+      const recaptchaContainer = document.getElementById('recaptcha-container');
+      if (recaptchaContainer) {
+        recaptchaContainer.remove();
+      }
+    }
+
+    const newRecaptchaContainer = document.createElement('div');
+    newRecaptchaContainer.id = 'recaptcha-container';
+    document.body.appendChild(newRecaptchaContainer);
+
+
+    const appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+      size: 'invisible',
+      callback: () => {
+        console.log('reCAPTCHA resolved..');
+      }
+    });
+
+    recaptchaVerifierRef.current = appVerifier;
+
+    return appVerifier;
+  };
 
   const handlePhoneNoSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const auth = getAuth(firebaseApp);
-      const appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-        size: 'invisible',
-        callback: () => {
-          console.log('reCAPTCHA resolved..')
-        }
-      });
-
+      const appVerifier = createRecaptchaInstance(auth);
       const phoneNumberWithCountryCode = `+${countryCode}${phoneNo.replace(/[^\d]/g, '')}`;
-      const confirmation = await signInWithPhoneNumber(auth, phoneNumberWithCountryCode, appVerifier);
+      const confirmation = await signInWithPhoneNumber(auth, phoneNumberWithCountryCode, appVerifier, {
+        appVerifier: { timeout: 120000 }
+      });
 
       confirmationResultRef.current = confirmation;
       setOtpSent(true);
-      toast.success('Verification code sent');
+      enqueueSnackbar('Verification code sent', { variant: 'success' });
+      const countdownEndDate = new Date(Date.now() + 180000);
+      setCountdownDate(countdownEndDate);
+      setCountdownKey(Date.now());
     } catch (error) {
       console.error('Error sending verification code: ', error);
-      toast.error('Error sending verification code');
+      enqueueSnackbar('Error sending verification code, Try Again', { variant: 'error' });
+    } finally {
+      setIsLoading(false);
     }
   };
 
 
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const code = otp;
       if (!confirmationResultRef.current) {
@@ -53,7 +89,9 @@ const Login = ({ isOpen, toggle }) => {
       }
 
       const confirmation = confirmationResultRef.current;
-      const result = await confirmation.confirm(code);
+      const result = await confirmation.confirm(code, {
+        appVerifier: { timeout: 120000 }
+      });
       const user = result.user;
 
       if (!user) {
@@ -65,10 +103,10 @@ const Login = ({ isOpen, toggle }) => {
       const idToken = await user.getIdToken();
       console.log('ID Token:', idToken);
 
-      const response = await axios.post(`${ApiConfig.ApiPrefix}/user-login-phoneno`, { idToken });
+      const response = await axios.post(`${ApiConfig.ApiPrefix}/auth/user-login`, { idToken });
       if (response.status === 200) {
         console.log('ID token verified on the server');
-        toast.success('User Logged In Successfully');
+        enqueueSnackbar('User Logged In Successfully', { variant: 'success' });
 
         const { token } = response.data;
 
@@ -76,25 +114,61 @@ const Login = ({ isOpen, toggle }) => {
         console.log('Decoded Token:', decodedToken);
 
         if (decodedToken && decodedToken.id) {
+          localStorage.setItem('key', decodedToken.authority);
           localStorage.setItem('userId', decodedToken.id);
           localStorage.setItem('firstName', decodedToken.first_name);
           localStorage.setItem('accessToken', token);
           window.location.reload();
         } else {
           console.error('User ID not found in decoded token');
-          toast.error('Login failed, try again');
+          enqueueSnackbar('Login failed, try again', { variant: 'error' });
         }
 
       } else {
         console.error('ID token verification failed on the server');
-        toast.error('Login failed, try again');
+        enqueueSnackbar('Login failed, try again', { variant: 'error' });
       }
     } catch (error) {
       console.error('Error verifying OTP: ', error);
-      toast.error('Error verifying OTP');
+      enqueueSnackbar('Error verifying OTP', { variant: 'error' });
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  const handleResendOTP = async () => {
+    try {
+      const auth = getAuth(firebaseApp);
+      const appVerifier = createRecaptchaInstance(auth);
+      const phoneNumberWithCountryCode = `+${countryCode}${phoneNo.replace(/[^\d]/g, '')}`;
+      const confirmation = await signInWithPhoneNumber(auth, phoneNumberWithCountryCode, appVerifier, {
+        appVerifier: { timeout: 120000 }
+      });
+
+      confirmationResultRef.current = confirmation;
+      enqueueSnackbar('Verification code resent', { variant: 'success' });
+      const countdownEndDate = new Date(Date.now() + 180000);
+      setCountdownDate(countdownEndDate);
+      setCountdownKey(Date.now());
+      console.log('Countdown End Date:', countdownEndDate);
+    } catch (error) {
+      console.error('Error resending verification code: ', error);
+      enqueueSnackbar('Error resending verification code, Try Again', { variant: 'error' });
+    }
+  };
+
+  const CountdownRenderer = ({ minutes, seconds, completed }) => {
+    if (completed) {
+      return <Button onClick={handleResendOTP} className="resend-otp-btn">Resend OTP</Button>;
+    } else {
+      return (
+        <span className='text-muted' style={{ fontSize: '13px', marginLeft: '2px' }}>
+          <label style={{ textDecoration: 'underline', margin: '4px 2px' }}>Resend</label>
+          <label className='text-muted'> in {minutes}:{seconds.toString().padStart(2, '0')}s</label>
+        </span>
+      );
+    }
+  };
 
   const handlePhoneNumberChange = (isValid, phoneNumber, countryData) => {
     setPhoneNo(phoneNumber);
@@ -130,29 +204,41 @@ const Login = ({ isOpen, toggle }) => {
                         />
                         <div id="recaptcha-container"></div>
                         <div className="button-container">
-                          <Button type="submit">Send OTP</Button>
+                          <Button type="submit" disabled={isLoading}>
+                            {isLoading ? <Spinner size='sm' color="light" /> : 'Send OTP'}
+                          </Button>
                         </div>
                       </FormGroup>
                     </Form>
                   )}
 
                   {otpSent && (
-                    <Form onSubmit={handleOtpSubmit} className="mt-4">
-                      <FormGroup className="otp-input">
-                        <Input
-                          type="text"
-                          name="otp"
-                          id="otp"
-                          placeholder="Enter OTP"
-                          value={otp}
-                          onChange={(e) => setOtp(e.target.value)}
-                          inputclassname="form-control"
-                        />
-                        <div className="button-container">
-                          <Button type="submit">Verify OTP</Button>
+                    <>
+                      <Form onSubmit={handleOtpSubmit} className="mt-4">
+                        <FormGroup className="otp-input">
+                          <Input
+                            type="text"
+                            name="otp"
+                            id="otp"
+                            placeholder="Enter OTP"
+                            value={otp}
+                            onChange={(e) => setOtp(e.target.value)}
+                            inputclassname="form-control"
+                          />
+                          <div className="button-container">
+                            <Button type="submit" disabled={isLoading}>
+                              {isLoading ? <Spinner size='sm' color="light" /> : 'Verify OTP'}
+                            </Button>
+                          </div>
+                        </FormGroup>
+                      </Form>
+                      {otpSent && countdownDate && (
+                        <div className="resend-otp-container">
+                          <label className='text-muted'>Haven't received the OTP ?</label>
+                          <Countdown key={countdownKey} date={countdownDate} renderer={props => <CountdownRenderer {...props} />} />
                         </div>
-                      </FormGroup>
-                    </Form>
+                      )}
+                    </>
                   )}
 
                   <p style={{ textAlign: 'center' }}>Don't have an account? <span onClick={handleSignupClick} style={{ cursor: 'pointer', color: '#832729', textAlign: 'center' }}>Sign up</span></p>
@@ -161,12 +247,8 @@ const Login = ({ isOpen, toggle }) => {
             </div>
           </div>
         </ModalBody>
-        <ToastContainer />
       </Modal>
       {showSignup && <Signup isOpen={true} toggle={() => setShowSignup(false)} />}
-
-
-
     </>
   );
 };

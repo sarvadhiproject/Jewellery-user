@@ -23,9 +23,9 @@ const VendorProduct = ({ product_id }) => {
 
     const fetchspecificvendorproduct = async () => {
         try {
-            const response = await axios.get(`${ApiConfig.ApiPrefix}/vendor-products/${product_id}`);
-            if (Array.isArray(response.data)) {
-                const vendorproduct = response.data.map((d) => ({
+            const response = await axios.get(`${ApiConfig.ApiPrefix}/products/same-vendor/${product_id}`);
+            if (Array.isArray(response.data.data)) {
+                const vendorproduct = response.data.data.map((d) => ({
                     ...d,
                     p_images: Array.isArray(d.p_images) ? d.p_images.map(image => `${ApiConfig.cloudprefix}` + image) : []
                 }));
@@ -93,7 +93,7 @@ const VendorProduct = ({ product_id }) => {
     };
 
     if (loading) {
-        return null; 
+        return null;
     }
 
     if (error) {
@@ -119,18 +119,17 @@ const VendorProduct = ({ product_id }) => {
                                 <WishlistButton
                                     product_id={product.product_id}
                                 />
-                                <Link to={`/product-details/${product.product_id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                    <div style={{ position: 'relative' }}>
-                                        {product.p_images && product.p_images.length > 0 && (
-                                            <CardImg
-                                                top
-                                                src={product.p_images[0]} 
-                                                alt={product.product_name}
-                                                className="product-card-img"
-                                                id={`card-image-${index}`}
-                                            />
-                                        )}
-                                    </div>
+                                <Link to={`/product-details`} state={{ product_id: product.product_id }} style={{ textDecoration: 'none', color: 'inherit' }}>                                    <div style={{ position: 'relative' }}>
+                                    {product.p_images && product.p_images.length > 0 && (
+                                        <CardImg
+                                            top
+                                            src={product.p_images[0]}
+                                            alt={product.product_name}
+                                            className="product-card-img"
+                                            id={`card-image-${index}`}
+                                        />
+                                    )}
+                                </div>
                                     <CardBody style={{ padding: '10px' }}>
                                         <div className='product-cardbody-div' style={{ textAlign: 'center' }}>
                                             <p className='product-names'>{product.product_name}</p>

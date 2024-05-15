@@ -29,13 +29,14 @@ const CartProduct = ({ cartItems, updateCartItems }) => {
       enqueueSnackbar('Error Removing product from Cart', { variant: 'error' });
     }
   };
-  
+
   const handleMoveToWishlist = async (cart_id) => {
     try {
-      const response = await axios.post(`${ApiConfig.ApiPrefix}/cart-to-wishlist`, { cartItem_id: cart_id });
+      const userID = localStorage.getItem('userId');
+      const response = await axios.post(`${ApiConfig.ApiPrefix}/cart/move-to-wishlist/${userID}`, { cartItem_id: cart_id });
       if (response.status === 200) {
         console.log(response.data.message);
-        updateCartItems(); 
+        updateCartItems();
       } else {
         console.error('Error moving product to wishlist:', response.data.error);
         enqueueSnackbar('Error moving product to wishlist', { variant: 'error' });
@@ -52,31 +53,31 @@ const CartProduct = ({ cartItems, updateCartItems }) => {
         <Card key={cartItem.product_id} className="mb-3" style={{ height: '200px', border: 'none' }}>
           <Row>
             <Col xs='4'>
-              <Link to={`/product-details/${cartItem.Product.product_id}`}>
-                <CardImg src={`${ApiConfig.cloudprefix}${cartItem.Product.p_images[0]}`} alt={cartItem.Product.product_name} style={{ height: '180px', width: '180px', padding: '10px', borderRadius: '20px' }} />
+              <Link to={`/product-details`} state={{ product_id: cartItem.product.product_id }}>
+                <CardImg src={`${ApiConfig.cloudprefix}${cartItem.product.p_images[0]}`} alt={cartItem.product.product_name} style={{ height: '180px', width: '180px', padding: '10px', borderRadius: '20px' }} />
               </Link>
             </Col >
             <Col xs='8'>
               <CardBody style={{ padding: '5px', display: 'flex', flexDirection: 'column', height: '100%' }}>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', color: '#832729', justifyContent: 'space-between', alignItems: 'center', marginTop: '7px' }}>
-                    <Link to={`/product-details/${cartItem.Product.product_id}`} style={{ color: '#832729' }}>
-                      <label className='cart-product-name'>{cartItem.Product.product_name}</label>
+                    <Link to={`/product-details`} state={{ product_id: cartItem.product.product_id }} style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <label className='cart-product-name'>{cartItem.product.product_name}</label>
                     </Link>
                     <span> <RiDeleteBin6Line style={{ fontSize: '20px' }} onClick={() => handleRemoveFromCart(cartItem.cartItem_id)} /> </span>
                   </div>
                   <div>
-                    <label style={{ fontSize: '12px', fontWeight: 'bold' }} className='text-muted'>Gold: {cartItem.Product.gold_type} | Weight: {cartItem.Product.weight}</label>
+                    <label style={{ fontSize: '12px', fontWeight: 'bold' }} className='text-muted'>Gold: {cartItem.product.gold_type} | Weight: {cartItem.product.weight}</label>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
                     <div style={{ marginTop: '5px' }}>
-                      <span style={{ fontSize: '22px', fontWeight: 'bold', alignItems: 'center' }}>₹{cartItem.Product.selling_price} </span>
+                      <span style={{ fontSize: '22px', fontWeight: 'bold', alignItems: 'center' }}>₹{cartItem.product.selling_price} </span>
                       <label style={{ marginLeft: '5px', fontSize: '13px', fontWeight: '600' }}>MRP</label>
-                      <label className='text-muted' style={{ paddingLeft: '6px', textDecoration: 'line-through', fontSize: '13px', fontWeight: 'bold' }}>₹{cartItem.Product.mrp}</label>
+                      <label className='text-muted' style={{ paddingLeft: '6px', textDecoration: 'line-through', fontSize: '13px', fontWeight: 'bold' }}>₹{cartItem.product.mrp}</label>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center' , marginTop:'5px',fontSize: '15px', fontWeight: '600'}}>
+                    <div style={{ display: 'flex', alignItems: 'center', marginTop: '5px', fontSize: '15px', fontWeight: '600' }}>
                       <label>Qty:</label>
-                      <label style={{marginLeft:'2px'}}>{cartItem.quantity}</label>
+                      <label style={{ marginLeft: '2px' }}>{cartItem.quantity}</label>
                     </div>
                   </div>
                 </div>

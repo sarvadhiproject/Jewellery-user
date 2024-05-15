@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSnackbar } from 'notistack';
 import * as Yup from 'yup';
-import { Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Input, Button, Card, CardBody } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Input, Button, Card, CardBody, Spinner } from 'reactstrap';
 import { IoMdClose } from 'react-icons/io';
 import axios from 'axios';
 import ApiConfig from '../../../../../config/ApiConfig';
 
 const PaymentForm = (props) => {
+    const [isLoading, setIsLoading] = useState(false);
     const [modal, setModal] = useState(false);
     const [cardDetails, setcardDetails] = useState(null);
     const toggle = () => setModal(!modal);
@@ -20,6 +21,7 @@ const PaymentForm = (props) => {
     };
 
     const placeOrder = async () => {
+        setIsLoading(true);
         try {
             console.log('calling api');
             const userId = localStorage.getItem('userId');
@@ -42,6 +44,8 @@ const PaymentForm = (props) => {
             console.error("Failed to place order:", error);
             enqueueSnackbar("Failed to place order", { variant: 'error' });
             console.log("Error:", error.message);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -70,7 +74,9 @@ const PaymentForm = (props) => {
                 )}
             </div >
             <div style={{ textAlign: 'center', margin: '30px 0px' }}>
-                <Button className='product-details-cart-btn' style={{ width: '85%' }} onClick={placeOrder}>Place Order</Button>
+                <Button className='product-details-cart-btn' style={{ width: '85%' }} onClick={placeOrder} disabled={isLoading}>
+                    {isLoading ? <Spinner size='sm' color="light" /> : 'Place Order'}
+                </Button>
             </div>
 
 

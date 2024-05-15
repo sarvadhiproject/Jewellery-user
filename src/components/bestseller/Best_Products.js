@@ -91,11 +91,11 @@ const Bestseller = () => {
         beforeChange: (current, next) => setActiveDot(next)
     };
     if (loading) {
-        return null; 
+        return null;
     }
 
     if (error) {
-        return null; 
+        return null;
     }
 
     return (
@@ -117,7 +117,7 @@ const Bestseller = () => {
                                 <WishlistButton
                                     product_id={product.product_id}
                                 />
-                                <Link to={`/product-details/${product.product_id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <Link to={`/product-details`} state={{ product_id: product.product_id }} style={{ textDecoration: 'none', color: 'inherit' }}>
                                     <div style={{ position: 'relative' }}>
                                         <CardImg
                                             top

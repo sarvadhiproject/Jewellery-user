@@ -12,29 +12,34 @@ const Category = () => {
     useEffect(() => {
         async function fetchCategories() {
             try {
-                const response = await axios.get(`${ApiConfig.ApiPrefix}/all-categories`);
-                const catData = response.data.map((d) => ({
-                    ...d,
-                    category_image: `${ApiConfig.cloudprefix}` + d?.category_image,
-                }));
-                setCategories(catData);
-                setLoading(false);
+                const response = await axios.get(`${ApiConfig.ApiPrefix}/categories/get-categories`);
+                if (Array.isArray(response.data)) {
+                    const catData = response.data.map((category) => ({
+                        ...category,
+                        category_image: `${ApiConfig.cloudprefix}` + category?.category_image,
+                    }));
+                    setCategories(catData);
+                    setLoading(false);
+                } else {
+                    console.error('Response data is not an array:', response.data);
+                    setError(true);
+                    setLoading(false);
+                }
             } catch (error) {
                 console.error('Error fetching categories:', error);
                 setError(true);
                 setLoading(false);
             }
-        }
-
+        }        
         fetchCategories();
     }, []);
 
     if (loading) {
-        return null; 
+        return null;
     }
 
     if (error) {
-        return null; 
+        return null;
     }
 
     return (
@@ -46,7 +51,7 @@ const Category = () => {
                         {categories.map((category, index) => (
                             <Col className="col-md-2 p-0" key={category.category_id}>
                                 <Card className="view-category-card">
-                                    <Link to={`/product-by-category/${category.category_id}`} style={{ textDecoration: 'none', color: 'inherit'}}>
+                                    <Link to={`/product-by-category`} state={{ category_id: category.category_id, category_name: category.category_name }} style={{ textDecoration: 'none', color: 'inherit' }}>
                                         <CardImg
                                             top
                                             src={category.category_image}

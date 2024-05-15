@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardImg, CardBody, CardTitle, CardText, Button, Container, Row, Col } from 'reactstrap';
+import { Card, CardImg, CardBody, CardTitle, CardText, Button, Container, Row, Col, Spinner } from 'reactstrap';
 import { LuBadgeCheck, LuUserCheck, LuPackage } from "react-icons/lu";
 import ReactImageMagnify from 'react-image-magnify';
 import Slider from "react-slick";
@@ -20,6 +20,7 @@ const countries = [
 const defaultCountry = countries[0];
 
 const ProductDetail = ({ product_id }) => {
+    const [isLoading, setIsLoading] = useState(false);
     const [product, setProduct] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -35,11 +36,11 @@ const ProductDetail = ({ product_id }) => {
     useEffect(() => {
         async function fetchProductDetails() {
             try {
-                const response = await axios.get(`${ApiConfig.ApiPrefix}/product-details/${product_id}`);
-                console.log('product:', response.data);
-                if (response.data) {
-                    const productDetails = response.data;
-                    const Images = Array.isArray(productDetails.p_images) ? productDetails.p_images.map(image => `${ApiConfig.cloudprefix}${image}`) : [];
+                const response = await axios.get(`${ApiConfig.ApiPrefix}/products/details/${product_id}`);
+                // console.log('product:', response.data);
+                if (response.data && response.data.data) {
+                    const productDetails = response.data.data;
+                    const Images = Array.isArray(productDetails.imageURLs) ? productDetails.imageURLs.map(image => `${image}`) : [];
                     setProduct({ ...productDetails, images: Images });
                     if (Images.length > 0) {
                         setSelectedImage(Images[0]);
@@ -106,8 +107,9 @@ const ProductDetail = ({ product_id }) => {
     };
 
     const handleAddToCart = async () => {
+        setIsLoading(true);
         try {
-            const response = await addToCart(product.product_id, quantity, product.selling_price,selectedSize);
+            const response = await addToCart(product.product_id, quantity, product.selling_price, selectedSize);
             if (response.success) {
                 enqueueSnackbar(response.message, { variant: 'success' });
             } else {
@@ -116,11 +118,13 @@ const ProductDetail = ({ product_id }) => {
         } catch (error) {
             console.error('Error adding item to cart:', error);
             enqueueSnackbar('Failed to add item to cart. Please try again later.', { variant: 'error' });
+        } finally {
+            setIsLoading(false);
         }
     };
 
     const handleQuantityChange = (newQuantity) => {
-        setQuantity(newQuantity); 
+        setQuantity(newQuantity);
     };
 
     const NextArrow = (props) => {
@@ -216,10 +220,14 @@ const ProductDetail = ({ product_id }) => {
                                     <CardText className="text-muted" style={{ margin: '30px 0px 15px', paddingLeft: '8px' }}>Gold Purity: {product.purity} </CardText>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <Button className='product-details-cart-btn' onClick={handleAddToCart}>Add To Cart</Button>
+                                    <Button className='product-details-cart-btn' onClick={handleAddToCart} disabled={isLoading}>
+                                        {isLoading ? <Spinner size='sm' color="light" /> : 'Add To Cart'}
+                                    </Button>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'center', borderBottom: '1px solid #832729' }}>
-                                    <Button className='product-details-cart-btn' style={{ marginBottom: '20px' }}>Buy Now</Button>
+                                    <Button className='product-details-cart-btn' style={{ marginBottom: '20px' }} disabled={isLoading}>
+                                        {isLoading ? <Spinner size='sm' color="light" /> : 'Buy Now'}
+                                    </Button>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-evenly', marginTop: '20px', borderBottom: '1px solid #832729' }}>
                                     <Select options={countries} className='country' defaultValue={defaultCountry} />

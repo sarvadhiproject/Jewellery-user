@@ -20,11 +20,11 @@ const WishlistProduct = () => {
             async function fetchWishlistProducts() {
                 try {
                     const response = await axios.get(`${ApiConfig.ApiPrefix}/wishlist/${userid}`);
-                    console.log('wislist api', response.data);
-                    if (Array.isArray(response.data.wishlistItems)) {
-                        setWishlistItems(response.data.wishlistItems);
+                    // console.log('wislist api', response.data);
+                    if (Array.isArray(response.data)) {
+                        setWishlistItems(response.data);
                     } else {
-                        console.error("Wishlist items are not an array:", response.data.wishlistItems);
+                        console.error("Wishlist items are not an array:", response.data);
                     }
                 } catch (error) {
                     console.error('Error fetching wishlist products:', error);
@@ -32,8 +32,9 @@ const WishlistProduct = () => {
             }
 
             fetchWishlistProducts();
+             // eslint-disable-next-line react-hooks/exhaustive-deps
         }
-
+         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleRemoveFromWishlist = (productId) => {
@@ -58,15 +59,15 @@ const WishlistProduct = () => {
 
     const handleMouseEnter = (index) => {
         const cardImage = document.getElementById(`card-image-${index}`);
-        if (cardImage && wishlistItems[index].Product.p_images.length > 1) {
-            cardImage.src = `${ApiConfig.cloudprefix}${wishlistItems[index].Product.p_images[1]}`;
+        if (cardImage && wishlistItems[index].p_images.length > 1) {
+            cardImage.src = `${ApiConfig.cloudprefix}${wishlistItems[index].p_images[1]}`;
         }
     };
 
     const handleMouseLeave = (index) => {
         const cardImage = document.getElementById(`card-image-${index}`);
         if (cardImage) {
-            cardImage.src = `${ApiConfig.cloudprefix}${wishlistItems[index].Product.p_images[0]}`;
+            cardImage.src = `${ApiConfig.cloudprefix}${wishlistItems[index].p_images[0]}`;
         }
     };
 
@@ -93,19 +94,18 @@ const WishlistProduct = () => {
                     <div className='container' style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-start' }}>
                         <Row>
                             {wishlistItems.map((product, index) => (
-                                <Col className='col' key={product.Product.product_id} style={{ marginBottom: '20px' }}>
+                                <Col className='col' key={product.product_id} style={{ marginBottom: '20px' }}>
                                     <Card className='product-card'
                                         onMouseEnter={() => { handleMouseEnter(index); }}
                                         onMouseLeave={() => { handleMouseLeave(index); }}
                                     >
                                         <WishlistButton product_id={product.product_id} />
-                                        <Link to={`/product-details/${product.Product.product_id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                            <div style={{ position: 'relative' }}>
-                                                {product.Product.p_images && product.Product.p_images.length > 0 && (
+                                        <Link to={`/product-details`}  state={{ product_id: product.product_id }} style={{ textDecoration: 'none', color: 'inherit' }}>                                            <div style={{ position: 'relative' }}>
+                                                {product.p_images && product.p_images.length > 0 && (
                                                     <CardImg
                                                         top
-                                                        src={`${ApiConfig.cloudprefix}${product.Product.p_images[0]}`}
-                                                        alt={product.Product.product_name}
+                                                        src={`${ApiConfig.cloudprefix}${product.p_images[0]}`}
+                                                        alt={product.product_name}
                                                         className="product-card-img"
                                                         id={`card-image-${index}`}
                                                     />
@@ -113,11 +113,11 @@ const WishlistProduct = () => {
                                             </div>
                                             <CardBody style={{ padding: '10px' }}>
                                                 <div className='product-cardbody-div'>
-                                                    <p className='product-names'>{product.Product.product_name}</p>
+                                                    <p className='product-names'>{product.product_name}</p>
                                                     <span style={{ marginTop: '10px', display: 'flex' }}>
-                                                        <p>&#8377;{product.Product.selling_price}</p>
+                                                        <p>&#8377;{product.selling_price}</p>
                                                         <label className='text-muted' style={{ marginLeft: '5px', fontSize: '12px', marginTop: '2px' }}> MRP</label>
-                                                        <p className='text-muted' style={{ textDecoration: 'line-through', marginLeft: '5px', fontSize: '12px', marginTop: '2px' }}>&#8377;{product.Product.mrp}</p>
+                                                        <p className='text-muted' style={{ textDecoration: 'line-through', marginLeft: '5px', fontSize: '12px', marginTop: '2px' }}>&#8377;{product.mrp}</p>
                                                     </span>
                                                 </div>
                                             </CardBody>

@@ -360,7 +360,6 @@ textarea.form-control {
 /*===== 4. Navbar Custom ======*/
 
 .navbar-custom {
-  padding: 15px 0px;
   width: 100%;
   border-radius: 0px;
   z-index: 999;
@@ -369,11 +368,19 @@ textarea.form-control {
   -moz-transition: all 0.5s ease-in-out;
   -o-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
+  background-color: #F2E9E9;
+  height: 70px;
 }
 
 .sticky-wrapper {
   position: absolute;
   width: 100%;
+}
+
+
+.logo-container{
+  display: flex;
+  align-items: center;
 }
 
 .logo {
@@ -437,184 +444,31 @@ textarea.form-control {
 }
 
 /* search bar and icon */
+.search-input{
+  min-width: 550px;
+}
+
+.search-container .input-group-text {
+  display: block; /* Show the search icon by default */
+}
+
 .input-group {
-  position: relative;
+  position: absolute;
 }
 
 .input-group-text {
   position: absolute;
-  left: 53%;
-  /*Adjust this value to move the icon horizontally*/
+  left: 56.5%;
   top: 50%;
-  /*Adjust this value to vertically center the icon*/
   transform: translateY(-50%);
   cursor: pointer;
   border: none;
   background: none;
 }
 
-/*===== 5.Home ======*/
-
-.home-fullscreen {
-  height: 100%;
-  min-height: 400px;
-}
-
-.home-wrapper-alt {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.home-wrapper h1 {
-  line-height: 54px;
-  margin-top: 0;
-  font-weight: bold;
-}
-
-.home-wrapper h4 {
-  line-height: 26px;
-  margin-top: 30px;
-  margin-bottom: 50px;
-  font-size: 15px;
-  font-weight: normal;
-}
-
-
-.full-screen {
-  display: table;
-  height: 100%;
-  width: 100%;
-}
-
-
-/* === HOME VARIATIONS === */
-.home-small {
-  padding: 210px 0 160px 0;
-}
-
-
-/* Home intro */
-.home-intro h2 {
-  color: #fff;
-  font-size: 67px;
-  line-height: 61px;
-  margin: 0 0 40px;
-  font-weight: 600;
-}
-
-.home-intro p {
-  color: #fff;
-  font-size: 14px;
-  line-height: 24px;
-  margin: 0;
-  padding-right: 25%;
-}
-
-.home-intro .intro-form {
-  background: #fff;
-  padding: 0 40px 40px;
-  border-radius: 5px;
-  overflow: hidden;
-  box-shadow: 2px 8px 15px #dfdede;
-}
-
-.home-intro .intro-form input {
-  height: 46px;
-  margin-bottom: 18px;
-  box-shadow: none;
-  border: 2px solid #e5e5e5;
-  width: 100%;
-  padding: 15px 20px;
-  color: #000;
-  outline: none !important;
-}
-
-.home-intro .intro-form input:focus {
-  border: 2px solid #999;
-}
-
-.home-intro .intro-form h5 {
-  color: #fff;
-  font-size: 26px;
-  font-family: 'Crete Round', serif;
-  background: #f56363;
-  padding: 25px 40px 25px;
-  margin: 0 -40px 50px;
-  font-weight: 500;
-}
-
-.home-intro .intro-form h5 span {
-  display: block;
-  text-transform: none;
-  font-size: 14px;
-  letter-spacing: 0;
-  font-family: Lato;
-  opacity: 0.5;
-  margin-top: 6px;
-}
-
-.home-intro .intro-form p {
-  color: #999;
-  padding: 17px 30px 0px;
-  font-size: 12px;
+.nav-item-div{
   text-align: center;
-  line-height: 18px;
-  margin: 0px;
-}
-
-
-/* Home Showcase */
-.home-showcase {
-  padding: 210px 0px 0px 0px;
-}
-
-/* Home Header-2 */
-.home-header-2 {
-  padding: 240px 0px 160px 0px;
-}
-
-
-/* Home Slider */
-.home-slider {
-  padding: 250px 0 200px 0;
-}
-
-#home-slider {
-  position: relative;
-  top: 0px;
-}
-
-#home-slider .is-prev,
-#home-slider .is-next {
-  position: absolute;
-  height: 80px;
-  width: 80px;
-  top: 50%;
-  left: 20px;
-  z-index: 999;
-  margin-top: -50px;
-  color: #222;
-  line-height: 93px;
-  text-align: center;
-  font-size: 36px;
-  cursor: pointer;
-  opacity: 0.4;
-  transition: .4s;
-}
-
-#home-slider .is-next {
-  right: 20px;
-  left: auto;
-}
-
-#home-slider .is-prev:hover,
-#home-slider .is-next:hover {
-  opacity: 1;
-  transition: .4s;
-}
-
-#home-slider .flex-direction-nav {
-  display: none;
+  padding: 15px 8px 10px;
 }
 
 /* === 6. account popup ====*/
@@ -622,20 +476,16 @@ textarea.form-control {
   display: none;
   position: absolute;
   top: 100%;
-  /* Position the popup below the account link */
   left: calc(100% + 950px);
-  /* Align the popup with the right edge of the account link with a 10px offset */
   background-color: #ffffff;
   border: 1px solid #ccc;
   margin-top: 60px;
   padding: 10px;
   z-index: 9999;
-  /* Ensure the popup appears above other elements */
 }
 
 .account-popup.active {
   display: block;
-  /* Show the popup when the active class is applied */
 }
 
 /* ==== 7. user card  =====*/
@@ -643,17 +493,13 @@ textarea.form-control {
 .card-popup {
   position: absolute;
   top: 100%;
-  /* Position the popup below the account link */
   left: calc(100% + 1000px);
-  /* Align the popup with the left edge of the account link */
   background-color: #ffffff;
   border: 1px solid #ccc;
   margin-top: 60px;
   padding: 10px;
   z-index: 9999;
-  /* Ensure the popup appears above other elements */
   display: none;
-  /* Hide the popup by default */
 }
 
 .card-popup.active {
@@ -810,7 +656,7 @@ textarea.form-control {
 
 .custom-modal-body {
   padding: 0;
-  width: 750px;
+  width: 800px;
 }
 
 .custom-container {
@@ -838,8 +684,9 @@ textarea.form-control {
 }
 
 .input-group {
+  left: 43px;
+  display: grid;
   justify-content: center;
-  align-items: center;
 }
 
 .input-group .form-group {
@@ -847,21 +694,19 @@ textarea.form-control {
   margin-bottom: 10px;
 }
 
-.input-group .otp-button-container,
-.input-group .otp-verification-container {
+.input-group .otp-button-container{
   margin-top: 10px;
-}
-
-.phone-input-group,
-.otp-verification-container {
-  display: flex;
-  align-items: center;
-  justify-content: center; 
 }
 
 .phone-input-container {
   display: flex;
   align-items: center;
+}
+
+.otp-verification-container{
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
 }
 
 .phone-input-group .otp-button,
@@ -870,17 +715,26 @@ textarea.form-control {
   margin-left: 15px;
 }
 
-.otp-button,
-.otp-verify-button {
-  position: fixed;
+.otp-button{
   width: auto;
   background-color: #832729;
-  color: #ffffff;
   border: none;
   padding: 8px 10px;
-  font-size: 11.8px;
+  font-size: 11px;
   border-radius: 5px;
-  cursor: pointer;
+}
+
+.otp-verify{
+  margin-bottom: 5px !important;
+}
+.otp-verify-button{
+  width: max-content;
+  height: min-content;
+  background-color: #832729;
+  border: none;
+  padding: 8px 10px;
+  font-size: 11px;
+  border-radius: 5px;
 }
 
 .otp-button:hover {
@@ -896,8 +750,8 @@ textarea.form-control {
 }
 
 .register-button-container {
-  justify-content: center;
-  margin-top: 20px;
+  position: relative;
+  left: 85px;
 }
 
 .register-button {
@@ -916,6 +770,28 @@ textarea.form-control {
   color: red;
   font-size: 12px;
   margin-top: 5px; 
+}
+
+.resend-otp-container{
+  margin: 5px 0px;
+  align-items: center;
+  text-align: center;
+}
+.resend-otp-btn{
+  text-decoration: underline;
+  font-size: 13px !important;
+  padding-top: 8px !important;
+  padding: 10px 5px;
+  font-family: 'Nunito Sans';
+  background-color: white;
+  color: #832729 !important;
+  border: none;
+  text-transform: capitalize;
+}
+
+.resend-otp-btn:hover{
+  background-color: white !important;
+  box-shadow: none;
 }
 
 
@@ -1208,6 +1084,10 @@ textarea.form-control {
   color: #fff !important;
 }
 
+.product-details-cart-btn:focus{
+  border-color: #832729;
+}
+
 .size{
   min-width: 160px !important;
 }
@@ -1321,6 +1201,10 @@ select.cart-qty:focus {
   color: #fff !important;
 }
 
+.save-address-btn:focus{
+  border-color: #832729 !important;
+}
+
 .edit-address-btn{
   padding: 8px 20px;
   margin-bottom: 10px;
@@ -1336,6 +1220,9 @@ select.cart-qty:focus {
   color: #fff !important;
 }
 
+.edit-address-btn:focus{
+  border-color: #832729 !important;
+}
 .selector{
   min-width: 210px;
   min-height: 38px;
@@ -1345,7 +1232,6 @@ select.cart-qty:focus {
   padding: 8px 20px;
   margin-bottom: 10px;
   border-radius: 5px;
-  /* border-color: #832729 !important; */
   background-color: #832729 ;
   color: #fff;
   font-weight: 700;
@@ -1550,79 +1436,36 @@ select.cart-qty:focus {
 }
 
 
-/* === 13.Animation === */
-/**
- * Fade-zoom animation for Magnific-popup
- */
-
-/* start state */
-.my-mfp-zoom-in .zoom-anim-dialog {
-  opacity: 0;
-  -webkit-transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
-  -webkit-transform: scale(0.8);
-  -moz-transform: scale(0.8);
-  -ms-transform: scale(0.8);
-  -o-transform: scale(0.8);
-  transform: scale(0.8);
-}
-
-/* animate in */
-.my-mfp-zoom-in.mfp-ready .zoom-anim-dialog {
-  opacity: 1;
-  -webkit-transform: scale(1);
-  -moz-transform: scale(1);
-  -ms-transform: scale(1);
-  -o-transform: scale(1);
-  transform: scale(1);
-}
-
-/* animate out */
-.my-mfp-zoom-in.mfp-removing .zoom-anim-dialog {
-  -webkit-transform: scale(0.8);
-  -moz-transform: scale(0.8);
-  -ms-transform: scale(0.8);
-  -o-transform: scale(0.8);
-  transform: scale(0.8);
-  opacity: 0;
-}
-
-/* Dark overlay, start state */
-.my-mfp-zoom-in.mfp-bg {
-  opacity: 0;
-  -webkit-transition: opacity 0.3s ease-out;
-  -moz-transition: opacity 0.3s ease-out;
-  -o-transition: opacity 0.3s ease-out;
-  transition: opacity 0.3s ease-out;
-}
-
-/* animate in */
-.my-mfp-zoom-in.mfp-ready.mfp-bg {
-  opacity: 0.8;
-}
-
-/* animate out */
-.my-mfp-zoom-in.mfp-removing.mfp-bg {
-  opacity: 0;
-}
-
-
-
 /*======= 14.Responsive ======*/
 
 @media (min-width: 200px) and (max-width: 768px) {
 
   .navbar-custom {
-    background-color: #fff !important;
-    padding: 10px 0px;
+    background-color: #F2E9E9 !important;
+    padding: 20px 0px;
   }
 
   .navbar-custom .container {
-    width: 90%;
+    width: 100%;
   }
 
+  .logo-container {
+    margin-right: 10px; 
+  }
+
+  .search-container {
+    max-width: 100%;
+     
+  }
+
+  .search-container .form-control {
+    width: 100%; 
+    max-width: none; 
+  }
+
+  .search-container .input-group-text {
+    display: none;
+    }
 
 }
 
@@ -1641,16 +1484,12 @@ select.cart-qty:focus {
     box-shadow: 0 10px 33px rgba(0, 0, 0, .1);
   }
 
-  .logo {
-    margin-top: 5px;
+  .navbar-custom .container {
+    flex-wrap: nowrap; 
   }
 
-  .features-box {
-    text-align: center;
-  }
-
-  .features-box .number {
-    margin: 0 auto;
+  .navbar-toggler {
+    order: 3;
   }
 
   .footer h5 {
@@ -1661,21 +1500,5 @@ select.cart-qty:focus {
     width: 95%;
   }
 
-  .home-intro .intro-form {
-    margin-top: 50px;
-  }
-
 }
 
-@media (max-width: 420px) {
-
-  .home-wrapper h1 {
-    font-size: 24px;
-    line-height: 32px;
-  }
-
-  .facts {
-    margin-bottom: 30px;
-  }
-
-}

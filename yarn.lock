@@ -10254,6 +10254,13 @@ react-async-script@^1.2.0:
     hoist-non-react-statics "^3.3.0"
     prop-types "^15.5.0"
 
+react-countdown@^2.3.5:
+  version "2.3.5"
+  resolved "https://registry.npmjs.org/react-countdown/-/react-countdown-2.3.5.tgz#70c035b5cbc7e8fdb4ad91fe5f44afd7a7933a68"
+  integrity sha512-K26ENYEesMfPxhRRtm1r+Pf70SErrvW3g4CArLi/x6MPFjgfDFYePT4UghEj8p2nI0cqVV7/JjDgjyr//U60Og==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-country-state-city@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/react-country-state-city/-/react-country-state-city-1.1.0.tgz#fb71b7290d69d1bbbb8faa71d9418459eaff48bd"

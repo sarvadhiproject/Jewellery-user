@@ -19,14 +19,13 @@ export const CartProvider = ({ children }) => {
     }
     try {
       const userID = localStorage.getItem('userId')
-      const response = await axios.post(`${ApiConfig.ApiPrefix}/add-to-cart`, {
+      const response = await axios.post(`${ApiConfig.ApiPrefix}/cart/add`, {
         user_id: userID,
         product_id: productId,
         quantity: quantity,
         price: price,
         size: size
       });
-
       const { cartItem } = response.data;
 
       setCartItems([...cartItems, cartItem]);
@@ -47,7 +46,9 @@ export const CartProvider = ({ children }) => {
 
   const removeFromCart = async (cartId) => {
     try {
-      const response = await axios.delete(`${ApiConfig.ApiPrefix}/remove-from-cart/${cartId}`);
+      const response = await axios.delete(`${ApiConfig.ApiPrefix}/cart/remove`,
+        { data: { cartItem_id: cartId } }
+      );
 
       const { total } = response.data;
       console.log(total);

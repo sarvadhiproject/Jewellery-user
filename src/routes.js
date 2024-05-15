@@ -13,8 +13,8 @@ const RoutesConfig = () => (
     <Route path="/" element={<IndexMain />} />
     <Route path="/home" element={<HomePage />} />
     <Route path="/account" element={<UserAccount />} />
-    <Route path="/product-by-category/:category_id" element={<ProductsByCategory />} />
-    <Route path="/product-details/:product_id" element={<Products />} />
+    <Route path="/product-by-category" element={<ProductsByCategory />} />
+    <Route path="/product-details" element={<Products />} />
     <Route path="/cart" element={<Cart />} />
     <Route path="/checkout" element={<Checkout />} />
   </Routes>

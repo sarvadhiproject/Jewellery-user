@@ -1,8 +1,6 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import RoutesConfig from './routes';
 import './theme.scss';
 import './assets/css/themify-icons.css';
@@ -20,7 +18,6 @@ function App() {
         </SnackbarProvider>
       </BrowserRouter>
 
-      <ToastContainer />
     </React.Fragment>
   );
 }

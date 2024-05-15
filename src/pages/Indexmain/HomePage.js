@@ -40,7 +40,7 @@ const HomePage = () => {
                 <NavbarPage />
                 <Section slides={slides1} />
                 <Category />
-                <Bestseller />
+                {/* <Bestseller /> */}
                 <Trending />
                 <Section slides={slides2} />
                 <ReviewPage />

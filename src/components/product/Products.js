@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Row, Col } from 'reactstrap';
 import NavbarPage from '../../components/Navbar/Navbar_Page';
 import Footer from '../../components/Footer/footer';
@@ -9,6 +9,7 @@ import CustomerReview from './component/CustomerReview';
 import VendorProduct from './component/VendorProduct';
 import CategoryProduct from './component/CategoryProduct';
 import { CartProvider } from '../cart/Context/CartContext';
+import BreadcrumbNavigation from '../Navbar/BreadcrumbNavigation';
 
 const Loader = () => {
     return (
@@ -21,13 +22,17 @@ const Loader = () => {
 };
 
 const Products = () => {
-    const { product_id } = useParams();
+    const location = useLocation();
+    const product_id = location.state?.product_id;
 
     return (
         <React.Fragment>
             <Suspense fallback={<Loader />}>
                 <NavbarPage />
-                <div style={{ paddingTop: '50px', marginTop: '10px' }}>
+                <div style={{ padding: '90px 0px 0px', position: 'relative', left: '130px' }}>
+                    <BreadcrumbNavigation />
+                </div>
+                <div>
                     <CartProvider>
                         <ProductDetail product_id={product_id} />
                     </CartProvider>
@@ -42,7 +47,7 @@ const Products = () => {
                         </Col>
                     </Row>
                 </div>
-                <div style={{ marginBottom: '60px' }}>
+                <div >
                     <VendorProduct product_id={product_id} />
                     <CategoryProduct product_id={product_id} />
                 </div>

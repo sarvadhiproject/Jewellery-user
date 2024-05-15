@@ -38,7 +38,8 @@ const Cart = () => {
     const fetchCartItems = async () => {
         try {
             const userID = localStorage.getItem('userId');
-            const response = await axios.get(`${ApiConfig.ApiPrefix}/cart-products/${userID}`);
+            const response = await axios.get(`${ApiConfig.ApiPrefix}/cart/${userID}`);
+            console.log(response.data);
             setCartItems(response.data.cartItems);
         } catch (error) {
             if (error.response && error.response.status === 404) {
@@ -52,7 +53,7 @@ const Cart = () => {
     const updateCartItems = async (removedCartId) => {
         try {
             const userID = localStorage.getItem('userId');
-            const response = await axios.get(`${ApiConfig.ApiPrefix}/cart-products/${userID}`);
+            const response = await axios.get(`${ApiConfig.ApiPrefix}/cart/${userID}`);
             setCartItems(response.data.cartItems);
         } catch (error) {
             if (error.response && error.response.status === 404) {

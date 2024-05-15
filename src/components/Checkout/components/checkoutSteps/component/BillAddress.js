@@ -23,7 +23,7 @@ const BillAddress = ({ onStepCompleted }) => {
 
     const fetchStates = async () => {
         try {
-            const response = await axios.get(`${ApiConfig.ApiPrefix}/get-states`);
+            const response = await axios.get(`${ApiConfig.ApiPrefix}/location/states`);
             const formattedStates = response.data.map((state) => ({
                 value: state.state_id,
                 label: state.state_name,
@@ -43,7 +43,7 @@ const BillAddress = ({ onStepCompleted }) => {
 
     const fetchCities = async (stateId) => {
         try {
-            const response = await axios.get(`${ApiConfig.ApiPrefix}/get-cities/${stateId}`);
+            const response = await axios.get(`${ApiConfig.ApiPrefix}/location/cities/${stateId}`);
             console.log(response.data);
             const formattedCities = response.data.map((city) => ({
                 value: city.city_id,

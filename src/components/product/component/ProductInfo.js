@@ -13,9 +13,8 @@ const ProductInfo = ({ product_id }) => {
     useEffect(() => {
         const fetchProductDetails = async () => {
             try {
-                const response = await axios.get(`${ApiConfig.ApiPrefix}/product-vendor-details/${product_id}`);
-                console.log('vendor api response:', response.data);
-                setProductDetails(response.data);
+                const response = await axios.get(`${ApiConfig.ApiPrefix}/products/details/${product_id}`);
+                setProductDetails(response.data.data);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching product details:', error);
@@ -113,12 +112,12 @@ const ProductInfo = ({ product_id }) => {
                                                     <label className='product-value'>{productDetails.no_of_gems}</label>
                                                 </Col>
                                             )}
-                                            {productDetails.category.category_name !== "Rings" && productDetails.category.category_name !== "Bangles" && productDetails.size && (
+                                            {/* {productDetails.category.category_name !== "Rings" && productDetails.category.category_name !== "Bangles" && productDetails.size && ( */}
                                                 <Col>
                                                     <label className='product-field'>Size</label><br />
                                                     <label className='product-value'>{productDetails.size}</label>
                                                 </Col>
-                                            )}
+                                            {/* )} */}
                                         </Row>
                                     </div>
                                 </UncontrolledCollapse>
@@ -176,7 +175,7 @@ const ProductInfo = ({ product_id }) => {
                                                     {productDetails.vendor.first_name}  {productDetails.vendor.last_name}
                                                 </label><br></br>
                                                 <label className='product-field'>Origin</label><br></br>
-                                                <label className='product-value'>{productDetails.vendor.state}</label>
+                                                <label className='product-value'>{productDetails.vendor.state_name}</label>
                                             </>
                                         ) : (
                                             <label className='product-value'>Vendor information not available</label>

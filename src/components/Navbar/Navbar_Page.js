@@ -59,81 +59,82 @@ const NavbarPage = () => {
         <div className="sticky-nav">
           <Nav
             className="navbar navbar-expand-lg fixed-top navbar-custom sticky d-flex align-items-center"
-            style={{ backgroundColor: "#F2E9E9", height: "60px" }}
           >
             <Container>
-            <Link to="/" className="navbar-brand logo text-uppercase">
-                <div className="d-flex align-items-center">
-                  <img src={logo} alt="logo" height="80" />
+                <div className="logo-container">
+                  <Link to="/" className="navbar-brand logo text-uppercase">
+                    <div>
+                      <img src={logo} alt="logo" height="80" />
+                    </div>
+                  </Link>
                 </div>
-              </Link>
 
-              <div className="d-flex align-items-center justify-content-center flex-grow-1">
-                <Input
-                  placeholder="Search"
-                  value={searchTerm}
-                  onChange={handleChange}
-                  style={{ maxWidth: "500px", width: "600px" }} 
-                />
-                <InputGroupText style={{ cursor: "pointer", border: "none", background: "none", }}>
-                  <FontAwesomeIcon icon={faSearch} size="lg" color="#832729" onClick={handleSearch} />
-                </InputGroupText>
+                <div className="search-container d-flex align-items-center justify-content-center">
+                  <Input
+                    placeholder="Search"
+                    value={searchTerm}
+                    onChange={handleChange}
+                    className="search-input"
+                  />
+                  <InputGroupText style={{ cursor: "pointer", border: "none", background: "none" }}>
+                    <FontAwesomeIcon icon={faSearch} size="lg" color="#832729" onClick={handleSearch} />
+                  </InputGroupText>
+                </div>
+              <div>
+                <NavbarToggler onClick={toggleMenu}>
+                  <i className="ti-menu"></i>
+                </NavbarToggler>
+
+                <Collapse id="data-scroll" isOpen={isOpenMenu} navbar>
+                  <Nav
+                    navbar
+                    className="ms-auto navbar-center"
+                    id="mySidenav"
+                  >
+                    <NavItem >
+                      <Link to="http://192.168.2.102:3000/sign-in" className="nav-link">
+                        <div className='nav-item-div'>
+                          <FontAwesomeIcon icon={faShop} size="lg" color="#832729" /><br></br>
+                          <span style={{ color: "#832729" }}>Vendor</span>
+                        </div>
+                      </Link>
+                    </NavItem>
+                    <NavItem>
+                      {isLoggedIn ? (
+                        <Link to="" className="nav-link" ref={cardLinkRef} onClick={toggleUserCard}>
+                          <div className='nav-item-div'>
+                            <FontAwesomeIcon icon={faUser} size="lg" color="#832729" /><br></br>
+                            <span style={{ color: "#832729" }}>{firstName}</span>
+                          </div>
+                        </Link>
+                      ) : (
+                        <Link to="" className="nav-link" ref={accountLinkRef} onClick={toggleAccountPopup}>
+                          <div className='nav-item-div'>
+                            <FontAwesomeIcon icon={faUser} size="lg" color="#832729" /><br></br>
+                            <span style={{ color: "#832729" }}>Account</span>
+                          </div>
+                        </Link>
+                      )}
+                    </NavItem>
+                    <NavItem>
+                      <Link to="/account?activeComponent=wishlist" className="nav-link" onClick={handleWishlistClick}>
+                        <div className='nav-item-div'>
+                          <FontAwesomeIcon icon={faHeart} size="lg" color="#832729" /><br></br>
+                          <span style={{ color: "#832729" }}>Wishlist</span>
+                        </div>
+                      </Link>
+                    </NavItem>
+                    <NavItem>
+                      <Link to="/cart" className="nav-link">
+                        <div className='nav-item-div'>
+                          <FontAwesomeIcon icon={faCartShopping} size="lg" color="#832729" /><br></br>
+                          <span style={{ color: "#832729" }}>Cart</span>
+                        </div>
+                      </Link>
+                    </NavItem>
+                  </Nav>
+                </Collapse>
               </div>
-
-              <NavbarToggler onClick={toggleMenu}>
-                <i className="ti-menu"></i>
-              </NavbarToggler>
-
-              <Collapse id="data-scroll" isOpen={isOpenMenu} navbar>
-                <Nav
-                  navbar
-                  className="ms-auto navbar-center"
-                  id="mySidenav"
-                >
-                  <NavItem>
-                    <Link to="http://192.168.2.102:3000/sign-in" className="nav-link">
-                      <div style={{ textAlign: "center", padding: '15px 8px 10px' }}>
-                        <FontAwesomeIcon icon={faShop} size="lg" color="#832729" /><br></br>
-                        <span style={{ color: "#832729" }}>Vendor</span>
-                      </div>
-                    </Link>
-                  </NavItem>
-                  <NavItem>
-                    {isLoggedIn ? (
-                      <Link to="" className="nav-link" ref={cardLinkRef} onClick={toggleUserCard}>
-                        <div style={{ textAlign: "center", padding: '15px 8px 10px' }}>
-                          <FontAwesomeIcon icon={faUser} size="lg" color="#832729" /><br></br>
-                          <span style={{ color: "#832729" }}>{firstName}</span>
-                        </div>
-                      </Link>
-                    ) : (
-                      <Link to="" className="nav-link" ref={accountLinkRef} onClick={toggleAccountPopup}>
-                        <div style={{ textAlign: "center", padding: '15px 8px 10px' }}>
-                          <FontAwesomeIcon icon={faUser} size="lg" color="#832729" /><br></br>
-                          <span style={{ color: "#832729" }}>Account</span>
-                        </div>
-                      </Link>
-                    )}
-                  </NavItem>
-                  <NavItem>
-                    <Link to="/account?activeComponent=wishlist" className="nav-link" onClick={handleWishlistClick}>
-                      <div style={{ textAlign: "center", padding: '15px 8px 10px' }}>
-                        <FontAwesomeIcon icon={faHeart} size="lg" color="#832729" /><br></br>
-                        <span style={{ color: "#832729" }}>Wishlist</span>
-                      </div>
-                    </Link>
-                  </NavItem>
-                  <NavItem>
-                    <Link to="/cart" className="nav-link">
-                      <div style={{ textAlign: "center", padding: '15px 8px 10px' }}>
-                        <FontAwesomeIcon icon={faCartShopping} size="lg" color="#832729" /><br></br>
-                        <span style={{ color: "#832729" }}>Cart</span>
-                      </div>
-                    </Link>
-                  </NavItem>
-
-                </Nav>
-              </Collapse>
             </Container>
           </Nav>
         </div>

@@ -17,15 +17,16 @@ const CategoryProduct = ({ product_id }) => {
     const sliderRef = useRef(null);
 
     useEffect(() => {
-        fetchspecificvendorproduct();
+        fetchspecificcategoryproduct();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [product_id]);
 
-    const fetchspecificvendorproduct = async () => {
+    const fetchspecificcategoryproduct = async () => {
         try {
-            const response = await axios.get(`${ApiConfig.ApiPrefix}/category-products/${product_id}`);
-            if (Array.isArray(response.data)) {
-                const vendorproduct = response.data.map((d) => ({
+            const response = await axios.get(`${ApiConfig.ApiPrefix}/products/same-category/${product_id}`);
+            console.log(response.data);
+            if (Array.isArray(response.data.data)) {
+                const vendorproduct = response.data.data.map((d) => ({
                     ...d,
                     p_images: Array.isArray(d.p_images) ? d.p_images.map(image => `${ApiConfig.cloudprefix}` + image) : []
                 }));
@@ -48,16 +49,6 @@ const CategoryProduct = ({ product_id }) => {
         if (sliderRef.current) {
             sliderRef.current.slickGoTo(index);
         }
-    };
-
-    const handleMouseEnter = (index) => {
-        const cardImage = document.getElementById(`card-image-${index}`);
-        if (cardImage && products[index].p_images[1]) cardImage.src = products[index].p_images[1];
-    };
-
-    const handleMouseLeave = (index) => {
-        const cardImage = document.getElementById(`card-image-${index}`);
-        if (cardImage) cardImage.src = products[index].p_images[0];
     };
 
     const settings = {
@@ -92,11 +83,11 @@ const CategoryProduct = ({ product_id }) => {
         beforeChange: (current, next) => setActiveDot(next)
     };
     if (loading) {
-        return null; 
+        return null;
     }
 
     if (error) {
-        return null; 
+        return null;
     }
 
     return (
@@ -112,24 +103,32 @@ const CategoryProduct = ({ product_id }) => {
                             <Card
                                 className='product-card'
                                 style={{ marginBottom: '20px' }}
-                                onMouseEnter={() => { handleMouseEnter(index); }}
-                                onMouseLeave={() => { handleMouseLeave(index); }}
+                                onMouseEnter={(e) => {
+                                    const cardImg = e.currentTarget.querySelector('.product-card-img');
+                                    if (cardImg && product.p_images[1]) {
+                                        cardImg.src = product.p_images[1];
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    const cardImg = e.currentTarget.querySelector('.product-card-img');
+                                    if (cardImg) {
+                                        cardImg.src = product.p_images[0];
+                                    }
+                                }}
                             >
                                 <WishlistButton
                                     product_id={product.product_id}
                                 />
-                                <Link to={`/product-details/${product.product_id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                    <div style={{ position: 'relative' }}>
-                                        {product.p_images && product.p_images.length > 0 && (
-                                            <CardImg
-                                                top
-                                                src={product.p_images[0]} 
-                                                alt={product.product_name}
-                                                className="product-card-img"
-                                                id={`card-image-${index}`}
-                                            />
-                                        )}
-                                    </div>
+                                <Link to={`/product-details`} state={{ product_id: product.product_id }} style={{ textDecoration: 'none', color: 'inherit' }}>                                    <div style={{ position: 'relative' }}>
+                                    {product.p_images && product.p_images.length > 0 && (
+                                        <CardImg
+                                            top
+                                            src={product.p_images[0]}
+                                            alt={product.product_name}
+                                            className="product-card-img"
+                                        />
+                                    )}
+                                </div>
                                     <CardBody style={{ padding: '10px' }}>
                                         <div className='product-cardbody-div' style={{ textAlign: 'center' }}>
                                             <p className='product-names'>{product.product_name}</p>

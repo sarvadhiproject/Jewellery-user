@@ -29,6 +29,7 @@
     "notistack": "^3.0.1",
     "react": "^18.2.0",
     "react-animated-css": "^1.2.1",
+    "react-countdown": "^2.3.5",
     "react-country-state-city": "^1.1.0",
     "react-countup": "^6.5.0",
     "react-dom": "^18.2.0",
