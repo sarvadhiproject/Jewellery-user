@@ -69,6 +69,11 @@ const CartProduct = ({ cartItems, updateCartItems }) => {
                   <div>
                     <label style={{ fontSize: '12px', fontWeight: 'bold' }} className='text-muted'>Gold: {cartItem.product.gold_type} | Weight: {cartItem.product.weight}</label>
                   </div>
+                  {cartItem.size && (
+                    <div>
+                      <label style={{ fontSize: '13px', fontWeight: 'bold' }} className='text-muted'>Size: {cartItem.size}</label>
+                    </div>
+                  )}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
                     <div style={{ marginTop: '5px' }}>
                       <span style={{ fontSize: '22px', fontWeight: 'bold', alignItems: 'center' }}>₹{cartItem.product.selling_price} </span>

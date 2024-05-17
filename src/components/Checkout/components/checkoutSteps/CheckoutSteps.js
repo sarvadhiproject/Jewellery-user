@@ -10,10 +10,13 @@ const { Step } = Steps;
 
 const CheckoutSteps = (props) => {
     const [currentStep, setCurrentStep] = useState(0);
+    const [addressId, setAddressId] = useState(null);
 
-    const handleStepCompletion = (stepIndex) => {
+    const handleStepCompletion = (stepIndex,addressId = null) => {
         setCurrentStep(stepIndex + 1);
+        setAddressId(addressId);
         console.log(currentStep);
+        console.log(addressId);
       };
 
     return (
@@ -23,12 +26,12 @@ const CheckoutSteps = (props) => {
                     title="Shipping Address"
                     status={currentStep >= 0 ? "process" : "wait"}
                     icon={<FaTruck style={{ color: '#832729', fontSize: '25px' }} />}
-                    description={["process", "finish"].includes(currentStep >= 0 ? "process" : "wait") && <AddressForm onStepCompleted={() => handleStepCompletion(0)} />} />
+                    description={["process", "finish"].includes(currentStep >= 0 ? "process" : "wait") && <AddressForm onStepCompleted={(id) => handleStepCompletion(0, id)} />} />
                 <Step
                     title="Billing Address"
                     status={currentStep >= 1 ? "process" : "wait"}
                     icon={<FaCreditCard style={{ color: '#832729', fontSize: '25px' }} />}
-                    description={["process", "finish"].includes(currentStep >= 1 ? "process" : "wait") && <BillAddress onStepCompleted={() => handleStepCompletion(1)}/>} />
+                    description={["process", "finish"].includes(currentStep >= 1 ? "process" : "wait") && <BillAddress addressId={addressId} onStepCompleted={() => handleStepCompletion(1)} />} />
                 <Step
                     title="Payment"
                     status={currentStep >= 2 ? "process" : "wait"}

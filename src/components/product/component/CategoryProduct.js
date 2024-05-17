@@ -24,7 +24,7 @@ const CategoryProduct = ({ product_id }) => {
     const fetchspecificcategoryproduct = async () => {
         try {
             const response = await axios.get(`${ApiConfig.ApiPrefix}/products/same-category/${product_id}`);
-            console.log(response.data);
+            // console.log(response.data);
             if (Array.isArray(response.data.data)) {
                 const vendorproduct = response.data.data.map((d) => ({
                     ...d,

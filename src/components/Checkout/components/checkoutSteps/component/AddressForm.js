@@ -29,15 +29,15 @@ const AddressForm = ({ onStepCompleted }) => {
                 console.error("User ID not found in localStorage");
                 return;
             }
-            const response = await axios.get(`${ApiConfig.ApiPrefix}/get-shipping-addresses/${userId}`);
+            const response = await axios.get(`${ApiConfig.ApiPrefix}/address/users/${userId}`);
             if (response.status === 200) {
                 console.log(response.data);
-                const { shipping_address } = response.data;
+                const { shippingAddresses } = response.data;
                 
-                if (shipping_address && shipping_address.length > 0) {
-                    const firstAddress = shipping_address[0];
+                if (shippingAddresses && shippingAddresses.length > 0) {
+                    const firstAddress = shippingAddresses[0];
                     setAddressDetails(firstAddress);
-                    onStepCompleted();
+                    onStepCompleted(firstAddress.address_id);
                 } else {
                     console.log("No shipping addresses found for the user");
                 }
@@ -72,7 +72,6 @@ const AddressForm = ({ onStepCompleted }) => {
     const fetchCities = async (stateId) => {
         try {
             const response = await axios.get(`${ApiConfig.ApiPrefix}/location/cities/${stateId}`);
-            console.log(response.data);
             const formattedCities = response.data.map((city) => ({
                 value: city.city_id,
                 label: city.city_name,
@@ -93,15 +92,14 @@ const AddressForm = ({ onStepCompleted }) => {
                 user_id: userId,
                 first_name: values.first_name,
                 last_name: values.last_name,
-                addressline_1: values.address,
-                addressline_2: values.address2,
+                street_address: values.address,
                 city_id: selectedCityId, 
                 state_id: selectedStateId, 
                 pincode: values.pincode,
                 phone_no: values.phone_no,
             };
 
-            const response = await axios.post(`${ApiConfig.ApiPrefix}/add-shipping-address`, addressData);
+            const response = await axios.post(`${ApiConfig.ApiPrefix}/address/add-shipping-address`, addressData);
             fetchAddresses();
             onStepCompleted();
             console.log(response.data);
@@ -122,7 +120,7 @@ const AddressForm = ({ onStepCompleted }) => {
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div style={{ fontFamily: 'Nunito Sans', fontSize: '15px', fontWeight: '500' }}>
                                 <div>{addressDetails.first_name} {addressDetails.last_name}</div>
-                                <div>{addressDetails.City.city_name}, {addressDetails.City.state.state_name}, {addressDetails.pincode}</div>
+                                <div>{addressDetails.city.city_name}, {addressDetails.state.state_name}, {addressDetails.pincode}</div>
                                 <div>{addressDetails.phone_no}</div>
                             </div>
                             <Button className='edit-address-btn' onClick={toggle} style={{ height: '40px' }}>Edit</Button>
@@ -153,7 +151,6 @@ const AddressForm = ({ onStepCompleted }) => {
                             last_name: '',
                             phone_no: '',
                             address: '',
-                            address2: '',
                             pincode: ''
                         }}
                         validationSchema={Yup.object().shape({
@@ -197,12 +194,6 @@ const AddressForm = ({ onStepCompleted }) => {
                                         <label>Address 1</label><span style={{ color: 'red' }}> *</span>
                                         <Field type='text' name='address' placeholder='House No, Building, street, Area' as={Input} style={{ fontSize: '13px' }} />
                                         <ErrorMessage name="address" component="div" className="error-message" />
-                                    </FormGroup>
-                                </div>
-                                <div>
-                                    <FormGroup>
-                                        <label>Address 2</label>
-                                        <Field type='text' name='address2' placeholder='Additional' as={Input} style={{ fontSize: '13px' }} />
                                     </FormGroup>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>

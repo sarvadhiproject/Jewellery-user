@@ -42,7 +42,7 @@ const Checkout = () => {
     const fetchCartItems = async () => {
         try {
             const userID = localStorage.getItem('userId');
-            const response = await axios.get(`${ApiConfig.ApiPrefix}/cart-products/${userID}`);
+            const response = await axios.get(`${ApiConfig.ApiPrefix}/cart/${userID}`);
             setCartItems(response.data.cartItems);
         } catch (error) {
             if (error.response && error.response.status === 404) {

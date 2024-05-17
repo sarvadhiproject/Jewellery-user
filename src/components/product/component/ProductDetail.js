@@ -20,11 +20,13 @@ const countries = [
 const defaultCountry = countries[0];
 
 const ProductDetail = ({ product_id }) => {
-    const [isLoading, setIsLoading] = useState(false);
+    const [isAddToCartLoading, setIsAddToCartLoading] = useState(false);
+    const [isBuyNowLoading, setIsBuyNowLoading] = useState(false);
     const [product, setProduct] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [sizeValidationError, setSizeValidationError] = useState(false);
     const [quantity, setQuantity] = useState(1);
     const [selectedSize, setSelectedSize] = useState(null);
     const [pincode, setPincode] = useState('');
@@ -90,6 +92,7 @@ const ProductDetail = ({ product_id }) => {
                         options={getSizeOptions(product.size)}
                         onChange={(selectedOption) => setSelectedSize(selectedOption.value)}
                     />
+                    {sizeValidationError && <span style={{ color: 'red' }}>Please select a size.</span>}
                 </div>
             );
         }
@@ -107,7 +110,15 @@ const ProductDetail = ({ product_id }) => {
     };
 
     const handleAddToCart = async () => {
-        setIsLoading(true);
+        const isRingOrBangles = ['ring', 'bangles'].includes(product.category?.category_name?.toLowerCase());
+
+        if (isRingOrBangles && !selectedSize) {
+            setSizeValidationError(true);
+            enqueueSnackbar('Please select a size before adding to cart.', { variant: 'error' });
+            return;
+        }
+        setSizeValidationError(false);
+        setIsAddToCartLoading(true);
         try {
             const response = await addToCart(product.product_id, quantity, product.selling_price, selectedSize);
             if (response.success) {
@@ -119,7 +130,7 @@ const ProductDetail = ({ product_id }) => {
             console.error('Error adding item to cart:', error);
             enqueueSnackbar('Failed to add item to cart. Please try again later.', { variant: 'error' });
         } finally {
-            setIsLoading(false);
+            setIsAddToCartLoading(false);
         }
     };
 
@@ -220,13 +231,13 @@ const ProductDetail = ({ product_id }) => {
                                     <CardText className="text-muted" style={{ margin: '30px 0px 15px', paddingLeft: '8px' }}>Gold Purity: {product.purity} </CardText>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <Button className='product-details-cart-btn' onClick={handleAddToCart} disabled={isLoading}>
-                                        {isLoading ? <Spinner size='sm' color="light" /> : 'Add To Cart'}
+                                    <Button className='product-details-cart-btn' onClick={handleAddToCart} disabled={isAddToCartLoading }>
+                                        {isAddToCartLoading  ? <Spinner size='sm' color="light" /> : 'Add To Cart'}
                                     </Button>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'center', borderBottom: '1px solid #832729' }}>
-                                    <Button className='product-details-cart-btn' style={{ marginBottom: '20px' }} disabled={isLoading}>
-                                        {isLoading ? <Spinner size='sm' color="light" /> : 'Buy Now'}
+                                    <Button className='product-details-cart-btn' style={{ marginBottom: '20px' }} disabled={isBuyNowLoading}>
+                                        {isBuyNowLoading ? <Spinner size='sm' color="light" /> : 'Buy Now'}
                                     </Button>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-evenly', marginTop: '20px', borderBottom: '1px solid #832729' }}>

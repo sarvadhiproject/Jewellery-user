@@ -64,7 +64,7 @@ const ProductsByCategory = () => {
         <>
             <NavbarPage />
             <>
-                <div style={{ padding: '90px 0px 0px', position: 'relative', left: '130px' }}>
+                <div style={{ padding: '90px 0px 0px'}}>
                     <BreadcrumbNavigation />
                 </div>
                 <div className='container' style={{ padding: '20px 0px 20px', marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
@@ -76,7 +76,7 @@ const ProductsByCategory = () => {
                                     onMouseLeave={() => { handleMouseLeave(index); }}
                                 >
                                    <WishlistButton product_id={product.product_id}/>
-                                    <Link to={`/product-details`} state={{ product_id: product.product_id, product_name: product.product_name, category_name: location.state?.category_name,}} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <Link to={`/product-details`} state={{ product_id: product.product_id, product_name: product.product_name}} style={{ textDecoration: 'none', color: 'inherit' }}>
                                         <div style={{ position: 'relative' }}>
                                             {product.p_images && product.p_images.length > 0 && (
                                                 <CardImg

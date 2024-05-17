@@ -7,7 +7,7 @@ import Select from 'react-select';
 import axios from 'axios';
 import ApiConfig from '../../../../../config/ApiConfig';
 
-const BillAddress = ({ onStepCompleted }) => {
+const BillAddress = ({ onStepCompleted,addressId }) => {
     const [modal, setModal] = useState(false);
     const [addressDetails, setAddressDetails] = useState(null);
     const [selectedState, setSelectedState] = useState(null);
@@ -44,7 +44,7 @@ const BillAddress = ({ onStepCompleted }) => {
     const fetchCities = async (stateId) => {
         try {
             const response = await axios.get(`${ApiConfig.ApiPrefix}/location/cities/${stateId}`);
-            console.log(response.data);
+            // console.log(response.data);
             const formattedCities = response.data.map((city) => ({
                 value: city.city_id,
                 label: city.city_name,
@@ -58,11 +58,11 @@ const BillAddress = ({ onStepCompleted }) => {
     const handleCheckboxChange = async () => {
         try {
             const userId = localStorage.getItem('userId'); 
-            const response = await axios.post(`${ApiConfig.ApiPrefix}/update-billing`, {
-                user_id: userId
+            const response = await axios.put(`${ApiConfig.ApiPrefix}/address/set-default/${addressId}`,{
+                user_id : userId
             });
-            console.log(response.data);
-            setAddressDetails(response.data.data);
+            // console.log(response.data);
+            setAddressDetails(response.data.address);
             onStepCompleted();
         } catch (error) {
             console.error('Error updating billing address:', error);
@@ -79,8 +79,7 @@ const handleSubmit = async (values, { setSubmitting }) => {
             user_id: userId,
             first_name: values.first_name,
             last_name: values.last_name,
-            addressline_1: values.address,
-            addressline_2: values.address2,
+            street_address: values.address,
             city_id: selectedCityId, 
             state_id: selectedStateId, 
             pincode: values.pincode,
@@ -88,19 +87,18 @@ const handleSubmit = async (values, { setSubmitting }) => {
         };
 
 
-        const response = await axios.post(`${ApiConfig.ApiPrefix}/add-billing-address`, addressData);
+        const response = await axios.post(`${ApiConfig.ApiPrefix}/address/add-billing-address`, addressData);
 
         const bildata = {
             user_id: userId,
             first_name: values.first_name,
             last_name: values.last_name,
             addressline_1: values.address,
-            addressline_2: values.address2,
-            City: {
+            city: {
                 city_name:selectedCity.label,
-                state:{
-                    state_name:selectedState.label,
-                },
+            },
+            state:{
+                state_name:selectedState.label,
             },
             pincode: values.pincode,
             phone_no: values.phone_no,
@@ -127,7 +125,7 @@ const handleSubmit = async (values, { setSubmitting }) => {
                             <div style={{ fontFamily: 'Nunito Sans', fontSize: '15px', fontWeight: '500' }}>
                                 <>{console.log(addressDetails)}</>
                                 <div>{addressDetails.first_name} {addressDetails.last_name}</div>
-                                <div>{addressDetails.City.city_name}, {addressDetails.City.state.state_name}, {addressDetails.pincode}</div>
+                                <div>{addressDetails.city.city_name}, {addressDetails.state.state_name}, {addressDetails.pincode}</div>
                                 <div>{addressDetails.phone_no}</div>
                             </div>
                             <Button className='edit-address-btn' onClick={toggle} style={{ height: '40px' }}>Edit</Button>

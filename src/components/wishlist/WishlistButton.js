@@ -12,7 +12,10 @@ const WishlistButton = ({ product_id }) => {
 
     useEffect(() => {
         async function fetchWishlistItems() {
-            if (accessToken) {
+            if (!accessToken) {
+                console.log('login first');
+            }
+            else {
                 try {
                     const userID = localStorage.getItem('userId');
                     const response = await axios.get(`${ApiConfig.ApiPrefix}/wishlist/${userID}`);
@@ -28,10 +31,11 @@ const WishlistButton = ({ product_id }) => {
                     setLoading(false);
                 }
             }
+
         }
 
         fetchWishlistItems();
-         // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [product_id]);
 
     const addToWishlist = async () => {

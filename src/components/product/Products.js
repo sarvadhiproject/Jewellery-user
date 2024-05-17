@@ -29,7 +29,7 @@ const Products = () => {
         <React.Fragment>
             <Suspense fallback={<Loader />}>
                 <NavbarPage />
-                <div style={{ padding: '90px 0px 0px', position: 'relative', left: '130px' }}>
+                <div style={{ padding: '90px 0px 0px' }}>
                     <BreadcrumbNavigation />
                 </div>
                 <div>
