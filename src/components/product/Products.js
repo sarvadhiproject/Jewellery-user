@@ -1,8 +1,6 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Row, Col } from 'reactstrap';
-import NavbarPage from '../../components/Navbar/Navbar_Page';
-import Footer from '../../components/Footer/footer';
 import ProductDetail from './component/ProductDetail';
 import ProductInfo from './component/ProductInfo';
 import CustomerReview from './component/CustomerReview';
@@ -25,10 +23,14 @@ const Products = () => {
     const location = useLocation();
     const product_id = location.state?.product_id;
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [product_id]);
+
     return (
         <React.Fragment>
             <Suspense fallback={<Loader />}>
-                <NavbarPage />
+                {/* <NavbarPage /> */}
                 <div style={{ padding: '90px 0px 0px' }}>
                     <BreadcrumbNavigation />
                 </div>
@@ -51,7 +53,7 @@ const Products = () => {
                     <VendorProduct product_id={product_id} />
                     <CategoryProduct product_id={product_id} />
                 </div>
-                <Footer />
+                {/* <Footer /> */}
             </Suspense>
         </React.Fragment>
     );

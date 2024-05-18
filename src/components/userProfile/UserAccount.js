@@ -2,8 +2,8 @@ import React, { useState, Suspense, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import UserSidebar from './UserSiderbar';
 import PersonalInfo from './components/userprofile/PersonalInfo';
-import NavbarPage from '../Navbar/Navbar_Page';
-import Footer from '../Footer/footer';
+// import NavbarPage from '../Navbar/Navbar_Page';
+// import Footer from '../Footer/footer';
 import WishlistProduct from './components/wishlist/WishlistProduct';
 import OrderHistory from '../Order/OrderHistory';
 
@@ -53,7 +53,7 @@ const UserAccount = () => {
     return (
         <React.Fragment>
             <Suspense fallback={<Loader />} >
-                <NavbarPage setActiveComponent={setActiveComponent} />
+                {/* <NavbarPage setActiveComponent={setActiveComponent} /> */}
                 <div className="user-account">
                     <h2 className='user-header'>MY ACCOUNT</h2>
                     <div className="user-account-content">
@@ -63,7 +63,7 @@ const UserAccount = () => {
                         </div>
                     </div>
                 </div>
-                <Footer />
+                {/* <Footer /> */}
             </Suspense>
         </React.Fragment>
     );

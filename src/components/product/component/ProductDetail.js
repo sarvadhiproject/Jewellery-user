@@ -123,12 +123,13 @@ const ProductDetail = ({ product_id }) => {
             const response = await addToCart(product.product_id, quantity, product.selling_price, selectedSize);
             if (response.success) {
                 enqueueSnackbar(response.message, { variant: 'success' });
-            } else {
+            } 
+            else {
                 enqueueSnackbar(response.message, { variant: 'error' });
             }
         } catch (error) {
             console.error('Error adding item to cart:', error);
-            enqueueSnackbar('Failed to add item to cart. Please try again later.', { variant: 'error' });
+            // enqueueSnackbar('Failed to add item to cart. Please try again later.', { variant: 'error' });
         } finally {
             setIsAddToCartLoading(false);
         }

@@ -13,7 +13,8 @@ const WishlistButton = ({ product_id }) => {
     useEffect(() => {
         async function fetchWishlistItems() {
             if (!accessToken) {
-                console.log('login first');
+                setIsAdded(false);
+                setLoading(false);
             }
             else {
                 try {
@@ -36,7 +37,7 @@ const WishlistButton = ({ product_id }) => {
 
         fetchWishlistItems();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [product_id]);
+    }, [product_id, accessToken]);
 
     const addToWishlist = async () => {
         if (!accessToken) {

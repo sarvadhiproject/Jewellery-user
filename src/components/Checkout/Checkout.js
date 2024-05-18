@@ -2,8 +2,8 @@ import React, { useState, useEffect, Suspense } from 'react';
 import axios from 'axios';
 import ApiConfig from '../../config/ApiConfig';
 import { Row, Col } from 'reactstrap';
-import NavbarPage from '../../components/Navbar/Navbar_Page';
-import Footer from '../../components/Footer/footer';
+// import NavbarPage from '../../components/Navbar/Navbar_Page';
+// import Footer from '../../components/Footer/footer';
 import CheckoutSummary from './components/CheckoutSummary';
 import { Link } from 'react-router-dom';
 import CheckoutSteps from './components/checkoutSteps/CheckoutSteps';
@@ -55,7 +55,7 @@ const Checkout = () => {
 
     return (
         <React.Fragment>
-            <NavbarPage />
+            {/* <NavbarPage /> */}
             <div className="container" style={{ padding: '50px 30px', marginTop: '30px' }}>
                 {orderSuccess ? (
                     <>
@@ -98,7 +98,7 @@ const Checkout = () => {
                     </Row>
                 )}
             </div>
-            <Footer />
+            {/* <Footer /> */}
         </React.Fragment>
     );
 };

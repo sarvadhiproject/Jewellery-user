@@ -22,6 +22,8 @@ const Login = ({ isOpen, toggle }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [countdownDate, setCountdownDate] = useState(null);
   const [countdownKey, setCountdownKey] = useState(Date.now());
+  const [phoneNumberError, setPhoneNumberError] = useState('');
+  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
   const recaptchaVerifierRef = useRef(null);
 
   const createRecaptchaInstance = (auth) => {
@@ -173,6 +175,20 @@ const Login = ({ isOpen, toggle }) => {
   const handlePhoneNumberChange = (isValid, phoneNumber, countryData) => {
     setPhoneNo(phoneNumber);
     setCountryCode(countryData.dialCode);
+
+    const phoneNumberRegex = /^[0-9]{10}$/; // Matches exactly 10 digits
+    const isValidNumber = phoneNumberRegex.test(phoneNumber);
+
+    if (!phoneNumber) {
+      setPhoneNumberError('Phone number is required');
+      setIsPhoneNumberValid(false);
+    } else if (!isValidNumber) {
+      setPhoneNumberError('Phone number must be 10 digits');
+      setIsPhoneNumberValid(false);
+    } else {
+      setPhoneNumberError('');
+      setIsPhoneNumberValid(true);
+    }
   };
 
   const handleSignupClick = () => {
@@ -181,7 +197,7 @@ const Login = ({ isOpen, toggle }) => {
 
   return (
     <>
-      <Modal isOpen={isOpen && !showSignup} toggle={toggle} centered>
+      <Modal isOpen={isOpen && !showSignup} toggle={toggle} style={{ marginTop: '90px', marginLeft: '450px' }}>
         <ModalBody className='login-modal-body'>
           <div className="login-container">
             <div className="login-image-card">
@@ -196,18 +212,21 @@ const Login = ({ isOpen, toggle }) => {
                   <p className="semi-text" style={{ padding: '0' }}>Login with Mobile Number</p>
                   {!otpSent && (
                     <Form onSubmit={handlePhoneNoSubmit} className="mt-4">
-                      <FormGroup className="input-phone">
-                        <IntlTelInput
-                          preferredCountries={['IN']}
-                          onPhoneNumberChange={handlePhoneNumberChange}
-                          inputClassName="form-control"
-                        />
-                        <div id="recaptcha-container"></div>
-                        <div className="button-container">
-                          <Button type="submit" disabled={isLoading}>
-                            {isLoading ? <Spinner size='sm' color="light" /> : 'Send OTP'}
-                          </Button>
+                      <FormGroup>
+                        <div className="input-phone">
+                          <IntlTelInput
+                            preferredCountries={['IN']}
+                            onPhoneNumberChange={handlePhoneNumberChange}
+                            inputClassName="form-control"
+                          />
+                          <div id="recaptcha-container"></div>
+                          <div className="button-container">
+                            <Button type="submit" disabled={isLoading || !isPhoneNumberValid}>
+                              {isLoading ? <Spinner size='sm' color="light" /> : 'Send OTP'}
+                            </Button>
+                          </div>
                         </div>
+                        {phoneNumberError && <div className="text-danger" style={{padding:'0px 15px'}}>{phoneNumberError}</div>}
                       </FormGroup>
                     </Form>
                   )}

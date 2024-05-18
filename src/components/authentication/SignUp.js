@@ -178,7 +178,7 @@ const Signup = ({ isOpen, toggle }) => {
 
   return (
     <>
-      <Modal isOpen={isOpen} toggle={toggle} centered>
+      <Modal isOpen={isOpen} toggle={toggle} style={{marginTop:'90px'}} >
         <ModalBody className="custom-modal-body">
           <div className="custom-container">
             <div className="custom-image-card">
@@ -188,7 +188,7 @@ const Signup = ({ isOpen, toggle }) => {
             </div>
             <div className="custom-content-card">
               <Card className="content-card">
-                <CardBody style={{ paddingRight: '0px' }}>
+                <CardBody style={{ paddingRight: '0px', height:'380px' }}>
                   <h1 className="header">Sign Up</h1>
                   <Formik
                     innerRef={formikRef}
@@ -265,3 +265,5 @@ const Signup = ({ isOpen, toggle }) => {
 };
 
 export default Signup;
+
+

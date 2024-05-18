@@ -479,7 +479,7 @@ textarea.form-control {
   left: calc(100% + 950px);
   background-color: #ffffff;
   border: 1px solid #ccc;
-  margin-top: 60px;
+  margin-top: 70px;
   padding: 10px;
   z-index: 9999;
 }
@@ -642,6 +642,9 @@ textarea.form-control {
 
 /*===== 9. Register or signup ======*/
 
+.modal{
+  --bs-modal-width: 800px;
+}
 .image-card {
   background-image: url('../images/sidelogin.jpg');
   background-size: cover;
@@ -755,7 +758,7 @@ textarea.form-control {
 }
 
 .register-button {
-  position: fixed;
+  /* position: fixed; */
   background-color: #832729;
   color: #ffffff;
   border: none;

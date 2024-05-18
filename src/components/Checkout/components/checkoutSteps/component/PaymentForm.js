@@ -30,15 +30,19 @@ const PaymentForm = (props) => {
                 return;
             }
 
-            const response = await axios.post(`${ApiConfig.ApiPrefix}/place-order`, {
-                customer_id: userId,
+            const response = await axios.post(`${ApiConfig.ApiPrefix}/order/add`, {
+                user_id: userId,
             });
 
-            console.log("Order placed successfully:", response.data);
+            if (response.status === 201) {
+                console.log("Order placed successfully:", response.data);
+                enqueueSnackbar("Order placed successfully", { variant: 'success' });
+                props.setOrderSuccess(true);
+                props.setOrderId(response.data.order.ordertracking_id);
+            }
             console.log("Response message:", response.data.message);
-            enqueueSnackbar("Order placed successfully", { variant: 'success' });
-            props.setOrderSuccess(true);
-            props.setOrderId(response.data.order.ordertracking_id);
+
+
 
         } catch (error) {
             console.error("Failed to place order:", error);

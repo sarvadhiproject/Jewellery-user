@@ -17,29 +17,31 @@ export const CartProvider = ({ children }) => {
       console.log('Login first');
       return;
     }
-    try {
-      const userID = localStorage.getItem('userId')
-      const response = await axios.post(`${ApiConfig.ApiPrefix}/cart/add`, {
-        user_id: userID,
-        product_id: productId,
-        quantity: quantity,
-        price: price,
-        size: size
-      });
-      const { cartItem } = response.data;
+    else {
+      try {
+        const userID = localStorage.getItem('userId')
+        const response = await axios.post(`${ApiConfig.ApiPrefix}/cart/add`, {
+          user_id: userID,
+          product_id: productId,
+          quantity: quantity,
+          price: price,
+          size: size
+        });
+        const { cartItem } = response.data;
 
-      setCartItems([...cartItems, cartItem]);
-      return { success: true, message: 'Product Added to Cart Successfully' };
-    } catch (error) {
-      console.error('Error adding item to cart:', error);
-      if (
-        error.response &&
-        error.response.status === 400 &&
-        error.response.data.error === 'Invalid quantity'
-      ) {
-        return { success: false, message: 'Invalid quantity. Please select a valid quantity.' };
-      } else {
-        return { success: false, message: 'Failed to add item to cart. Please try again later.' };
+        setCartItems([...cartItems, cartItem]);
+        return { success: true, message: 'Product Added to Cart Successfully' };
+      } catch (error) {
+        console.error('Error adding item to cart:', error);
+        if (
+          error.response &&
+          error.response.status === 400 &&
+          error.response.data.error === 'Invalid quantity'
+        ) {
+          return { success: false, message: 'Invalid quantity. Please select a valid quantity.' };
+        } else {
+          return { success: false, message: 'Failed to add item to cart. Please try again later.' };
+        }
       }
     }
   };

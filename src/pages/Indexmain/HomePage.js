@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react';
-import NavbarPage from '../../components/Navbar/Navbar_Page';
-import Footer from '../../components/Footer/footer';
+// import NavbarPage from '../../components/Navbar/Navbar_Page';
+// import Footer from '../../components/Footer/footer';
 import Section from '../Indexmain/component/section';
-import Bestseller from '../../components/bestseller/Best_Products';
+// import Bestseller from '../../components/bestseller/Best_Products';
 import Trending from '../../components/trending/Trend_product';
 import Contact from '../../components/Contact/contact';
 import ReviewPage from '../../components/review/ReviewPage';
@@ -37,7 +37,7 @@ const HomePage = () => {
     return (
         <React.Fragment>
             <Suspense fallback={<Loader />}>
-                <NavbarPage />
+                {/* <NavbarPage /> */}
                 <Section slides={slides1} />
                 <Category />
                 {/* <Bestseller /> */}
@@ -45,7 +45,7 @@ const HomePage = () => {
                 <Section slides={slides2} />
                 <ReviewPage />
                 <Contact />
-                <Footer />
+                {/* <Footer /> */}
             </Suspense>
         </React.Fragment>
     );

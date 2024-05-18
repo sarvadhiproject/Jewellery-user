@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { Row, Col } from 'reactstrap';
-import NavbarPage from '../../components/Navbar/Navbar_Page';
-import Footer from '../../components/Footer/footer';
+// import NavbarPage from '../../components/Navbar/Navbar_Page';
+// import Footer from '../../components/Footer/footer';
 import CartProduct from './component/CartProduct';
 import OrderSummary from './component/OrderSummary';
 import { CartProvider } from './Context/CartContext';
@@ -66,7 +66,7 @@ const Cart = () => {
 
     return (
         <React.Fragment>
-            <NavbarPage />
+            {/* <NavbarPage /> */}
             <div className="container" style={{ padding: '50px', marginTop: '30px' }}>
                 <Row>
                     {isLoggedIn ? (
@@ -104,7 +104,7 @@ const Cart = () => {
                     )}
                 </Row>
             </div>
-            <Footer />
+            {/* <Footer /> */}
         </React.Fragment>
     );
 };

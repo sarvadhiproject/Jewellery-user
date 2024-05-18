@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import NavbarPage from '../Navbar/Navbar_Page';
-import Footer from '../Footer/footer';
 import { Card, Col, Row, CardImg, CardBody } from 'reactstrap';
 import WishlistButton from '../wishlist/WishlistButton';
 import axios from 'axios';
@@ -62,7 +60,6 @@ const ProductsByCategory = () => {
 
     return (
         <>
-            <NavbarPage />
             <>
                 <div style={{ padding: '90px 0px 0px'}}>
                     <BreadcrumbNavigation />
@@ -105,7 +102,6 @@ const ProductsByCategory = () => {
                     </Row>
                 </div>
             </>
-            <Footer />
         </>
     );
 };
