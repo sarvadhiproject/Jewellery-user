@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Table } from 'reactstrap';
 import axios from 'axios';
 import ApiConfig from '../../config/ApiConfig';
+import emptyorder from "../../assets/images/emptyorder.svg";
 import DetailOrder from './DetailOrder';
+import { Link } from 'react-router-dom';
 
 const OrderHistory = () => {
     const [orders, setOrders] = useState([]);
@@ -13,7 +15,7 @@ const OrderHistory = () => {
         if (accessToken) {
             fetchOrderDetails();
         }
-    }, []);
+    }, [accessToken]);
 
     const fetchOrderDetails = async () => {
         try {
@@ -35,6 +37,14 @@ const OrderHistory = () => {
                 <div>
                     <h3 style={{ fontFamily: 'Nunito Sans' }}>Login to view your order history</h3>
                 </div>
+            ) : orders ? (
+                <>
+                    <div style={{ textAlign: 'center' }}>
+                        <img src={emptyorder} alt='Empty order' style={{ width: '130px' }} />
+                        <h3 style={{ fontFamily: 'Nunito Sans' }}>No Order Placed</h3>
+                        <Link to="/" ><label className='cart-product-name' style={{ color: '#832729', fontSize: '13px' }} > Continue Shopping </label></Link>
+                    </div>
+                </>
             ) : !showOrderDetails ? (
                 <>
                     <h2 style={{ fontFamily: 'Nunito Sans', padding: '10px 0px' }}>Placed Order</h2>
@@ -51,7 +61,7 @@ const OrderHistory = () => {
                         <tbody>
                             {orders.map((order, index) => (
                                 <tr key={index} style={{ borderBottom: '1px solid #832729' }}>
-                                    <td>{order.ordertracking_id}</td>
+                                    <td>{order.order_id}</td>
                                     <td>{order.order_date}</td>
                                     <td>{order.status}</td>
                                     <td>{order.total_amount}</td>
@@ -59,7 +69,7 @@ const OrderHistory = () => {
                                         <button
                                             style={{ border: 'none', backgroundColor: 'white', color: '#832729', borderBottom: '2px solid #832729', paddingBottom: '0px', fontWeight: '600' }}
                                             onClick={() => {
-                                                setSelectedOrderId(order.ordertracking_id);
+                                                setSelectedOrderId(order.order_id);
                                                 setShowOrderDetails(true);
                                             }}
                                         >

@@ -10,10 +10,13 @@ function App() {
   return (
     <React.Fragment>
       <BrowserRouter>
-        <SnackbarProvider maxSnack={3} anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}>
+        <SnackbarProvider
+          maxSnack={3}
+          autoHideDuration={3000}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}>
           <RoutesConfig />
         </SnackbarProvider>
       </BrowserRouter>

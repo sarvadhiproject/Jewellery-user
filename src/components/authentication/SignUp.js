@@ -4,6 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import firebaseApp from './Firebase';
 import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
 import IntlTelInput from 'react-intl-tel-input';
+// eslint-disable-next-line
 import 'react-intl-tel-input/dist/main.css';
 import { useSnackbar } from 'notistack';
 import Countdown from 'react-countdown';
@@ -16,7 +17,7 @@ const Signup = ({ isOpen, toggle }) => {
   const [otp, setOtp] = useState('');
   const [countryCode, setCountryCode] = useState('');
   const [otpSent, setOtpSent] = useState(false);
-  const [otpVerified, setOtpVerified] = useState(false);
+  // const [otpVerified, setOtpVerified] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(true);
   const recaptchaVerifierRef = useRef(null);
@@ -112,7 +113,7 @@ const Signup = ({ isOpen, toggle }) => {
       console.log('otp verified on firebase:', user);
       const idToken = await user.getIdToken();
       console.log('ID Token:', idToken);
-      setOtpVerified(true);
+      // setOtpVerified(true);
       enqueueSnackbar('OTP Verified', { variant: 'success' });
 
     } catch (error) {

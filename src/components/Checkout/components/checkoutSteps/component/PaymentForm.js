@@ -38,7 +38,7 @@ const PaymentForm = (props) => {
                 console.log("Order placed successfully:", response.data);
                 enqueueSnackbar("Order placed successfully", { variant: 'success' });
                 props.setOrderSuccess(true);
-                props.setOrderId(response.data.order.ordertracking_id);
+                props.setOrderId(response.data.order.order_id);
             }
             console.log("Response message:", response.data.message);
 

@@ -112,12 +112,12 @@ const ProductInfo = ({ product_id }) => {
                                                     <label className='product-value'>{productDetails.no_of_gems}</label>
                                                 </Col>
                                             )}
-                                            {/* {productDetails.category.category_name !== "Rings" && productDetails.category.category_name !== "Bangles" && productDetails.size && ( */}
+                                            {productDetails.category.category_name !== "Rings" && productDetails.category.category_name !== "Bangles" && productDetails.size && (
                                                 <Col>
                                                     <label className='product-field'>Size</label><br />
                                                     <label className='product-value'>{productDetails.size}</label>
                                                 </Col>
-                                            {/* )} */}
+                                            )}
                                         </Row>
                                     </div>
                                 </UncontrolledCollapse>

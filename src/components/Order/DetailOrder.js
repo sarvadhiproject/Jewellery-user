@@ -9,6 +9,7 @@ const DetailOrder = ({ orderId }) => {
 
   useEffect(() => {
     fetchOrderDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchOrderDetails = async () => {
@@ -30,7 +31,7 @@ const DetailOrder = ({ orderId }) => {
     <div className="detail-order-container" style={{ marginTop: '20px' }}>
       <div className="order-info">
         <div>
-          <strong>Order ID: {order.ordertracking_id} </strong>
+          <strong>Order ID: {order.order_id} </strong>
         </div>
         <div>
           <strong>Date: {new Date(order.order_date).toLocaleDateString('en-GB')} </strong>
