@@ -20,10 +20,10 @@ const OrderHistory = () => {
     const fetchOrderDetails = async () => {
         try {
             const userid = localStorage.getItem('userId');
-            const response = await axios.get(`${ApiConfig.ApiPrefix}/order-details/${userid}`);
-            const ordersWithFormattedDate = response.data.map(order => ({
-                ...order,
-                order_date: new Date(order.order_date).toLocaleDateString('en-GB'),
+            const response = await axios.get(`${ApiConfig.ApiPrefix}/order/${userid}`);
+            const ordersWithFormattedDate = response.data.orders.map(orders => ({
+                ...orders,
+                order_date: new Date(orders.order_date).toLocaleDateString('en-GB'),
             }));
             setOrders(ordersWithFormattedDate);
         } catch (error) {
@@ -37,7 +37,7 @@ const OrderHistory = () => {
                 <div>
                     <h3 style={{ fontFamily: 'Nunito Sans' }}>Login to view your order history</h3>
                 </div>
-            ) : orders ? (
+            ) : !orders ? (
                 <>
                     <div style={{ textAlign: 'center' }}>
                         <img src={emptyorder} alt='Empty order' style={{ width: '130px' }} />

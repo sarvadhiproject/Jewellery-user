@@ -49,7 +49,7 @@ const CartProduct = ({ cartItems, updateCartItems }) => {
 
   return (
     <div className="container">
-      {cartItems.map((cartItem) => (
+      {cartItems.cartItems.map((cartItem) => (
         <Card key={cartItem.product_id} className="mb-3" style={{ height: '200px', border: 'none' }}>
           <Row>
             <Col xs='4'>

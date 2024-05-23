@@ -15,9 +15,9 @@ const DetailOrder = ({ orderId }) => {
   const fetchOrderDetails = async () => {
     try {
       const userid = localStorage.getItem('userId');
-      const response = await axios.get(`${ApiConfig.ApiPrefix}/detailed-order-details/${userid}/${orderId}`);
+      const response = await axios.get(`${ApiConfig.ApiPrefix}/order/detailed/${userid}/${orderId}`);
       console.log(response.data);
-      setOrder(response.data);
+      setOrder(response.data.order);
     } catch (error) {
       console.error('Error fetching order details:', error);
     }
@@ -50,15 +50,15 @@ const DetailOrder = ({ orderId }) => {
           </div>
         </div>
         <div style={{ padding: '15px' }}>
-          {order.OrderItems.map((orderItem, index) => (
+          {order.orderItems.map((orderItem, index) => (
             <Card style={{ height: '120px', border: 'none' }} key={orderItem.order_id}>
               <Row>
                 <Col xs='2'>
-                  <CardImg src={`${ApiConfig.cloudprefix}${orderItem.Product.p_images[0]}`} alt={orderItem.Product.product_name} style={{ height: '100px', width: '100px' }} />
+                  <CardImg src={`${ApiConfig.cloudprefix}${orderItem.product.p_images[0]}`} alt={orderItem.product.product_name} style={{ height: '100px', width: '100px' }} />
                 </Col>
                 <Col xs='4'>
                   <div>
-                    <strong>{orderItem.Product.product_name}</strong>
+                    <strong>{orderItem.product.product_name}</strong>
                     <div style={{ marginTop: '8px' }}> Qty: <strong>{orderItem.quantity}</strong></div>
                   </div>
                 </Col>
@@ -72,7 +72,7 @@ const DetailOrder = ({ orderId }) => {
           ))}
           <hr style={{ margin: '0px', marginBottom: '8px' }}></hr>
           <div style={{ position: 'relative', left: '80%' }}>
-            Total Price: <strong> ₹{order.OrderItems.reduce((total, item) => total + parseFloat(item.sub_total), 0)}</strong>
+            Total Price: <strong> ₹{order.orderItems.reduce((total, item) => total + parseFloat(item.sub_total), 0)}</strong>
           </div>
         </div>
       </div>
@@ -87,7 +87,7 @@ const DetailOrder = ({ orderId }) => {
           <tbody>
             <tr>
               <td>Subtotal</td>
-              <td><strong>₹{order.OrderItems.reduce((total, item) => total + parseFloat(item.sub_total), 0)}</strong></td>
+              <td><strong>₹{order.orderItems.reduce((total, item) => total + parseFloat(item.sub_total), 0)}</strong></td>
             </tr>
             <tr>
               <td>Discount</td>
@@ -95,7 +95,7 @@ const DetailOrder = ({ orderId }) => {
             </tr>
             <tr>
               <td>GST</td>
-              <td><strong>{parseFloat(order.OrderItems[0].cgst) + parseFloat(order.OrderItems[0].sgst) + parseFloat(order.OrderItems[0].igst)} %</strong></td>
+              <td><strong>{parseFloat(order.orderItems[0].cgst) + parseFloat(order.orderItems[0].sgst) + parseFloat(order.orderItems[0].igst)} %</strong></td>
             </tr>
             <tr>
               <td>Total</td>

@@ -5,7 +5,7 @@
 
     const OrderSummary = ({ cartItems }) => {
         console.log(cartItems);
-        const firstCartItem = cartItems.length > 0 ? cartItems[0] : {};
+        const firstCartItem = cartItems.cartItems.length > 0 ? cartItems.cartItems[0] : {};
         const navigate = useNavigate();
         const handleCheckout = () => {
             navigate('/checkout');
@@ -24,13 +24,17 @@
                             <label>₹ 0</label>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px' }}>
+                            <label>GST  </label>
+                            <label>₹ {cartItems.totalGST}</label>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px' }}>
                             <label>Delivery Charge</label>
                             <label>Free</label>
                         </div>
                         <hr />
                         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '2px 5px', fontFamily: 'Nunito Sans', fontSize: '16px', fontWeight: '600' }}>
                             <label>Total </label>
-                            <label>₹ {firstCartItem.total}</label>
+                            <label>₹ {cartItems.grandTotal}</label>
                         </div>
                     </div>
 

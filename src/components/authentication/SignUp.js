@@ -17,7 +17,8 @@ const Signup = ({ isOpen, toggle }) => {
   const [otp, setOtp] = useState('');
   const [countryCode, setCountryCode] = useState('');
   const [otpSent, setOtpSent] = useState(false);
-  // const [otpVerified, setOtpVerified] = useState(false);
+  const [issending, setissending] = useState(false);
+  const [isverifying, setisverifying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(true);
   const recaptchaVerifierRef = useRef(null);
@@ -72,7 +73,7 @@ const Signup = ({ isOpen, toggle }) => {
 
   const handleSendOTP = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    setissending(true);
     try {
       const auth = getAuth(firebaseApp);
       const appVerifier = createRecaptchaInstance(auth);
@@ -88,13 +89,13 @@ const Signup = ({ isOpen, toggle }) => {
       console.error('Error sending verification code: ', error);
       enqueueSnackbar('Error sending verification code, Try Again', { variant: 'error' });
     } finally {
-      setIsLoading(false);
+      setissending(false);
     }
   };
 
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    setisverifying(true);
     try {
       const code = otp;
       if (!confirmationResultRef.current) {
@@ -120,7 +121,7 @@ const Signup = ({ isOpen, toggle }) => {
       console.error('Error verifying OTP: ', error);
       enqueueSnackbar('Error verifying OTP', { variant: 'error' });
     } finally {
-      setIsLoading(false);
+      setisverifying(false);
     }
   };
 
@@ -163,7 +164,7 @@ const Signup = ({ isOpen, toggle }) => {
       const { success, message } = await register(values.first_name, values.last_name, values.email, phoneno);
       if (success) {
         enqueueSnackbar(message, { variant: 'success' });
-        resetForm(); // Reset the form
+        resetForm(); 
         window.location.reload();
       } else {
         enqueueSnackbar(message, { variant: 'error' });
@@ -189,7 +190,7 @@ const Signup = ({ isOpen, toggle }) => {
             </div>
             <div className="custom-content-card">
               <Card className="content-card">
-                <CardBody style={{ paddingRight: '0px', height:'380px' }}>
+                <CardBody className='signcardbody'>
                   <h1 className="header">Sign Up</h1>
                   <Formik
                     innerRef={formikRef}
@@ -203,8 +204,7 @@ const Signup = ({ isOpen, toggle }) => {
                     onSubmit={handleFormSubmit}
                   >
                     {(formikProps) => (
-                      <Form>
-                        <div className="input-group">
+                      <Form className='signupdiv'>
                           <FormGroup>
                             <Input type="text" name="first_name" placeholder="Enter First Name" tag={Field} className="custom-input" />
                             <ErrorMessage name="first_name" component="div" className="error-message" />
@@ -222,8 +222,8 @@ const Signup = ({ isOpen, toggle }) => {
                               <div className="phone-input-container">
                                 <IntlTelInput preferredCountries={['IN']} inputClassName="form-control custom-input" onPhoneNumberChange={handlePhoneNumberChange} />
                                 <div id="recaptcha-container"></div>
-                                <Button type="button" onClick={handleSendOTP} className="otp-button" disabled={isLoading} >
-                                  {isLoading ? <Spinner size='sm' color="light" /> : 'Send OTP'}
+                                <Button type="button" onClick={handleSendOTP} className="otp-button" disabled={issending} >
+                                  {issending ? <Spinner size='sm' color="light" /> : 'Send OTP'}
                                 </Button>
                               </div>
                               {!isPhoneNumberValid && <div className="error-message">Phone number is invalid</div>}
@@ -234,8 +234,8 @@ const Signup = ({ isOpen, toggle }) => {
                             <FormGroup className='otp-verify'>
                               <div className="otp-verification-container">
                                 <Input type="text" name="otp" placeholder="Enter OTP" value={otp} onChange={(e) => setOtp(e.target.value)} className="custom-input otp-input" />
-                                <Button type="button" onClick={handleVerifyOTP} className="otp-verify-button" disabled={isLoading} >
-                                  {isLoading ? <Spinner size='sm' color="light" /> : 'Verify OTP'}
+                                <Button type="button" onClick={handleVerifyOTP} className="otp-verify-button" disabled={isverifying} >
+                                  {isverifying ? <Spinner size='sm' color="light" /> : 'Verify OTP'}
                                 </Button>
                               </div>
                               {countdownDate && (
@@ -251,7 +251,6 @@ const Signup = ({ isOpen, toggle }) => {
                               {isLoading ? <Spinner size='sm' color="light" /> : 'Register'}
                             </Button>
                           </div>
-                        </div>
                       </Form>
                     )}
                   </Formik>

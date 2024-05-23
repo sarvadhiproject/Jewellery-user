@@ -82,7 +82,7 @@ const UserCard = ({ isOpen, toggle }) => {
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to="/track-order" style={{ textDecoration: "none", color: "#832729", display: "block", marginBottom: "10px" }} >
+                                <NavLink to="/account?activeComponent=trackOrder" style={{ textDecoration: "none", color: "#832729", display: "block", marginBottom: "10px" }} >
                                     TRACK ORDER
                                 </NavLink>
                             </li>

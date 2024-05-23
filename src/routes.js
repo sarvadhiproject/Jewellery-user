@@ -32,6 +32,7 @@ import UserAccount from './components/userProfile/UserAccount';
 import HomePage from './pages/Indexmain/HomePage';
 import IndexMain from './pages/Indexmain/IndexMain';
 import Layout from './pages/Indexmain/Layout';
+// import OrderSuccess from './components/Checkout/components/checkoutSteps/OrderSuccess';
 
 const RoutesConfig = () => (
   <Routes>
@@ -43,6 +44,7 @@ const RoutesConfig = () => (
       <Route path="/product-details" element={<Products />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/checkout" element={<Checkout />} />
+      {/* <Route path="/ordersuccess" element={<OrderSuccess/>} /> */}
     </Route>
   </Routes>
 );

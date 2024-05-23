@@ -2,10 +2,9 @@ import React, { useState, Suspense, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import UserSidebar from './UserSiderbar';
 import PersonalInfo from './components/userprofile/PersonalInfo';
-// import NavbarPage from '../Navbar/Navbar_Page';
-// import Footer from '../Footer/footer';
 import WishlistProduct from './components/wishlist/WishlistProduct';
 import OrderHistory from '../Order/OrderHistory';
+import TrackOrder from '../Order/TrackOrder';
 
 const Loader = () => {
     return (
@@ -31,6 +30,12 @@ const UserAccount = () => {
         else if (activeComponent === 'orderHistory') {
             setActiveComponent('orderHistory');
         }
+        else if (activeComponent === 'personalInformation') {
+            setActiveComponent('personalInformation')
+        }
+        else if (activeComponent === 'trackOrder'){
+            setActiveComponent('trackOrder')
+        }
     }, [location.search]);
 
 
@@ -38,7 +43,7 @@ const UserAccount = () => {
     const renderActiveComponent = () => {
         switch (activeComponent) {
             case 'trackOrder':
-                return <div>Track Order Component</div>;
+                return <TrackOrder/>;
             case 'orderHistory':
                 return <OrderHistory />;
             case 'wishlist':
@@ -53,17 +58,15 @@ const UserAccount = () => {
     return (
         <React.Fragment>
             <Suspense fallback={<Loader />} >
-                {/* <NavbarPage setActiveComponent={setActiveComponent} /> */}
                 <div className="user-account">
                     <h2 className='user-header'>MY ACCOUNT</h2>
                     <div className="user-account-content">
-                        <UserSidebar setActiveComponent={setActiveComponent} />
+                        <UserSidebar />
                         <div className="personal-info-wrapper">
                             {renderActiveComponent()}
                         </div>
                     </div>
                 </div>
-                {/* <Footer /> */}
             </Suspense>
         </React.Fragment>
     );

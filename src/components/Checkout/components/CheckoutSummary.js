@@ -4,7 +4,7 @@ import { Card, CardImg, CardBody, Row, Col, Container } from 'reactstrap';
 
 
 const CheckoutSummary = ({ cartItems }) => {
-    const firstCartItem = cartItems.length > 0 ? cartItems[0] : {};
+    const firstCartItem = cartItems.cartItems.length > 0 ? cartItems.cartItems[0] : {};
     return (
         <Container>
             <Row>
@@ -22,13 +22,17 @@ const CheckoutSummary = ({ cartItems }) => {
                                     <label>₹ 0</label>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px' }}>
+                                    <label>GST  </label>
+                                    <label>₹ {cartItems.totalGST}</label>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px' }}>
                                     <label>Delivery Charge</label>
                                     <label>Free</label>
                                 </div>
                                 <hr />
                                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '2px 5px', fontFamily: 'Nunito Sans', fontSize: '16px', fontWeight: '600' }}>
                                     <label>Total </label>
-                                    <label>₹ {firstCartItem.total}</label>
+                                    <label>₹ {cartItems.grandTotal}</label>
                                 </div>
                             </div>
                         </CardBody>
@@ -37,7 +41,7 @@ const CheckoutSummary = ({ cartItems }) => {
             </Row>
             <Row style={{ marginTop: '20px' }}>
                 <Col style={{ paddingLeft: '50px' }}>
-                    {cartItems.map((cartItem) => (
+                    {cartItems.cartItems.map((cartItem) => (
                         <Card key={cartItem.product_id} className="mb-3" style={{ width: '90%' }}>
                             <Row>
                                 <Col lg='3'>

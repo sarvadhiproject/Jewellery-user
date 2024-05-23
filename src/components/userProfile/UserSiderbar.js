@@ -1,31 +1,29 @@
 import React from 'react';
-import { Nav, NavItem, NavLink } from 'reactstrap';
+import { Nav, NavItem } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
 
-const UserSidebar = ({ setActiveComponent }) => {
-  const handleNavLinkClick = (componentName) => {
-    setActiveComponent(componentName);
-  };
+const UserSidebar = () => {
 
   return (
     <div className="sidebar-container">
       <Nav vertical>
         <NavItem>
-          <NavLink onClick={() => handleNavLinkClick('personalInformation')} style={{cursor:'pointer'}}>
+          <NavLink to="/account?activeComponent=personalInformation" style={{cursor:'pointer'}} className='nav-link'>
             Personal Information
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink onClick={() => handleNavLinkClick('trackOrder')} style={{cursor:'pointer'}}>
+          <NavLink to="/account?activeComponent=trackOrder" style={{cursor:'pointer'}} className='nav-link'>
             Track Order
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink onClick={() => handleNavLinkClick('orderHistory')} style={{cursor:'pointer'}}>
+          <NavLink to="/account?activeComponent=orderHistory"  style={{cursor:'pointer'}} className='nav-link'>
             Order History
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink onClick={() => handleNavLinkClick('wishlist')} style={{cursor:'pointer'}}>
+          <NavLink to="/account?activeComponent=wishlist"  style={{cursor:'pointer'}} className='nav-link'>
             Wishlist
           </NavLink>
         </NavItem>

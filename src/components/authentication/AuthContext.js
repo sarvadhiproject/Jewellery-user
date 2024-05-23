@@ -29,11 +29,11 @@ const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const register = async (first_name, last_name, email, phoneno) => {
+  const register = async (first_name, last_name, email, phone_no) => {
     try {
       const response = await axios.post(
-        `${ApiConfig.ApiPrefix}/register-user`,
-        { first_name, last_name, email, phoneno }
+        `${ApiConfig.ApiPrefix}/auth/register/user`,
+        { first_name, last_name, email, phone_no }
       );
       const { token } = response.data; 
       const decodedToken = jwtDecode(token);
@@ -41,7 +41,6 @@ export const AuthProvider = ({ children }) => {
       console.log(decodedToken);
       localStorage.setItem('userId', decodedToken.id);
       localStorage.setItem('firstName', decodedToken.first_name);
-      // localStorage.setItem('user', JSON.stringify(decodedToken));
 
       dispatch({ type: 'REGISTER_SUCCESS', payload: { user: decodedToken } });
       return { success: true, message: 'Registration successful!' };

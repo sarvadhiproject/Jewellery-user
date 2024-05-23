@@ -2,8 +2,6 @@ import React, { useState, useEffect, Suspense } from 'react';
 import axios from 'axios';
 import ApiConfig from '../../config/ApiConfig';
 import { Row, Col } from 'reactstrap';
-// import NavbarPage from '../../components/Navbar/Navbar_Page';
-// import Footer from '../../components/Footer/footer';
 import CheckoutSummary from './components/CheckoutSummary';
 import { Link } from 'react-router-dom';
 import CheckoutSteps from './components/checkoutSteps/CheckoutSteps';
@@ -43,7 +41,7 @@ const Checkout = () => {
         try {
             const userID = localStorage.getItem('userId');
             const response = await axios.get(`${ApiConfig.ApiPrefix}/cart/${userID}`);
-            setCartItems(response.data.cartItems);
+            setCartItems(response.data);
         } catch (error) {
             if (error.response && error.response.status === 404) {
                 setCartItems([]);
@@ -55,56 +53,59 @@ const Checkout = () => {
 
     return (
         <React.Fragment>
-            {/* <NavbarPage /> */}
-            <div className="container" style={{ padding: '50px 30px', marginTop: '30px' }}>
-                {orderSuccess ? (
-                    <>
-                        {console.log(orderId)}
-                        <OrderSuccess orderId={orderId} />
-                    </>
-                ) : (
-                    <Row>
-                        {isLoggedIn && cartItems.length > 0 ? (
-                            <React.Fragment>
-                                <Col md="7">
-                                    <Suspense fallback={<Loader />}>
-                                        <CheckoutSteps setOrderSuccess={setOrderSuccess} setOrderId={setOrderId} />
-                                    </Suspense>
+        <div className="container" style={{ padding: '50px 30px', marginTop: '30px' }}>
+            {orderSuccess ? (
+                <>
+                    {console.log(orderId)}
+                    <OrderSuccess orderId={orderId} />
+                </>
+            ) : (
+                <Row>
+                    {isLoggedIn ? (
+                        cartItems && cartItems.cartItems ? (
+                            cartItems.cartItems.length === 0 ? (
+                                <Col md="12" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '50px', marginTop: '30px', color: '#832729' }}>
+                                    <div style={{ textAlign: 'center' }}>
+                                        <img src={emptycart} alt='Empty Cart' style={{ width: '120px' }} />
+                                        <h3 style={{ fontFamily: 'Nunito Sans' }}>Your cart is empty </h3>
+                                        <Link to="/" ><label className='cart-product-name' style={{ color: '#832729', fontSize: '13px' }} > Continue Shopping </label></Link>
+                                    </div>
                                 </Col>
-                                <Col md="5">
-                                    <Suspense fallback={<Loader />}>
-                                        <CheckoutSummary cartItems={cartItems} />
-                                    </Suspense>
-                                </Col>
-                            </React.Fragment>
+                            ) : (
+                                <React.Fragment>
+                                    <Col md="7">
+                                        <Suspense fallback={<Loader />}>
+                                            <CheckoutSteps setOrderSuccess={setOrderSuccess} setOrderId={setOrderId} />
+                                        </Suspense>
+                                    </Col>
+                                    <Col md="5">
+                                        <Suspense fallback={<Loader />}>
+                                            <CheckoutSummary cartItems={cartItems} />
+                                        </Suspense>
+                                    </Col>
+                                </React.Fragment>
+                            )
                         ) : (
                             <Col md="12" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '50px', marginTop: '30px', color: '#832729' }}>
                                 <div style={{ textAlign: 'center' }}>
-                                    {isLoggedIn ? (
-                                        <>
-                                            <img src={emptycart} alt='Empty Cart' style={{ width: '120px' }} />
-                                            <h3 style={{ fontFamily: 'Nunito Sans' }}>Your cart is empty </h3>
-                                            <Link to="/" ><label className='cart-product-name' style={{ color: '#832729', fontSize: '13px' }} > Continue Shopping </label></Link>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <img src={loginfirst} alt='login first' />
-                                            <h3 style={{ fontFamily: 'Nunito Sans' }}>Please login to view cart items</h3>
-                                        </>
-                                    )}
+                                    <img src={loginfirst} alt='login first' />
+                                    <h3 style={{ fontFamily: 'Nunito Sans' }}>Please login to view cart items</h3>
                                 </div>
                             </Col>
-                        )}
-                    </Row>
-                )}
-            </div>
-            {/* <Footer /> */}
-        </React.Fragment>
+                        )
+                    ) : (
+                        <Col md="12" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '50px', marginTop: '30px', color: '#832729' }}>
+                            <div style={{ textAlign: 'center' }}>
+                                <img src={loginfirst} alt='login first' />
+                                <h3 style={{ fontFamily: 'Nunito Sans' }}>Please login to view cart items</h3>
+                            </div>
+                        </Col>
+                    )}
+                </Row>
+            )}
+        </div>
+    </React.Fragment>
     );
 };
 
 export default Checkout;
-
-
-
-

@@ -174,7 +174,8 @@ textarea.form-control {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* or adjust the height as per your layout */
+  height: 100vh;
+  /* or adjust the height as per your layout */
 }
 
 
@@ -378,7 +379,7 @@ textarea.form-control {
 }
 
 
-.logo-container{
+.logo-container {
   display: flex;
   align-items: center;
 }
@@ -444,12 +445,13 @@ textarea.form-control {
 }
 
 /* search bar and icon */
-.search-input{
+.search-input {
   min-width: 550px;
 }
 
 .search-container .input-group-text {
-  display: block; /* Show the search icon by default */
+  display: block;
+  /* Show the search icon by default */
 }
 
 .input-group {
@@ -466,7 +468,7 @@ textarea.form-control {
   background: none;
 }
 
-.nav-item-div{
+.nav-item-div {
   text-align: center;
   padding: 15px 8px 10px;
 }
@@ -517,7 +519,8 @@ textarea.form-control {
   overflow: hidden;
   text-overflow: ellipsis;
   border-bottom: 2px solid #832729;
-  padding-bottom: 5px;  /* Add padding-bottom to ensure space between text and border */
+  padding-bottom: 5px;
+  /* Add padding-bottom to ensure space between text and border */
 }
 
 /* ==== 8. login =====*/
@@ -642,9 +645,14 @@ textarea.form-control {
 
 /*===== 9. Register or signup ======*/
 
-.modal{
+.signcardbody {
+  height: fit-content !important;
+}
+
+.modal {
   --bs-modal-width: 800px;
 }
+
 .image-card {
   background-image: url('../images/sidelogin.jpg');
   background-size: cover;
@@ -686,18 +694,19 @@ textarea.form-control {
   margin-bottom: 0px;
 }
 
-.input-group {
+.signupdiv {
   left: 43px;
   display: grid;
   justify-content: center;
+  position: relative;
 }
 
-.input-group .form-group {
+/* .input-group .form-group {
   margin-right: 10px;
   margin-bottom: 10px;
-}
+} */
 
-.input-group .otp-button-container{
+.input-group .otp-button-container {
   margin-top: 10px;
 }
 
@@ -706,7 +715,7 @@ textarea.form-control {
   align-items: center;
 }
 
-.otp-verification-container{
+.otp-verification-container {
   display: flex;
   align-items: center;
   margin-bottom: 5px;
@@ -718,7 +727,7 @@ textarea.form-control {
   margin-left: 15px;
 }
 
-.otp-button{
+.otp-button {
   width: auto;
   background-color: #832729;
   border: none;
@@ -727,10 +736,11 @@ textarea.form-control {
   border-radius: 5px;
 }
 
-.otp-verify{
+.otp-verify {
   margin-bottom: 5px !important;
 }
-.otp-verify-button{
+
+.otp-verify-button {
   width: max-content;
   height: min-content;
   background-color: #832729;
@@ -769,18 +779,20 @@ textarea.form-control {
 .register-button:hover {
   background-color: #6a2021;
 }
+
 .error-message {
   color: red;
   font-size: 12px;
-  margin-top: 5px; 
+  margin-top: 5px;
 }
 
-.resend-otp-container{
+.resend-otp-container {
   margin: 5px 0px;
   align-items: center;
   text-align: center;
 }
-.resend-otp-btn{
+
+.resend-otp-btn {
   text-decoration: underline;
   font-size: 13px !important;
   padding-top: 8px !important;
@@ -792,7 +804,7 @@ textarea.form-control {
   text-transform: capitalize;
 }
 
-.resend-otp-btn:hover{
+.resend-otp-btn:hover {
   background-color: white !important;
   box-shadow: none;
 }
@@ -817,13 +829,15 @@ textarea.form-control {
 }
 
 .personal-info-wrapper {
-  flex: 1;  
+  flex: 1;
   padding: 10px 25px;
 }
 
 .sidebar-container {
-  width: 20%; /* Set a fixed width for the sidebar */
-  min-width: 210px; /* Set a minimum width for the sidebar */
+  width: 20%;
+  /* Set a fixed width for the sidebar */
+  min-width: 210px;
+  /* Set a minimum width for the sidebar */
   box-sizing: border-box;
 }
 
@@ -916,7 +930,8 @@ textarea.form-control {
   margin-bottom: 20px;
   padding-left: 5px;
   padding-right: 5px;
-  width: calc(5% - 20px); /* Set the desired width for the column */
+  width: calc(5% - 20px);
+  /* Set the desired width for the column */
   margin-right: 10px;
 }
 
@@ -930,7 +945,8 @@ textarea.form-control {
 }
 
 .view-category-card:hover {
-  box-shadow: 0 2px 4px rgb(181, 89, 91); /* Add a bottom shadow on hover */
+  box-shadow: 0 2px 4px rgb(181, 89, 91);
+  /* Add a bottom shadow on hover */
 }
 
 .view-category-img {
@@ -999,9 +1015,10 @@ textarea.form-control {
   position: absolute;
   top: 10px;
   right: 10px;
-  width: 30px; /* Adjust width and height as needed */
+  width: 30px;
+  /* Adjust width and height as needed */
   height: 30px;
-  border-radius: 50%; 
+  border-radius: 50%;
   border: none;
   background-color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
@@ -1054,6 +1071,7 @@ textarea.form-control {
 .mod-disable {
   color: #e0e0e0;
 }
+
 .right-modifier {
   color: red;
 }
@@ -1087,11 +1105,11 @@ textarea.form-control {
   color: #fff !important;
 }
 
-.product-details-cart-btn:focus{
-  border-color: #832729;
+.product-details-cart-btn:focus {
+  border-color: #832729 !important;
 }
 
-.size{
+.size {
   min-width: 160px !important;
 }
 
@@ -1102,7 +1120,8 @@ textarea.form-control {
 
 .large-image-container {
   position: absolute;
-  z-index: 990; /* Ensure it's above other elements */
+  z-index: 990;
+  /* Ensure it's above other elements */
   top: 0;
   left: 0;
   width: 100%;
@@ -1137,11 +1156,11 @@ textarea.form-control {
   background-color: #F7F7F7 !important;
 }
 
-.product-field{
+.product-field {
   font-weight: 600;
 }
 
-.product-value{
+.product-value {
   font-weight: 500;
   padding-left: 0px;
 }
@@ -1149,17 +1168,18 @@ textarea.form-control {
 
 /*==== cart ===== */
 
-.cart-product-name{
+.cart-product-name {
   font-size: 17px;
   font-weight: 700;
   margin-bottom: 2px;
 }
 
-.cart-product-name:hover{
+.cart-product-name:hover {
   text-decoration: underline #832729;
 }
-.cart-button{
-  border: none ;
+
+.cart-button {
+  border: none;
   background: none;
   color: #832729 !important;
   padding: 0;
@@ -1167,17 +1187,16 @@ textarea.form-control {
   font-weight: 700;
 }
 
-.cart-button:hover{
+.cart-button:hover {
   background: none !important;
   box-shadow: none;
 }
 
-.cart-qty{
+.cart-qty {
   margin-top: 6px;
   border: none;
   padding-left: 3px;
   font-size: 15px
-  
 }
 
 select.cart-qty:focus {
@@ -1187,7 +1206,8 @@ select.cart-qty:focus {
 .custom-steps .ant-steps-item-title {
   font-weight: 600;
   font-family: 'Nunito Sans';
-  font-size: 18px; /* Adjust the font size as needed */
+  font-size: 18px;
+  /* Adjust the font size as needed */
 }
 
 .save-address-btn {
@@ -1199,16 +1219,16 @@ select.cart-qty:focus {
   font-weight: 700;
 }
 
-.save-address-btn:hover{
+.save-address-btn:hover {
   background-color: #832729;
   color: #fff !important;
 }
 
-.save-address-btn:focus{
+.save-address-btn:focus {
   border-color: #832729 !important;
 }
 
-.edit-address-btn{
+.edit-address-btn {
   padding: 8px 20px;
   margin-bottom: 10px;
   border-radius: 5px;
@@ -1218,24 +1238,25 @@ select.cart-qty:focus {
   font-weight: 700;
 }
 
-.edit-address-btn:hover{
+.edit-address-btn:hover {
   background-color: #832729;
   color: #fff !important;
 }
 
-.edit-address-btn:focus{
+.edit-address-btn:focus {
   border-color: #832729 !important;
 }
-.selector{
+
+.selector {
   min-width: 210px;
   min-height: 38px;
 }
 
-.order-success{
+.order-success {
   padding: 8px 20px;
   margin-bottom: 10px;
   border-radius: 5px;
-  background-color: #832729 ;
+  background-color: #832729;
   color: #fff;
   font-weight: 700;
 }
@@ -1247,7 +1268,7 @@ select.cart-qty:focus {
 
 
 /*===== detail order =====*/
-.order-info{
+.order-info {
   display: flex;
   justify-content: space-between;
   background-color: #F2E9E9;
@@ -1258,7 +1279,7 @@ select.cart-qty:focus {
   color: #832729;
 }
 
-.order-item{
+.order-item {
   display: flex;
   justify-content: space-between;
   background-color: #F7F7F7;
@@ -1267,17 +1288,45 @@ select.cart-qty:focus {
 
 }
 
-.price-table-row{
+.price-table-row {
   width: 100px !important;
 }
 
-.price-table-col{
+.price-table-col {
   width: 50px !important;
 }
 
 
+/*=====Track order ====*/
 
+.product-order {
+  padding: 15px;
+  font-size: 21px;
+  font-family: 'Nunito Sans';
+  color: #832729;
+}
 
+.check-icon{
+  color: #832729;
+  font-size: 21px;
+  position: relative;
+  right: 6.5px;
+  top: -3.5px;
+}
+
+.ant-steps .ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-tail::after {
+  background-color: #832729;
+}
+
+.ant-steps.ant-steps-dot .ant-steps-item-process .ant-steps-item-icon {
+  display: flex;
+  justify-content: center;
+}
+
+.ant-steps .ant-steps-item-icon .ant-steps-icon{
+  top: -3px;
+  
+}
 /*===== 10.review ======*/
 /* Style for review cards */
 .review-card {
@@ -1380,7 +1429,7 @@ select.cart-qty:focus {
   font-family: 'Crete Round', serif;
 }
 
-.sign-button{
+.sign-button {
   text-align: center;
   background-color: #832729;
   color: #ffffff;
@@ -1453,22 +1502,22 @@ select.cart-qty:focus {
   }
 
   .logo-container {
-    margin-right: 10px; 
+    margin-right: 10px;
   }
 
   .search-container {
     max-width: 100%;
-     
+
   }
 
   .search-container .form-control {
-    width: 100%; 
-    max-width: none; 
+    width: 100%;
+    max-width: none;
   }
 
   .search-container .input-group-text {
     display: none;
-    }
+  }
 
 }
 
@@ -1488,7 +1537,7 @@ select.cart-qty:focus {
   }
 
   .navbar-custom .container {
-    flex-wrap: nowrap; 
+    flex-wrap: nowrap;
   }
 
   .navbar-toggler {
@@ -1504,4 +1553,3 @@ select.cart-qty:focus {
   }
 
 }
-

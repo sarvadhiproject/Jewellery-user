@@ -40,7 +40,7 @@ const Cart = () => {
             const userID = localStorage.getItem('userId');
             const response = await axios.get(`${ApiConfig.ApiPrefix}/cart/${userID}`);
             console.log(response.data);
-            setCartItems(response.data.cartItems);
+            setCartItems(response.data);
         } catch (error) {
             if (error.response && error.response.status === 404) {
                 setCartItems([]);
@@ -54,7 +54,7 @@ const Cart = () => {
         try {
             const userID = localStorage.getItem('userId');
             const response = await axios.get(`${ApiConfig.ApiPrefix}/cart/${userID}`);
-            setCartItems(response.data.cartItems);
+            setCartItems(response.data);
         } catch (error) {
             if (error.response && error.response.status === 404) {
                 setCartItems([]);
@@ -66,11 +66,10 @@ const Cart = () => {
 
     return (
         <React.Fragment>
-            {/* <NavbarPage /> */}
             <div className="container" style={{ padding: '50px', marginTop: '30px' }}>
                 <Row>
                     {isLoggedIn ? (
-                        cartItems.length === 0 ? (
+                      !cartItems || !cartItems.cartItems || cartItems.cartItems.length === 0 ? (
                             <Col md="12" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '50px', marginTop: '30px' }}>
                                 <div style={{ textAlign: 'center' }}>
                                     <img src={emptycart} alt='Empty Cart' style={{ width: '120px' }} />
@@ -104,7 +103,6 @@ const Cart = () => {
                     )}
                 </Row>
             </div>
-            {/* <Footer /> */}
         </React.Fragment>
     );
 };
