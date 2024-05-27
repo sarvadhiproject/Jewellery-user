@@ -14,6 +14,7 @@ const ProductInfo = ({ product_id }) => {
         const fetchProductDetails = async () => {
             try {
                 const response = await axios.get(`${ApiConfig.ApiPrefix}/products/details/${product_id}`);
+                console.log(response.data.data);
                 setProductDetails(response.data.data);
                 setLoading(false);
             } catch (error) {
@@ -112,7 +113,7 @@ const ProductInfo = ({ product_id }) => {
                                                     <label className='product-value'>{productDetails.no_of_gems}</label>
                                                 </Col>
                                             )}
-                                            {productDetails.category.category_name !== "Rings" && productDetails.category.category_name !== "Bangles" && productDetails.size && (
+                                            {productDetails.category.category_name !== "Ring" && productDetails.category.category_name !== "Bangles" && productDetails.size && (
                                                 <Col>
                                                     <label className='product-field'>Size</label><br />
                                                     <label className='product-value'>{productDetails.size}</label>
@@ -172,7 +173,7 @@ const ProductInfo = ({ product_id }) => {
                                         {productDetails.vendor ? (
                                             <>
                                                 <label className='product-value' style={{ marginBottom: '12px' }}>
-                                                    {productDetails.vendor.first_name}  {productDetails.vendor.last_name}
+                                                    {productDetails.vendor.vendor_name} 
                                                 </label><br></br>
                                                 <label className='product-field'>Origin</label><br></br>
                                                 <label className='product-value'>{productDetails.vendor.state_name}</label>

@@ -31,13 +31,30 @@ const OrderHistory = () => {
         }
     };
 
+    const getStatusText = (status) => {
+        switch (status) {
+            case 1:
+                return 'Order Placed';
+            case 2:
+                return 'Processing';
+            case 3:
+                return 'Shipped';
+            case 4:
+                return 'Out for Delivery';
+            case 5:
+                return 'Delivered';
+            default:
+                return 'Order Placed';
+        }
+    };
+
     return (
         <>
             {!accessToken ? (
                 <div>
                     <h3 style={{ fontFamily: 'Nunito Sans' }}>Login to view your order history</h3>
                 </div>
-            ) : !orders ? (
+            ) : orders.length === 0 ? (
                 <>
                     <div style={{ textAlign: 'center' }}>
                         <img src={emptyorder} alt='Empty order' style={{ width: '130px' }} />
@@ -63,8 +80,8 @@ const OrderHistory = () => {
                                 <tr key={index} style={{ borderBottom: '1px solid #832729' }}>
                                     <td>{order.order_id}</td>
                                     <td>{order.order_date}</td>
-                                    <td>{order.status}</td>
-                                    <td>{order.total_amount}</td>
+                                    <td>{getStatusText(order.status)}</td>
+                                    <td>{parseFloat(order.total_amount).toFixed(2)}</td>
                                     <td>
                                         <button
                                             style={{ border: 'none', backgroundColor: 'white', color: '#832729', borderBottom: '2px solid #832729', paddingBottom: '0px', fontWeight: '600' }}

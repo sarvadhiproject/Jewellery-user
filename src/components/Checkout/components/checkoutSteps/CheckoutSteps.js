@@ -15,8 +15,6 @@ const CheckoutSteps = (props) => {
     const handleStepCompletion = (stepIndex,addressId = null) => {
         setCurrentStep(stepIndex + 1);
         setAddressId(addressId);
-        console.log(currentStep);
-        console.log(addressId);
       };
 
     return (

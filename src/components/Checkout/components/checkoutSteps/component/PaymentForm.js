@@ -3,7 +3,7 @@ import { useSnackbar } from 'notistack';
 import { Button, Spinner } from 'reactstrap';
 import axios from 'axios';
 import { loadStripe } from '@stripe/stripe-js';
-import ApiConfig from '../../../../../config/ApiConfig';
+// import ApiConfig from '../../../../../config/ApiConfig';
 
 const stripePromise = loadStripe('pk_test_51PE3yrSDXuguFPe8N0EgCp0AXeCMeKQXoJ0aobLrY81r82k4MLeHPiKhIYxbFwJDHy0TjMfyJQk9QW1DDyYR5TWo00PmSy3QSZ');
 
@@ -19,7 +19,7 @@ const PaymentForm = (props) => {
         console.error("Customer ID not found in local storage.");
         return;
       }
-      const sessionResponse = await axios.post(`${ApiConfig.ApiPrefix}/payment/create-checkout-session`, {
+      const sessionResponse = await axios.post(`https://2770-122-179-159-67.ngrok-free.app/payment/create-checkout-session`, {
         user_id: userId,
       });
 

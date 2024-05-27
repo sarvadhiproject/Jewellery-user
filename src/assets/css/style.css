@@ -1299,6 +1299,16 @@ select.cart-qty:focus {
 
 /*=====Track order ====*/
 
+.track-btn{
+  background-color: #832729;
+  border-radius: 5px;
+}
+
+.track-btn:hover {
+  background-color: #832729;
+  color: #fff !important;
+}
+
 .product-order {
   padding: 15px;
   font-size: 21px;

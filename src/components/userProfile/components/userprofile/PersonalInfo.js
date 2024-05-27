@@ -9,27 +9,20 @@ const PersonalInfo = () => {
     const [userProfile, setUserProfile] = useState(null);
     const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
     const accessToken = localStorage.getItem('accessToken');
-    console.log(accessToken);
 
     useEffect(() => {
         if (accessToken) {
             const fetchUserProfile = async (e) => {
                 try {
-
-                    const headers = {
+                    const response = await axios.get(`${ApiConfig.ApiPrefix}/auth/profile`, {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
-                    };
-                    console.log('Headers:', headers);
-
-                    const response = await axios.get(`${ApiConfig.ApiPrefix}/auth/profile`, {}, headers)
-                    console.log(response.data);
+                    });
                     setUserProfile(response.data.user);
                 } catch (e) {
                 }
             };
-            console.log('fetching');
             fetchUserProfile();
         }
     }, [accessToken]);
@@ -55,7 +48,7 @@ const PersonalInfo = () => {
                                         <span>Name :</span> <strong>{userProfile.first_name} {userProfile.last_name}</strong>
                                     </li>
                                     <li>
-                                        <span>Phone number :</span> <strong>{userProfile.phoneno}</strong>
+                                        <span>Phone number :</span> <strong>{userProfile.phone_no}</strong>
                                     </li>
                                     <li>
                                         <span>Email address :</span> <strong>{userProfile.email}</strong>

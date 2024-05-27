@@ -18,6 +18,8 @@ const DetailOrder = ({ orderId }) => {
       const response = await axios.get(`${ApiConfig.ApiPrefix}/order/detailed/${userid}/${orderId}`);
       console.log(response.data);
       setOrder(response.data.order);
+      const Subtotal = order.orderItems.reduce((total, item) => total + parseFloat(item.sub_total))
+      console.log(Subtotal);
     } catch (error) {
       console.error('Error fetching order details:', error);
     }
@@ -26,6 +28,28 @@ const DetailOrder = ({ orderId }) => {
   if (!order) {
     return <div>Loading...</div>;
   }
+
+
+  const getStatusText = (status) => {
+    switch (status) {
+      case 1:
+        return 'Order Placed';
+      case 2:
+        return 'Processing';
+      case 3:
+        return 'Shipped';
+      case 4:
+        return 'Out for Delivery';
+      case 5:
+        return 'Delivered';
+      default:
+        return 'Unknown Status';
+    }
+  };
+
+  const subtotal = order.orderItems.reduce((total, item) => total + parseFloat(item.sub_total), 0);
+  const gstAmount = (subtotal * 0.03).toFixed(2);
+  const totalWithGST = (parseFloat(subtotal) + parseFloat(gstAmount)).toFixed(2);
 
   return (
     <div className="detail-order-container" style={{ marginTop: '20px' }}>
@@ -37,7 +61,7 @@ const DetailOrder = ({ orderId }) => {
           <strong>Date: {new Date(order.order_date).toLocaleDateString('en-GB')} </strong>
         </div>
         <div>
-          <strong>Total Amount: ₹{order.total_amount}</strong>
+          <strong>Total Amount: ₹{parseFloat(order.total_amount).toFixed(2)}</strong>
         </div>
       </div>
 
@@ -46,7 +70,7 @@ const DetailOrder = ({ orderId }) => {
           <strong>Ordered Items: </strong>
           <div style={{ marginRight: '15px' }}>
             <VscSync style={{ color: '#832729', fontWeight: 'bold' }} />
-            <strong style={{ color: 'green', fontSize: '15px', marginLeft: '4px' }}>{order.status}</strong>
+            <strong style={{ color: 'green', fontSize: '15px', marginLeft: '4px' }}>{getStatusText(order.status)}</strong>
           </div>
         </div>
         <div style={{ padding: '15px' }}>
@@ -64,7 +88,7 @@ const DetailOrder = ({ orderId }) => {
                 </Col>
                 <Col xs='6'>
                   <div style={{ position: 'relative', left: '260px', paddingRight: '5px' }}>
-                    <div>Item Price: <strong>₹{orderItem.sub_total}</strong></div>
+                    <div>Item Price: <strong>₹{parseFloat(orderItem.sub_total).toFixed(2)}</strong></div>
                   </div>
                 </Col>
               </Row>
@@ -87,7 +111,7 @@ const DetailOrder = ({ orderId }) => {
           <tbody>
             <tr>
               <td>Subtotal</td>
-              <td><strong>₹{order.orderItems.reduce((total, item) => total + parseFloat(item.sub_total), 0)}</strong></td>
+              <td><strong>₹{subtotal}</strong></td>
             </tr>
             <tr>
               <td>Discount</td>
@@ -95,11 +119,11 @@ const DetailOrder = ({ orderId }) => {
             </tr>
             <tr>
               <td>GST</td>
-              <td><strong>{parseFloat(order.orderItems[0].cgst) + parseFloat(order.orderItems[0].sgst) + parseFloat(order.orderItems[0].igst)} %</strong></td>
+              <td><strong>₹{gstAmount}</strong></td>
             </tr>
             <tr>
               <td>Total</td>
-              <td><strong>₹{order.total_amount}</strong></td>
+              <td><strong>₹{totalWithGST}</strong></td>
             </tr>
           </tbody>
         </Table>

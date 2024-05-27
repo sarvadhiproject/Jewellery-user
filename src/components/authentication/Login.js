@@ -177,7 +177,7 @@ const Login = ({ isOpen, toggle }) => {
     setPhoneNo(phoneNumber);
     setCountryCode(countryData.dialCode);
 
-    const phoneNumberRegex = /^[0-9]{10}$/; // Matches exactly 10 digits
+    const phoneNumberRegex = /^[0-9]{10}$/;
     const isValidNumber = phoneNumberRegex.test(phoneNumber);
 
     if (!phoneNumber) {

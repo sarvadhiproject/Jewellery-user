@@ -4,7 +4,9 @@ import { Card, CardImg, CardBody, Row, Col, Container } from 'reactstrap';
 
 
 const CheckoutSummary = ({ cartItems }) => {
-    const firstCartItem = cartItems.cartItems.length > 0 ? cartItems.cartItems[0] : {};
+    const subTotal = cartItems.total
+    const gstAmount = (subTotal * 0.03).toFixed(2);
+    const total = (parseFloat(subTotal) + parseFloat(gstAmount)).toFixed(2);
     return (
         <Container>
             <Row>
@@ -15,7 +17,7 @@ const CheckoutSummary = ({ cartItems }) => {
                             <div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px' }}>
                                     <label>Sub Total  </label>
-                                    <label>₹{firstCartItem.total}</label>
+                                    <label>₹{subTotal}</label>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px' }}>
                                     <label>Discount  </label>
@@ -23,7 +25,7 @@ const CheckoutSummary = ({ cartItems }) => {
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px' }}>
                                     <label>GST  </label>
-                                    <label>₹ {cartItems.totalGST}</label>
+                                    <label>₹ {gstAmount}</label>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px' }}>
                                     <label>Delivery Charge</label>
@@ -32,7 +34,7 @@ const CheckoutSummary = ({ cartItems }) => {
                                 <hr />
                                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '2px 5px', fontFamily: 'Nunito Sans', fontSize: '16px', fontWeight: '600' }}>
                                     <label>Total </label>
-                                    <label>₹ {cartItems.grandTotal}</label>
+                                    <label>₹ {total}</label>
                                 </div>
                             </div>
                         </CardBody>

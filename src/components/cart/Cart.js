@@ -1,7 +1,5 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { Row, Col } from 'reactstrap';
-// import NavbarPage from '../../components/Navbar/Navbar_Page';
-// import Footer from '../../components/Footer/footer';
 import CartProduct from './component/CartProduct';
 import OrderSummary from './component/OrderSummary';
 import { CartProvider } from './Context/CartContext';
@@ -39,7 +37,6 @@ const Cart = () => {
         try {
             const userID = localStorage.getItem('userId');
             const response = await axios.get(`${ApiConfig.ApiPrefix}/cart/${userID}`);
-            console.log(response.data);
             setCartItems(response.data);
         } catch (error) {
             if (error.response && error.response.status === 404) {

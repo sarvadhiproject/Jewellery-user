@@ -31,7 +31,6 @@ const AddressForm = ({ onStepCompleted }) => {
             }
             const response = await axios.get(`${ApiConfig.ApiPrefix}/address/users/${userId}`);
             if (response.status === 200) {
-                console.log(response.data);
                 const { shippingAddresses } = response.data;
                 
                 if (shippingAddresses && shippingAddresses.length > 0) {
