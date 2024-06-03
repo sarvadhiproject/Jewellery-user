@@ -96,7 +96,7 @@ const CategoryProduct = ({ product_id }) => {
                 <h2 style={{ textAlign: 'left', marginTop: '50px', marginBottom: '30px', color: "#832729", fontWeight: "bold", marginRight: '20px', marginLeft: '35px', fontFamily: 'Gill Sans', fontSize: '25px', textTransform: 'capitalize' }}>More From this Category</h2>
                 {/* <a href="/view-more" style={{ color: '#832729', fontWeight: 'bold', textAlign: 'center', paddingTop: '25px', fontFamily: 'Gill Sans', fontSize: '18px', marginRight: '50px', borderBottom: '1px solid #832729' }}>View More</a> */}
             </div>
-            <div style={{ marginLeft: '60px', marginBottom: '20px' }}>
+            <div style={{ marginLeft: '60px', marginBottom: '50px' }}>
                 <Slider {...settings} ref={sliderRef}>
                     {products.map((product, index) => (
                         <div key={index}>

@@ -531,6 +531,7 @@ textarea.form-control {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100%;
 }
 
 .login-card {
@@ -1299,7 +1300,7 @@ select.cart-qty:focus {
 
 /*=====Track order ====*/
 
-.track-btn{
+.track-btn {
   background-color: #832729;
   border-radius: 5px;
 }
@@ -1316,7 +1317,7 @@ select.cart-qty:focus {
   color: #832729;
 }
 
-.check-icon{
+.check-icon {
   color: #832729;
   font-size: 21px;
   position: relative;
@@ -1333,10 +1334,11 @@ select.cart-qty:focus {
   justify-content: center;
 }
 
-.ant-steps .ant-steps-item-icon .ant-steps-icon{
+.ant-steps .ant-steps-item-icon .ant-steps-icon {
   top: -3px;
-  
+
 }
+
 /*===== 10.review ======*/
 /* Style for review cards */
 .review-card {
@@ -1364,6 +1366,28 @@ select.cart-qty:focus {
   border: 4px solid #fff;
   width: 100px;
   height: 100px;
+}
+
+.review-btn {
+  background-color: #ffffff !important;
+  color: black !important;
+  font-family: 'Nunito Sans';
+  border-radius: 5px;
+  padding: 8px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #7171716c;
+}
+
+.review-btn:hover {
+  box-shadow: none;
+  border-color: #7171716c !important;
+}
+
+.review-btn:focus{
+  border-color: #7171716c !important;
 }
 
 /* Style for product information */

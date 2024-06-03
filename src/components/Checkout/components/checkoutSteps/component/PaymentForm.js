@@ -19,7 +19,7 @@ const PaymentForm = (props) => {
         console.error("Customer ID not found in local storage.");
         return;
       }
-      const sessionResponse = await axios.post(`https://2770-122-179-159-67.ngrok-free.app/payment/create-checkout-session`, {
+      const sessionResponse = await axios.post(`https://da3f-2405-201-200b-f018-ad14-303-7b73-d6c.ngrok-free.app/payment/create-checkout-session`, {
         user_id: userId,
       });
 

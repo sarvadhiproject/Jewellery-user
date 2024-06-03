@@ -31,6 +31,7 @@ const ProductDetail = ({ product_id }) => {
     const [selectedSize, setSelectedSize] = useState(null);
     const [pincode, setPincode] = useState('');
     const [deliveryAvailability, setDeliveryAvailability] = useState('');
+    const [averageRating, setAverageRating] = useState(0);
     const { enqueueSnackbar } = useSnackbar();
 
     const { addToCart } = useCart();
@@ -60,7 +61,26 @@ const ProductDetail = ({ product_id }) => {
             }
         };
 
+        async function fetchProductReviews() {
+            try {
+                const response = await axios.get(`${ApiConfig.ApiPrefix}/reviews/product/${product_id}`);
+                if (response && response.data) {
+                    const reviews = response.data.reviews;
+                    if (reviews.length > 0) {
+                        const totalRating = reviews.reduce((acc, review) => acc + review.ratings, 0);
+                        const avgRating = totalRating / reviews.length;
+                        setAverageRating(avgRating);
+                    }
+                } else {
+                    console.error('Failed to fetch product reviews:', response.data.message);
+                }
+            } catch (error) {
+                console.error('An error occurred while fetching product reviews:', error.message);
+            }
+        }
+
         fetchProductDetails();
+        fetchProductReviews();
     }, [product_id]);
 
     if (loading) {
@@ -210,7 +230,7 @@ const ProductDetail = ({ product_id }) => {
                             <CardBody style={{ paddingLeft: '0px', paddingBottom: '0px' }}>
                                 <CardTitle style={{ borderBottom: '1px solid #832729' }}>
                                     <h3 style={{ marginBottom: '0px' }}>{product.product_name}</h3>
-                                    <StarRating ratings={product.ratings} />
+                                    <StarRating ratings={averageRating} />
                                 </CardTitle>
                                 <CardText style={{ fontSize: '13px', paddingLeft: '5px' }}>{product.basic_description}</CardText>
                                 <span style={{ paddingLeft: '5px' }}>

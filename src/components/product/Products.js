@@ -30,7 +30,6 @@ const Products = () => {
     return (
         <React.Fragment>
             <Suspense fallback={<Loader />}>
-                {/* <NavbarPage /> */}
                 <div style={{ padding: '90px 0px 0px' }}>
                     <BreadcrumbNavigation />
                 </div>
@@ -53,7 +52,6 @@ const Products = () => {
                     <VendorProduct product_id={product_id} />
                     <CategoryProduct product_id={product_id} />
                 </div>
-                {/* <Footer /> */}
             </Suspense>
         </React.Fragment>
     );
