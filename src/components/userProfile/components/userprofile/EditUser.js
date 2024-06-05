@@ -52,7 +52,7 @@ const EditUser = ({ isOpen, toggle, userProfile }) => {
     };
 
     return (
-        <Modal isOpen={isOpen} toggle={toggle} centered>
+        <Modal isOpen={isOpen} toggle={toggle} style={{left:'250px'}}>
             <ModalHeader style={{ marginTop: '8px', paddingTop: '8px', border: 'none', paddingBottom: '2px', marginBottom: '0px' }}>
                 <span style={{ fontSize: 18, color: '#832729' }}>Edit User Details</span>
             </ModalHeader>
@@ -81,7 +81,7 @@ const EditUser = ({ isOpen, toggle, userProfile }) => {
                             </FormGroup>
                             <FormGroup>
                                 <Label for="phone">Phone Number</Label>
-                                <Input type="text" name="phoneno" id="phone" value={userProfile.phoneno} className="form-control" readOnly style={{ backgroundColor: '#f0f0f0' }} />
+                                <Input type="text" name="phoneno" id="phone" value={userProfile.phone_no} className="form-control" readOnly style={{ backgroundColor: '#f0f0f0' }} />
                             </FormGroup>
                             {error && <div className="text-danger">{error}</div>}
                             <ModalFooter>
