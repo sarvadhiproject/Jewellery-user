@@ -43,7 +43,7 @@ const OrderSummary = ({ cartItems }) => {
     const [discountAmount, setDiscountAmount] = useState(0);
 
     const handleApplyCoupon = (coupon) => {
-        setSelectedCoupon({ ...coupon, coupon_id: coupon.id });
+        setSelectedCoupon(coupon);
         if (coupon.discount_type === 'Fixed Value') {
             setDiscountAmount(coupon.discount_value);
         } else {
