@@ -8,14 +8,14 @@ import PaymentForm from './component/PaymentForm';
 
 const { Step } = Steps;
 
-const CheckoutSteps = (props) => {
+const CheckoutSteps = ({ couponCode, setOrderSuccess, setOrderId }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [addressId, setAddressId] = useState(null);
 
-    const handleStepCompletion = (stepIndex,addressId = null) => {
+    const handleStepCompletion = (stepIndex, addressId = null) => {
         setCurrentStep(stepIndex + 1);
         setAddressId(addressId);
-      };
+    };
 
     return (
         <div>
@@ -34,7 +34,13 @@ const CheckoutSteps = (props) => {
                     title="Payment"
                     status={currentStep >= 2 ? "process" : "wait"}
                     icon={<TbCoinRupeeFilled style={{ color: '#832729', fontSize: '30px' }} />}
-                    description={["process", "finish"].includes(currentStep >= 2 ? "process" : "wait") && <PaymentForm onStepCompleted={() => handleStepCompletion(2)}   setOrderSuccess={props.setOrderSuccess} setOrderId={props.setOrderId}/>} />
+                    description={["process", "finish"].includes(currentStep >= 2 ? "process" : "wait") &&
+                        <PaymentForm
+                            onStepCompleted={() => handleStepCompletion(2)}
+                            setOrderSuccess={setOrderSuccess}
+                            setOrderId={setOrderId}
+                            couponCode={couponCode}
+                        />} />
             </Steps>
         </div>
     );

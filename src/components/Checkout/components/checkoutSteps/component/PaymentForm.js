@@ -19,9 +19,19 @@ const PaymentForm = (props) => {
         console.error("Customer ID not found in local storage.");
         return;
       }
-      const sessionResponse = await axios.post(`https://87d0-117-236-78-84.ngrok-free.app/payment/create-checkout-session`, {
+
+      const payload = {
         user_id: userId,
-      });
+      };
+  
+      // If couponCode is available, add it to the payload
+      if (props.couponCode) {
+        payload.coupon_code = props.couponCode;
+      }
+
+      console.log(payload);
+
+      const sessionResponse = await axios.post(`https://87d0-117-236-78-84.ngrok-free.app/payment/create-checkout-session`, payload);
 
       const { sessionId } = sessionResponse.data;
 

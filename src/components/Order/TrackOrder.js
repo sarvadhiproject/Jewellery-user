@@ -12,6 +12,17 @@ const TrackOrder = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [orderId, setOrderId] = useState('');
   const [Order, setOrder] = useState(null);
+  const [orderIdError, setOrderIdError] = useState('');
+
+  const validateOrderId = () => {
+    if (orderId.trim() === '') {
+      setOrderIdError('Please enter an order ID');
+      return false;
+    } else {
+      setOrderIdError('');
+      return true;
+    }
+  };
 
   const formatDate = (dateString) => {
     if (!dateString) return '';
@@ -38,13 +49,15 @@ const TrackOrder = () => {
   };
 
   const fetchOrderDetails = async () => {
-    try {
-      const userId = localStorage.getItem('userId');
-      const response = await axios.get(`${ApiConfig.ApiPrefix}/order/detailed/${userId}/${orderId}`);
-      console.log(response.data);
-      setOrder(response.data);
-    } catch (error) {
-      console.error('Error fetching order details:', error);
+    if (validateOrderId()) {
+      try {
+        const userId = localStorage.getItem('userId');
+        const response = await axios.get(`${ApiConfig.ApiPrefix}/order/detailed/${userId}/${orderId}`);
+        console.log(response.data);
+        setOrder(response.data);
+      } catch (error) {
+        console.error('Error fetching order details:', error);
+      }
     }
   };
 
@@ -59,14 +72,16 @@ const TrackOrder = () => {
 
 
   const customDot = (dot, { status, index }) => {
-    if (status === 'finish') {
+    if (status === 'finish'){
       return <FaCheckCircle className='check-icon' />;
     }
-    else if (status === 'process' && (Order.order.status === 'Order Placed' || Order.order.status === 'Delivered')) {
-      return <FaCheckCircle className='check-icon' />;
-    }
-    if (status === 'process') {
-      return <div style={{ backgroundColor: '#832729', borderRadius: '50%', width: '15px', height: '15px' }} />;
+    else if (status === 'process') {
+      if (Order.order.status === 1 || Order.order.status === 5) {
+        return <FaCheckCircle className='check-icon' />;
+      }
+      else {
+        return <div style={{ backgroundColor: '#832729', borderRadius: '50%', width: '15px', height: '15px' }} />;
+      }
     }
     return dot;
   };
@@ -88,11 +103,13 @@ const TrackOrder = () => {
               value={orderId}
               style={{ width: '60%' }}
               onChange={(e) => setOrderId(e.target.value)}
+              invalid={!!orderIdError}
             />
             <Button onClick={fetchOrderDetails} className='track-btn'>
               Track Order
             </Button>
           </div>
+            {orderIdError && <div style={{ color: 'red' , paddingLeft:'70px'}}>{orderIdError}</div>}
         </div>
       ) : (
         <>

@@ -36,19 +36,25 @@ const CouponCard = ({ coupon, onApply }) => {
 
 const OrderSummary = ({ cartItems }) => {
     const navigate = useNavigate();
-    const handleCheckout = () => {
-        navigate('/checkout');
-    };
-    const subTotal = cartItems.total;
-    const gstAmount = (subTotal * 0.03).toFixed(2);
-    const total = (parseFloat(subTotal) + parseFloat(gstAmount)).toFixed(2);
-
     const [applicableCoupons, setApplicableCoupons] = useState([]);
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
+    const [selectedCoupon, setSelectedCoupon] = useState(null);
+    const [discountAmount, setDiscountAmount] = useState(0);
+
     const handleApplyCoupon = (coupon) => {
-        console.log('Applying coupon:', coupon);
+        setSelectedCoupon({ ...coupon, coupon_id: coupon.id });
+        if (coupon.discount_type === 'Fixed Value') {
+            setDiscountAmount(coupon.discount_value);
+        } else {
+            setDiscountAmount(0);
+        }
     };
+
+    const subTotal = cartItems.total;
+    const discountedSubTotal = (parseFloat(subTotal) - parseFloat(discountAmount)).toFixed(2);
+    const gstAmount = (discountedSubTotal * 0.03).toFixed(2);
+    const total = (parseFloat(discountedSubTotal) + parseFloat(gstAmount)).toFixed(2);
 
     const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
 
@@ -71,6 +77,14 @@ const OrderSummary = ({ cartItems }) => {
         fetchApplicableCoupons();
     }, [cartItems]);
 
+    const handleCheckout = () => {
+        if (selectedCoupon && selectedCoupon.coupon_id) {
+            navigate(`/checkout?coupon=${selectedCoupon.coupon_id}&discount=${discountAmount}`);
+        } else {
+            navigate('/checkout');
+        }
+    };
+
     return (
         <Card style={{ border: 'none', padding: '10px', width: '400px' }}>
             <CardBody style={{ padding: '0px 15px' }}>
@@ -82,7 +96,7 @@ const OrderSummary = ({ cartItems }) => {
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px' }}>
                         <label>Discount  </label>
-                        <label>₹ 0</label>
+                        <label>₹ {discountAmount}</label>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px' }}>
                         <label>GST  </label>
@@ -100,21 +114,34 @@ const OrderSummary = ({ cartItems }) => {
                 </div>
 
                 <div style={{ marginTop: '60px', marginBottom: '20px' }}>
-                    <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown} >
-                        <DropdownToggle caret className='coupon-input'>Enter Coupon Code</DropdownToggle>
-                        <DropdownMenu style={{ width: '100%', borderRadius: '0px', paddingBottom: '0%', maxHeight: '160px', overflowY: 'auto' }}>
-                            {applicableCoupons.length > 0 ? (
-                                applicableCoupons.map((coupon) => (
-                                    <CouponCard key={coupon.id} coupon={coupon} onApply={handleApplyCoupon} />
-                                ))
-                            ) : (
-                                <div style={{textAlign:'center', padding:'10px', color:'#832729'}}>
-                                    <BiSolidCoupon style={{fontSize:'35px'}} /><br></br>
-                                    <strong style={{fontFamily:'Nunito Sans'}}>No coupon available</strong>
-                                </div>
-                            )}
-                        </DropdownMenu>
-                    </Dropdown>
+                    {selectedCoupon ? (
+                        <div>
+                            <input
+                                type="text"
+                                value={selectedCoupon.code}
+                                readOnly
+                                className="form-control"
+                                style={{ fontWeight: 'bold', textAlign: 'center', fontSize: '20px' }}
+                            />
+                        </div>
+                    ) : (
+
+                        <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown} >
+                            <DropdownToggle caret className='coupon-input'>Enter Coupon Code</DropdownToggle>
+                            <DropdownMenu style={{ width: '100%', borderRadius: '0px', paddingBottom: '0%', maxHeight: '160px', overflowY: 'auto' }}>
+                                {applicableCoupons.length > 0 ? (
+                                    applicableCoupons.map((coupon) => (
+                                        <CouponCard key={coupon.id} coupon={coupon} onApply={handleApplyCoupon} />
+                                    ))
+                                ) : (
+                                    <div style={{ textAlign: 'center', padding: '10px', color: '#832729' }}>
+                                        <BiSolidCoupon style={{ fontSize: '35px' }} /><br></br>
+                                        <strong style={{ fontFamily: 'Nunito Sans' }}>No coupon available</strong>
+                                    </div>
+                                )}
+                            </DropdownMenu>
+                        </Dropdown>
+                    )}
                 </div>
                 <div style={{ padding: '2px 5px' }}>
                     <Button style={{ borderRadius: '5px', backgroundColor: '#832729', width: '100%' }} onClick={handleCheckout}>

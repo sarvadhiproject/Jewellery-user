@@ -3,10 +3,11 @@ import ApiConfig from '../../../config/ApiConfig';
 import { Card, CardImg, CardBody, Row, Col, Container } from 'reactstrap';
 
 
-const CheckoutSummary = ({ cartItems }) => {
-    const subTotal = cartItems.total
-    const gstAmount = (subTotal * 0.03).toFixed(2);
-    const total = (parseFloat(subTotal) + parseFloat(gstAmount)).toFixed(2);
+const CheckoutSummary = ({ cartItems, discount }) => {
+    const subTotal = cartItems.total;
+    const discountedSubTotal = (parseFloat(subTotal) - parseFloat(discount)).toFixed(2);
+    const gstAmount = (discountedSubTotal * 0.03).toFixed(2);
+    const total = (parseFloat(discountedSubTotal) + parseFloat(gstAmount)).toFixed(2);
     return (
         <Container>
             <Row>
@@ -21,7 +22,7 @@ const CheckoutSummary = ({ cartItems }) => {
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px' }}>
                                     <label>Discount  </label>
-                                    <label>₹ 0</label>
+                                    <label>₹ {discount}</label>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px' }}>
                                     <label>GST  </label>
