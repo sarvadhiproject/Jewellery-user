@@ -81,7 +81,7 @@ const OrderSummary = ({ cartItems }) => {
         if (selectedCoupon && selectedCoupon.coupon_id) {
             navigate(`/checkout?coupon=${selectedCoupon.coupon_id}&discount=${discountAmount}`);
         } else {
-            navigate('/checkout');
+            navigate(`/checkout?discount=${discountAmount}`);
         }
     };
 

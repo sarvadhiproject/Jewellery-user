@@ -49,6 +49,7 @@ const Checkout = () => {
             const response = await axios.get(`${ApiConfig.ApiPrefix}/cart/${userID}`);
             setCartItems(response.data);
             console.log(couponCode);
+            console.log(discount);
         } catch (error) {
             if (error.response && error.response.status === 404) {
                 setCartItems([]);
