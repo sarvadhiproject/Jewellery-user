@@ -49,7 +49,9 @@ const NavbarPage = () => {
   }, [isLoggedIn, navigate]);
 
   const handleSearch = () => {
-    console.log("Searching for: ", searchTerm);
+    if (searchTerm.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+    }
   };
 
   const handleChange = (e) => {

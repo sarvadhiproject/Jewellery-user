@@ -108,7 +108,7 @@ const OrderSummary = ({ cartItems }) => {
                                     <CouponCard key={coupon.id} coupon={coupon} onApply={handleApplyCoupon} />
                                 ))
                             ) : (
-                                <div style={{textAlign:'center', padding:'10px'}}>
+                                <div style={{textAlign:'center', padding:'10px', color:'#832729'}}>
                                     <BiSolidCoupon style={{fontSize:'35px'}} /><br></br>
                                     <strong style={{fontFamily:'Nunito Sans'}}>No coupon available</strong>
                                 </div>

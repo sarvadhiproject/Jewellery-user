@@ -9,10 +9,11 @@ import HomePage from './pages/Indexmain/HomePage';
 import IndexMain from './pages/Indexmain/IndexMain';
 import Layout from './pages/Indexmain/Layout';
 import OrderSuccess from './components/Checkout/components/checkoutSteps/OrderSuccess';
+import SearchResults from './components/search/SearchProduct';
 
 const RoutesConfig = () => (
   <Routes>
-    <Route path="/" element={<Layout />}> {/* Wrap routes with Layout */}
+    <Route path="/" element={<Layout />}> 
       <Route index element={<IndexMain />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/account" element={<UserAccount />} />
@@ -21,6 +22,7 @@ const RoutesConfig = () => (
       <Route path="/cart" element={<Cart />} />
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/success" element={<OrderSuccess/>} />
+      <Route path="/search" element={<SearchResults />} />
     </Route>
   </Routes>
 );
