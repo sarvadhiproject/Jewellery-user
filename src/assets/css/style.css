@@ -1204,11 +1204,49 @@ select.cart-qty:focus {
   outline: none;
 }
 
+
+.coupon-input{
+  border-radius: 0px;
+  width: 100%;
+  background-color: white !important;
+  color: black !important;
+  border-color: #585858 !important;
+}
+
+.coupon-input:hover{
+  box-shadow: none;
+  border-color: #585858 !important;
+}
+
+.coupon-input:focus{
+  border-color: #585858 !important;
+}
+
+.coupon-card{
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  font-family: 'Nunito Sans';
+}
+
+.coupon-card:hover{
+  background-color: #ffffff;
+}
+
+.apply-btn{
+  width: 30%;
+  height: min-content;
+  background-color: #832729;
+  border: none;
+  padding: 8px 10px;
+  font-size: 13px;
+  border-radius: 5px;  
+}
+
 .custom-steps .ant-steps-item-title {
   font-weight: 600;
   font-family: 'Nunito Sans';
   font-size: 18px;
-  /* Adjust the font size as needed */
 }
 
 .save-address-btn {

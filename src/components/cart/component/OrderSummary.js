@@ -1,86 +1,64 @@
-// import React from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import { Card, CardBody, Form, FormGroup, Input, Button } from 'reactstrap';
-
-
-// const OrderSummary = ({ cartItems }) => {
-//     const navigate = useNavigate();
-//     const handleCheckout = () => {
-//         navigate('/checkout');
-//     };
-
-//     const subTotal = cartItems.total
-//     const gstAmount = (subTotal * 0.03).toFixed(2);
-//     const total = (parseFloat(subTotal) + parseFloat(gstAmount)).toFixed(2);
-//     return (
-//         <Card style={{ border: 'none', padding: '10px', width: '400px' }}>
-//             <CardBody style={{ padding: '0px 15px' }}>
-//                 <h4 style={{ fontFamily: 'Nunito Sans', color: '#832729', marginBottom: '15px' }}>ORDER SUMMARY</h4>
-//                 <div>
-//                     <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px' }}>
-//                         <label>Sub Total  </label>
-//                         <label>₹{subTotal}</label>
-//                     </div>
-//                     <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px' }}>
-//                         <label>Discount  </label>
-//                         <label>₹ 0</label>
-//                     </div>
-//                     <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px' }}>
-//                         <label>GST  </label>
-//                         <label>₹ {gstAmount}</label>
-//                     </div>
-//                     <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px' }}>
-//                         <label>Delivery Charge</label>
-//                         <label>Free</label>
-//                     </div>
-//                     <hr />
-//                     <div style={{ display: 'flex', justifyContent: 'space-between', padding: '2px 5px', fontFamily: 'Nunito Sans', fontSize: '16px', fontWeight: '600' }}>
-//                         <label>Total </label>
-//                         <label>₹ {total}</label>
-//                     </div>
-//                 </div>
-
-//                 <Form style={{ marginTop: '70px', display: 'flex', justifyContent: 'space-evenly' }}>
-//                     <FormGroup>
-//                         <Input type="text" id="couponCode" placeholder="Enter Coupon Code" />
-//                     </FormGroup>
-//                     <Button style={{ borderRadius: '5px', backgroundColor: '#832729', marginLeft: '10px', height: '43px', width: '90px', padding: '10px 15px', fontSize: '15px' }}>Apply</Button>
-//                 </Form>
-//                 <div style={{ padding: '2px 5px' }}>
-//                     <Button style={{ borderRadius: '5px', backgroundColor: '#832729', width: '100%' }} onClick={handleCheckout}> Checkout </Button>
-//                 </div>
-//             </CardBody>
-//         </Card>
-//     );
-// };
-
-// export default OrderSummary;
-
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardBody, Form, FormGroup, Input, Button } from 'reactstrap';
+import { BiSolidCoupon } from "react-icons/bi";
+import { Card, CardBody, Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import ApiConfig from '../../../config/ApiConfig';
 
+const CouponCard = ({ coupon, onApply }) => {
+    const handleApply = () => {
+        onApply(coupon);
+    };
+
+    const discountMessage = () => {
+        if (coupon.discount_type === 'Percentage') {
+            return `Extra ${coupon.discount_value}% Off`;
+        } else if (coupon.discount_type === 'Fixed Value') {
+            return `Extra ₹${coupon.discount_value} Off`;
+        }
+    };
+
+    return (
+        <>
+            <DropdownItem className='coupon-card'>
+                <div style={{ flex: 1 }}>
+                    <strong>{coupon.code}</strong>
+                    <div style={{ fontSize: '13px' }}>{discountMessage()}</div>
+                </div>
+                <Button className='apply-btn' onClick={handleApply}>
+                    Apply
+                </Button>
+            </DropdownItem>
+            <hr style={{ margin: '0.5rem 0' }}></hr>
+        </>
+    );
+};
 
 const OrderSummary = ({ cartItems }) => {
     const navigate = useNavigate();
     const handleCheckout = () => {
         navigate('/checkout');
     };
-    const subTotal = cartItems.total
+    const subTotal = cartItems.total;
     const gstAmount = (subTotal * 0.03).toFixed(2);
     const total = (parseFloat(subTotal) + parseFloat(gstAmount)).toFixed(2);
 
     const [applicableCoupons, setApplicableCoupons] = useState([]);
-    console.log(cartItems);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+
+    const handleApplyCoupon = (coupon) => {
+        console.log('Applying coupon:', coupon);
+    };
+
+    const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
+
     useEffect(() => {
         const fetchApplicableCoupons = async () => {
             try {
-                const cartId = cartItems.cartItems[0]?.cart_id; // Extract the cart_id from the first cartItem
+                const cartId = cartItems.cartItems[0]?.cart_id;
                 if (cartId) {
                     const response = await axios.get(`${ApiConfig.ApiPrefix}/coupon/carts/${cartId}/applicable-coupons`);
-                    console.log(response.data);
+                    console.log('coupon data', response.data);
                     setApplicableCoupons(response.data);
                 } else {
                     console.error('Cart ID not found');
@@ -121,21 +99,27 @@ const OrderSummary = ({ cartItems }) => {
                     </div>
                 </div>
 
-                <Form style={{ marginTop: '70px', display: 'flex', justifyContent: 'space-evenly' }}>
-                    <FormGroup>
-                        <Input type="text" id="couponCode" placeholder="Enter Coupon Code" list="couponList" />
-                        <datalist id="couponList">
-                            {applicableCoupons.map((coupon) => (
-                                <option key={coupon.id} value={coupon.code}>
-                                    {coupon.code} ({coupon.vendor.first_name} {coupon.vendor.last_name})
-                                </option>
-                            ))}
-                        </datalist>
-                    </FormGroup>
-                    <Button style={{ borderRadius: '5px', backgroundColor: '#832729', marginLeft: '10px', height: '43px', width: '90px', padding: '10px 15px', fontSize: '15px' }}>Apply</Button>
-                </Form>
+                <div style={{ marginTop: '60px', marginBottom: '20px' }}>
+                    <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown} >
+                        <DropdownToggle caret className='coupon-input'>Enter Coupon Code</DropdownToggle>
+                        <DropdownMenu style={{ width: '100%', borderRadius: '0px', paddingBottom: '0%', maxHeight: '160px', overflowY: 'auto' }}>
+                            {applicableCoupons.length > 0 ? (
+                                applicableCoupons.map((coupon) => (
+                                    <CouponCard key={coupon.id} coupon={coupon} onApply={handleApplyCoupon} />
+                                ))
+                            ) : (
+                                <div style={{textAlign:'center', padding:'10px'}}>
+                                    <BiSolidCoupon style={{fontSize:'35px'}} /><br></br>
+                                    <strong style={{fontFamily:'Nunito Sans'}}>No coupon available</strong>
+                                </div>
+                            )}
+                        </DropdownMenu>
+                    </Dropdown>
+                </div>
                 <div style={{ padding: '2px 5px' }}>
-                    <Button style={{ borderRadius: '5px', backgroundColor: '#832729', width: '100%' }} onClick={handleCheckout}> Checkout </Button>
+                    <Button style={{ borderRadius: '5px', backgroundColor: '#832729', width: '100%' }} onClick={handleCheckout}>
+                        Checkout
+                    </Button>
                 </div>
             </CardBody>
         </Card>

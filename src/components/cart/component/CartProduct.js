@@ -64,7 +64,7 @@ const CartProduct = ({ cartItems, updateCartItems }) => {
                     <Link to={`/product-details`} state={{ product_id: cartItem.product.product_id }} style={{ textDecoration: 'none', color: 'inherit' }}>
                       <label className='cart-product-name'>{cartItem.product.product_name}</label>
                     </Link>
-                    <span> <RiDeleteBin6Line style={{ fontSize: '20px' }} onClick={() => handleRemoveFromCart(cartItem.cartItem_id)} /> </span>
+                    <span> <RiDeleteBin6Line style={{ fontSize: '20px' , cursor:'pointer'}} onClick={() => handleRemoveFromCart(cartItem.cartItem_id)} /> </span>
                   </div>
                   <div>
                     <label style={{ fontSize: '12px', fontWeight: 'bold' }} className='text-muted'>Gold: {cartItem.product.gold_type} | Weight: {cartItem.product.weight}</label>

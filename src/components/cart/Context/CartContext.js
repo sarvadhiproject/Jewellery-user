@@ -30,7 +30,7 @@ export const CartProvider = ({ children }) => {
         const { cartItem } = response.data;
 
         setCartItems([...cartItems, cartItem]);
-        return { success: true, message: 'Product Added to Cart Successfully' };
+        return { success: true, message: 'Product added to cart successfully' };
       } catch (error) {
         console.error('Error adding item to cart:', error);
         if (

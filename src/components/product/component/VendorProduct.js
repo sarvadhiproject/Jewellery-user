@@ -21,6 +21,8 @@ const VendorProduct = ({ product_id }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [product_id]);
 
+   
+
     const fetchspecificvendorproduct = async () => {
         try {
             const response = await axios.get(`${ApiConfig.ApiPrefix}/products/same-vendor/${product_id}`);
@@ -59,6 +61,8 @@ const VendorProduct = ({ product_id }) => {
         const cardImage = document.getElementById(`card-image-${index}`);
         if (cardImage) cardImage.src = products[index].p_images[0];
     };
+
+    const slicedProducts = products.slice(0, 10);
 
     const settings = {
         dots: true,
@@ -108,7 +112,7 @@ const VendorProduct = ({ product_id }) => {
             </div>
             <div style={{ marginLeft: '60px', marginBottom: '20px' }}>
                 <Slider {...settings} ref={sliderRef}>
-                    {products.map((product, index) => (
+                    {slicedProducts.map((product, index) => (
                         <div key={index}>
                             <Card
                                 className='product-card'

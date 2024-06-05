@@ -15,13 +15,12 @@ import { useSnackbar } from 'notistack';
 
 const countries = [
     { value: 'India', label: 'India' },
-    { value: 'USA', label: 'USA' },
 ];
 const defaultCountry = countries[0];
 
 const ProductDetail = ({ product_id }) => {
     const [isAddToCartLoading, setIsAddToCartLoading] = useState(false);
-    const [isBuyNowLoading, setIsBuyNowLoading] = useState(false);
+    // const [isBuyNowLoading, setIsBuyNowLoading] = useState(false);
     const [product, setProduct] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -256,11 +255,11 @@ const ProductDetail = ({ product_id }) => {
                                         {isAddToCartLoading  ? <Spinner size='sm' color="light" /> : 'Add To Cart'}
                                     </Button>
                                 </div>
-                                <div style={{ display: 'flex', justifyContent: 'center', borderBottom: '1px solid #832729' }}>
+                                {/* <div style={{ display: 'flex', justifyContent: 'center', borderBottom: '1px solid #832729' }}>
                                     <Button className='product-details-cart-btn' style={{ marginBottom: '20px' }} disabled={isBuyNowLoading}>
                                         {isBuyNowLoading ? <Spinner size='sm' color="light" /> : 'Buy Now'}
                                     </Button>
-                                </div>
+                                </div> */}
                                 <div style={{ display: 'flex', justifyContent: 'space-evenly', marginTop: '20px', borderBottom: '1px solid #832729' }}>
                                     <Select options={countries} className='country' defaultValue={defaultCountry} />
                                     <div style={{ marginBottom: '25px' }}>

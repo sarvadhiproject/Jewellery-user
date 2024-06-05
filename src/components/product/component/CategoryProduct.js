@@ -51,6 +51,8 @@ const CategoryProduct = ({ product_id }) => {
         }
     };
 
+    const slicedProducts = products.slice(0, 10);
+
     const settings = {
         dots: true,
         infinite: false,
@@ -98,7 +100,7 @@ const CategoryProduct = ({ product_id }) => {
             </div>
             <div style={{ marginLeft: '60px', marginBottom: '50px' }}>
                 <Slider {...settings} ref={sliderRef}>
-                    {products.map((product, index) => (
+                    {slicedProducts.map((product, index) => (
                         <div key={index}>
                             <Card
                                 className='product-card'

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Row, Table, Col, CardImg } from 'reactstrap';
-import { VscSync } from "react-icons/vsc";
+// import { VscSync } from "react-icons/vsc";
+import { BsBagCheckFill } from "react-icons/bs";
 import ApiConfig from '../../config/ApiConfig';
 
 const DetailOrder = ({ orderId }) => {
@@ -69,7 +70,7 @@ const DetailOrder = ({ orderId }) => {
         <div className='order-item'>
           <strong>Ordered Items: </strong>
           <div style={{ marginRight: '15px' }}>
-            <VscSync style={{ color: '#832729', fontWeight: 'bold' }} />
+            <BsBagCheckFill style={{ color: '#832729', fontWeight: 'bold' }} />
             <strong style={{ color: 'green', fontSize: '15px', marginLeft: '4px' }}>{getStatusText(order.status)}</strong>
           </div>
         </div>
