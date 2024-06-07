@@ -1,58 +1,53 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, FormGroup, Label, Input } from 'reactstrap';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { useSnackbar } from 'notistack';
 import ApiConfig from '../../../../config/ApiConfig';
 
-const EditUser = ({ isOpen, toggle, userProfile }) => {
-    const [error, setError] = useState(null);
+const EditUser = ({ isOpen, toggle, userProfile, onSave }) => {
+    const { enqueueSnackbar } = useSnackbar();
 
     if (!userProfile) {
-        return null; 
+        return null;
     }
 
     const initialValues = {
         first_name: userProfile.first_name,
         last_name: userProfile.last_name,
         email: userProfile.email,
-        phoneno: userProfile.phoneno,
     };
 
     const validationSchema = Yup.object().shape({
         first_name: Yup.string().required('First Name is required'),
         last_name: Yup.string().required('Last Name is required'),
         email: Yup.string().email('Invalid email address').required('Email is required'),
-        phoneno: Yup.string().required('Phone Number is required'),
     });
 
-    const handleSubmit = async (values, { setSubmitting }) => {
+    const handleSubmit = async (values) => {
         try {
-            const response = await fetch(`${ApiConfig.ApiPrefix}/edit-user/${userProfile.id}`, {
-                method: 'PUT',
+            const accessToken = localStorage.getItem('accessToken');
+
+            const response = await axios.put(`${ApiConfig.ApiPrefix}/auth/update/`, values, {
                 headers: {
                     'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(values),
+                    'Authorization': `Bearer ${accessToken}`
+                }
             });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to update user');
+            if (response.status === 200) {
+                toggle();
+                enqueueSnackbar('User details updated Successfully', { variant: 'success' });
+                onSave();
             }
-            toggle();
-            toast.success('User details updated successfully!');
         } catch (error) {
-            setError(error.message);
-            toast.error('Failed to update user. Please try again.');
-        } finally {
-            setSubmitting(false);
+            console.error('Error:', error);
+            enqueueSnackbar('Failed to update details, try again later', { variant: 'error' });
         }
     };
 
     return (
-        <Modal isOpen={isOpen} toggle={toggle} style={{left:'250px'}}>
+        <Modal isOpen={isOpen} toggle={toggle} style={{ left: '250px' }}>
             <ModalHeader style={{ marginTop: '8px', paddingTop: '8px', border: 'none', paddingBottom: '2px', marginBottom: '0px' }}>
                 <span style={{ fontSize: 18, color: '#832729' }}>Edit User Details</span>
             </ModalHeader>
@@ -62,7 +57,7 @@ const EditUser = ({ isOpen, toggle, userProfile }) => {
                     validationSchema={validationSchema}
                     onSubmit={handleSubmit}
                 >
-                    {({ isSubmitting }) => (
+                    {({ isValid, dirty }) => (
                         <Form>
                             <FormGroup>
                                 <Label for="firstName">First Name</Label>
@@ -83,16 +78,14 @@ const EditUser = ({ isOpen, toggle, userProfile }) => {
                                 <Label for="phone">Phone Number</Label>
                                 <Input type="text" name="phoneno" id="phone" value={userProfile.phone_no} className="form-control" readOnly style={{ backgroundColor: '#f0f0f0' }} />
                             </FormGroup>
-                            {error && <div className="text-danger">{error}</div>}
                             <ModalFooter>
-                                <Button type="submit" disabled={isSubmitting} style={{ backgroundColor: '#832729', borderColor: '#832729' }}>Save Changes</Button>
+                                <Button type="submit" style={{ backgroundColor: '#832729', borderColor: '#832729' }} disabled={!(isValid && dirty)}>Save Changes</Button>
                                 <Button color="secondary" onClick={toggle}>Cancel</Button>
                             </ModalFooter>
                         </Form>
                     )}
                 </Formik>
             </ModalBody>
-            <ToastContainer />
         </Modal>
     );
 };

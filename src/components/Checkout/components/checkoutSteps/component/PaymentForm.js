@@ -26,7 +26,7 @@ const PaymentForm = (props) => {
   
       // If couponCode is available, add it to the payload
       if (props.couponCode) {
-        payload.coupon_code = props.couponCode;
+        payload.coupon_id = props.couponCode;
       }
 
       console.log(payload);

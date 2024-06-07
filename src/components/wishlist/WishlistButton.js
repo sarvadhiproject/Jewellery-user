@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
+import { Tooltip } from 'antd';
 import { useSnackbar } from 'notistack';
 import axios from 'axios';
 import ApiConfig from '../../config/ApiConfig';
@@ -97,13 +98,19 @@ const WishlistButton = ({ product_id }) => {
 
     return (
         <>
-            <button className="wishlist-button" onClick={isAdded ? removeFromWishlist : addToWishlist} style={{ zIndex: 1 }}>
-                {isAdded ? (
-                    <FaHeart style={{ marginRight: '0px', fontSize: '17px', color: '#832729' }} />
-                ) : (
-                    <FaRegHeart style={{ marginRight: '0px', fontSize: '17px', color: '#832729' }} />
-                )}
-            </button>
+            <Tooltip placement="bottom" title={isAdded ? 'Remove' : 'Add to Wishlist'} style={{pointAtCenter: true}}>
+                <button
+                    className="wishlist-button"
+                    onClick={isAdded ? removeFromWishlist : addToWishlist}
+                    style={{ zIndex: 1 }}
+                >
+                    {isAdded ? (
+                        <FaHeart style={{ marginRight: '0px', fontSize: '17px', color: '#832729' }} />
+                    ) : (
+                        <FaRegHeart style={{ marginRight: '0px', fontSize: '17px', color: '#832729' }} />
+                    )}
+                </button>
+            </Tooltip>
         </>
     );
 };

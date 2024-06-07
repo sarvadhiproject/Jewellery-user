@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardBody, CardTitle, Button } from 'reactstrap';
 import axios from 'axios';
 import EditUser from './EditUser';
-import { toast } from 'react-toastify';
 import ApiConfig from '../../../../config/ApiConfig';
 
 const PersonalInfo = () => {
@@ -10,21 +9,23 @@ const PersonalInfo = () => {
     const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
     const accessToken = localStorage.getItem('accessToken');
 
-    useEffect(() => {
+    const fetchUserProfile = async () => {
         if (accessToken) {
-            const fetchUserProfile = async (e) => {
-                try {
-                    const response = await axios.get(`${ApiConfig.ApiPrefix}/auth/profile`, {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    });
-                    setUserProfile(response.data.user);
-                } catch (e) {
-                }
-            };
-            fetchUserProfile();
+            try {
+                const response = await axios.get(`${ApiConfig.ApiPrefix}/auth/profile`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                setUserProfile(response.data.user);
+            } catch (e) {
+                console.error('Failed to fetch user profile', e);
+            }
         }
+    };
+
+    useEffect(() => {
+        fetchUserProfile();
     }, [accessToken]);
 
     const toggleEditPopup = () => {
@@ -58,7 +59,7 @@ const PersonalInfo = () => {
                         </CardBody>
                     </Card>
                 )}
-                <EditUser isOpen={isEditPopupOpen} toggle={toggleEditPopup} userProfile={userProfile} toast={toast} />
+                <EditUser isOpen={isEditPopupOpen} toggle={toggleEditPopup} userProfile={userProfile} onSave={fetchUserProfile} />
             </div >
         </>
     );

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { Container, Row, Col } from "reactstrap";
 
-import logo from "../../assets/images/logo.png";
+import logo from "../../assets/images/1.svg";
 
 import FooterLinks from "./footer-links";
 import LinkSection from "./link-section";
@@ -39,7 +39,7 @@ class Footer extends Component {
                         <Row>
 
                             <Col md="4" sm="12">
-                                <img src={logo} alt="logo"  height={50}/>
+                                <img src={logo} alt="logo"  height={85} style={{position:'relative', right:'60px'}}/>
                                 <p  >Elegance is not just about being noticed, it's about being remembered. Let your jewelry be a reflection of your inner radiance, an expression of your unique style and grace. With every piece, may you carry a whisper of enchantment and a touch of timeless beauty.</p>
 
                                 <ul className="list-inline social">

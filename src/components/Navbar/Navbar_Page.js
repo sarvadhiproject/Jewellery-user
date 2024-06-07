@@ -3,7 +3,7 @@ import { Nav, NavbarToggler, NavItem, Container, Collapse, Input, InputGroupText
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShop, faSearch, faUser, faHeart, faCartShopping } from '@fortawesome/free-solid-svg-icons';
-import logo from "../../assets/images/logo.png";
+import logo from "../../assets/images/1.svg";
 import AccountPopup from "../authentication/AccountPopup";
 import UserCard from "../userProfile/UserCard";
 import Login from "../authentication/Login";
@@ -62,14 +62,12 @@ const NavbarPage = () => {
     <React.Fragment>
       <div className="sticky-wrapper">
         <div className="sticky-nav">
-          <Nav
-            className="navbar navbar-expand-lg fixed-top navbar-custom sticky d-flex align-items-center"
-          >
-            <Container>
-              <div className="logo-container">
-                <Link to="/" className="navbar-brand logo text-uppercase">
+          <Nav className="navbar navbar-expand-lg fixed-top navbar-custom sticky d-flex align-items-center">
+            <Container style={{maxWidth:'1280px'}}>
+              <div className="logo-container" style={{width:'160px'}}>
+                <Link to="/" className="navbar-brand logo text-uppercase" style={{marginRight:'0px', paddingBottom:'0px'}}>
                   <div>
-                    <img src={logo} alt="logo" height="80" />
+                    <img src={logo} alt="logo" height="85" width="185" />
                   </div>
                 </Link>
               </div>

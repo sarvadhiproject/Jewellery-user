@@ -384,16 +384,6 @@ textarea.form-control {
   align-items: center;
 }
 
-.logo {
-  font-weight: 500;
-  font-size: 26px;
-  color: #585858 !important;
-}
-
-.logo span {
-  color: #f56363;
-}
-
 .navbar-custom .navbar-nav li a {
   color: #585858;
   font-size: 13px;
@@ -444,9 +434,15 @@ textarea.form-control {
   border-color: #337ab7;
 }
 
+.search-container{
+  width: 717px !important;
+}
+
 /* search bar and icon */
 .search-input {
-  min-width: 550px;
+  min-width: 95%;
+  border-radius: 3px;
+  border: none !important;
 }
 
 .search-container .input-group-text {
@@ -460,7 +456,7 @@ textarea.form-control {
 
 .input-group-text {
   position: absolute;
-  left: 56.5%;
+  left: 63.5%;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
@@ -478,7 +474,7 @@ textarea.form-control {
   display: none;
   position: absolute;
   top: 100%;
-  left: calc(100% + 950px);
+  left: calc(100% + 1025px);
   background-color: #ffffff;
   border: 1px solid #ccc;
   margin-top: 70px;
@@ -495,10 +491,10 @@ textarea.form-control {
 .card-popup {
   position: absolute;
   top: 100%;
-  left: calc(100% + 1000px);
+  left: calc(100% + 1072px);
   background-color: #ffffff;
   border: 1px solid #ccc;
-  margin-top: 60px;
+  margin-top: 70px;
   padding: 10px;
   z-index: 9999;
   display: none;
@@ -506,7 +502,6 @@ textarea.form-control {
 
 .card-popup.active {
   display: block;
-  /* Show the popup when the active class is applied */
 }
 
 .user-card-header {
@@ -1026,6 +1021,19 @@ textarea.form-control {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+
+/* Customize the tooltip content */
+.ant-tooltip-inner {
+  background-color: white !important; /* Set the desired background color */
+  color: #832729 !important; /* Set the desired text color */
+  font-size: 12px !important; /* Set the desired font size */
+  border-radius: 0px !important; /* Set the desired border radius */
+  padding: 0px 4px !important; /* Adjust the padding as needed */
+  font-family: 'Nunito Sans' I !important;
+  font-weight: 600 !important;
+  text-align: center;
 }
 
 /*==== quantity picker =====*/
