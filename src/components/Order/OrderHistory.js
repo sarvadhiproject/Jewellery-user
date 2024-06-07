@@ -5,6 +5,7 @@ import ApiConfig from '../../config/ApiConfig';
 import emptyorder from "../../assets/images/emptyorder.svg";
 import DetailOrder from './DetailOrder';
 import { Link } from 'react-router-dom';
+import { TbFileInvoice } from "react-icons/tb";
 
 const OrderHistory = () => {
     const [orders, setOrders] = useState([]);
@@ -29,6 +30,11 @@ const OrderHistory = () => {
         } catch (error) {
             console.error('Error fetching order details:', error);
         }
+    };
+
+
+    const handleinvoice = () => {
+        console.log("downloading");
     };
 
     const getStatusText = (status) => {
@@ -72,6 +78,7 @@ const OrderHistory = () => {
                                 <th className='order-table-head'>Order Date</th>
                                 <th className='order-table-head'>Order Status</th>
                                 <th className='order-table-head'>Total Price</th>
+                                <th className='order-table-head'>Invoice</th>
                                 <th className='order-table-head'></th>
                             </tr>
                         </thead>
@@ -82,6 +89,7 @@ const OrderHistory = () => {
                                     <td>{order.order_date}</td>
                                     <td>{getStatusText(order.status)}</td>
                                     <td>{parseFloat(order.total_amount).toFixed(2)}</td>
+                                    <td><TbFileInvoice style={{fontSize:'25px'}} onClick={handleinvoice} /></td>
                                     <td>
                                         <button
                                             style={{ border: 'none', backgroundColor: 'white', color: '#832729', borderBottom: '2px solid #832729', paddingBottom: '0px', fontWeight: '600' }}

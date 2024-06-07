@@ -12,6 +12,7 @@ import QuantityPicker from './QuantityPicker';
 import ApiConfig from '../../../config/ApiConfig';
 import { useCart } from '../../cart/Context/CartContext';
 import { useSnackbar } from 'notistack';
+import WishlistButton from '../../wishlist/WishlistButton';
 
 const countries = [
     { value: 'India', label: 'India' },
@@ -20,7 +21,6 @@ const defaultCountry = countries[0];
 
 const ProductDetail = ({ product_id }) => {
     const [isAddToCartLoading, setIsAddToCartLoading] = useState(false);
-    // const [isBuyNowLoading, setIsBuyNowLoading] = useState(false);
     const [product, setProduct] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -142,7 +142,7 @@ const ProductDetail = ({ product_id }) => {
             const response = await addToCart(product.product_id, quantity, product.selling_price, selectedSize);
             if (response.success) {
                 enqueueSnackbar(response.message, { variant: 'success' });
-            } 
+            }
             else {
                 enqueueSnackbar(response.message, { variant: 'error' });
             }
@@ -228,6 +228,9 @@ const ProductDetail = ({ product_id }) => {
                         <Card style={{ border: 'none' }}>
                             <CardBody style={{ paddingLeft: '0px', paddingBottom: '0px' }}>
                                 <CardTitle style={{ borderBottom: '1px solid #832729' }}>
+                                    <div style={{fontSize: '22px', left: '12px' }}>
+                                        <WishlistButton product_id={product.product_id} />
+                                    </div>
                                     <h3 style={{ marginBottom: '0px' }}>{product.product_name}</h3>
                                     <StarRating ratings={averageRating} />
                                 </CardTitle>
@@ -251,15 +254,10 @@ const ProductDetail = ({ product_id }) => {
                                     <CardText className="text-muted" style={{ margin: '30px 0px 15px', paddingLeft: '8px' }}>Gold Purity: {product.purity} </CardText>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <Button className='product-details-cart-btn' onClick={handleAddToCart} disabled={isAddToCartLoading }>
-                                        {isAddToCartLoading  ? <Spinner size='sm' color="light" /> : 'Add To Cart'}
+                                    <Button className='product-details-cart-btn' onClick={handleAddToCart} disabled={isAddToCartLoading}>
+                                        {isAddToCartLoading ? <Spinner size='sm' color="light" /> : 'Add To Cart'}
                                     </Button>
                                 </div>
-                                {/* <div style={{ display: 'flex', justifyContent: 'center', borderBottom: '1px solid #832729' }}>
-                                    <Button className='product-details-cart-btn' style={{ marginBottom: '20px' }} disabled={isBuyNowLoading}>
-                                        {isBuyNowLoading ? <Spinner size='sm' color="light" /> : 'Buy Now'}
-                                    </Button>
-                                </div> */}
                                 <div style={{ display: 'flex', justifyContent: 'space-evenly', marginTop: '20px', borderBottom: '1px solid #832729' }}>
                                     <Select options={countries} className='country' defaultValue={defaultCountry} />
                                     <div style={{ marginBottom: '25px' }}>
