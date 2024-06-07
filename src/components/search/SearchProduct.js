@@ -3,6 +3,8 @@ import { useSearchParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import ApiConfig from '../../config/ApiConfig';
 import { Card, Col, Row, CardImg, CardBody } from 'reactstrap';
+import BreadcrumbNavigation from '../Navbar/BreadcrumbNavigation';
+import WishlistButton from '../wishlist/WishlistButton';
 
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
@@ -42,47 +44,67 @@ const SearchResults = () => {
     }
   }, [query]);
 
+  const handleMouseEnter = (index) => {
+    const cardImage = document.getElementById(`card-image-${index}`);
+    if (cardImage && searchResults[index].p_images[1]) cardImage.src = searchResults[index].p_images[1];
+  };
+
+  const handleMouseLeave = (index) => {
+    const cardImage = document.getElementById(`card-image-${index}`);
+    if (cardImage) cardImage.src = searchResults[index].p_images[0];
+  };
+
   if (loading) {
-    return <div>Loading...</div>;
+    return null;
   }
 
   if (error) {
-    return <div>Error occurred while fetching search results.</div>;
+    return null;
   }
 
   return (
-    <div className='container' style={{ padding: '20px 0px 20px', marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
-      <Row>
-        {searchResults.map((product) => (
-          <Col className='col' key={product.product_id} style={{ marginBottom: '20px' }}>
-            <Card className='product-card'>
-              <Link to={`/product-details`} state={{ product_id: product.product_id, product_name: product.product_name }} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <div style={{ position: 'relative' }}>
-                  {product.p_images && product.p_images.length > 0 && (
-                    <CardImg
-                      top
-                      src={product.p_images[0]}
-                      alt={product.product_name}
-                      className="product-card-img"
-                    />
-                  )}
-                </div>
-                <CardBody style={{ padding: '10px' }}>
-                  <div className='product-cardbody-div'>
-                    <p className='product-names'>{product.product_name}</p>
-                    <span style={{ marginTop: '10px', display: 'flex' }}>
-                      <p>&#8377;{product.selling_price}</p>
-                      <label className='text-muted' style={{ marginLeft: '5px', fontSize: '12px', marginTop: '2px' }}> MRP</label>
-                      <p className='text-muted' style={{ textDecoration: 'line-through', marginLeft: '5px', fontSize: '12px', marginTop: '2px' }}>&#8377;{product.mrp}</p>
-                    </span>
+    <>
+      <div style={{ padding: '90px 0px 0px' }}>
+        <BreadcrumbNavigation />
+      </div>
+      <div className='container' style={{ padding: '20px 0px 20px', marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
+        <Row>
+          {searchResults.map((product, index) => (
+            <Col className='col' key={product.product_id} style={{ marginBottom: '20px' }}>
+              <Card className='product-card'
+                onMouseEnter={() => { handleMouseEnter(index); }}
+                onMouseLeave={() => { handleMouseLeave(index); }}
+              >
+                <WishlistButton product_id={product.product_id} />
+                <Link to={`/product-details`} state={{ product_id: product.product_id, product_name: product.product_name }} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <div style={{ position: 'relative' }}>
+                    {product.p_images && product.p_images.length > 0 && (
+                      <CardImg
+                        top
+                        src={product.p_images[0]}
+                        alt={product.product_name}
+                        className="product-card-img"
+                        id={`card-image-${index}`}
+                      />
+                    )}
                   </div>
-                </CardBody>
-              </Link>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </div>
+                  <CardBody style={{ padding: '10px' }}>
+                    <div className='product-cardbody-div'>
+                      <p className='product-names'>{product.product_name}</p>
+                      <span style={{ marginTop: '10px', display: 'flex' }}>
+                        <p>&#8377;{product.selling_price}</p>
+                        <label className='text-muted' style={{ marginLeft: '5px', fontSize: '12px', marginTop: '2px' }}> MRP</label>
+                        <p className='text-muted' style={{ textDecoration: 'line-through', marginLeft: '5px', fontSize: '12px', marginTop: '2px' }}>&#8377;{product.mrp}</p>
+                      </span>
+                    </div>
+                  </CardBody>
+                </Link>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </div>
+    </>
   );
 };
 
