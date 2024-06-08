@@ -3,6 +3,7 @@ import { Container, Card, CardImg, CardBody, CardTitle, CardText } from "reactst
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { FaUserCircle } from "react-icons/fa";
 
 const NextArrow = (props) => {
     const { onClick } = props;
@@ -30,34 +31,28 @@ class CustomerLove extends Component {
             autoplay: false,
             nextArrow: <NextArrow />,
             prevArrow: <PrevArrow />,
-            adaptiveHeight: true 
+            adaptiveHeight: true
         };
 
         return (
             <React.Fragment>
                 <section id="customer-love">
-                    <Container fluid style={{ paddingLeft: 0, paddingRight: 0, paddingTop: 0, marginTop: 70, marginBottom: 40 }}>
-                        <h3 style={{ textAlign: 'center', color: '#832729', fontFamily: 'Domine', marginBottom: 30 }}>CUSTOMER LOVE</h3>
+                    <Container fluid style={{ paddingLeft: 0, paddingRight: 0, paddingTop: 0, marginTop: 70, marginBottom: 20 }}>
+                        <h3 style={{ textAlign: 'center', color: '#832729', fontFamily: 'Domine' }}>CUSTOMER LOVE</h3>
                         <div id="customer-slider" className="flexslider">
                             <Slider {...settings}>
                                 {this.props.reviews.map((review, index) => (
                                     <div key={index}>
                                         <Card className="review-card">
                                             <div className="profile-picture">
-                                                <img src={review.profilePicture} alt="Profile" />
+                                                <FaUserCircle style={{ fontSize: '50px', marginRight: '10px' , color:'#872329'}} />
                                             </div>
-                                            <CardBody>
+                                            <CardBody style={{paddingTop:'0px'}}>
                                                 <div className="customer-info">
-                                                    <CardTitle style={{ fontWeight: 'bold', marginTop: 30 }}>{review.customerName}</CardTitle>
-                                                    <CardText style={{ marginTop: 30, fontStyle: 'italic', color: '#B18376', fontWeight:'bold' }}>
+                                                    <CardTitle style={{ fontWeight: 'bold',  fontSize:'20px' , marginBottom:'0px'}}>A Review by {review.customerName}</CardTitle>
+                                                    <CardText style={{ marginTop: 20, fontStyle: 'italic', color: '#B18376', fontWeight: 'bold' }}>
                                                         <span>&ldquo;</span>{review.review}<span>&rdquo;</span>
                                                     </CardText>
-                                                </div>
-                                                <div className="product-info" style={{ marginTop: 50 }}>
-                                                    <CardImg src={review.productImage} alt="Product" className="product-image" />
-                                                    <div className="product-details">
-                                                        <p>{review.productName}</p>
-                                                    </div>
                                                 </div>
                                             </CardBody>
                                         </Card>
