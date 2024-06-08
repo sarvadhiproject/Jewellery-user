@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table } from 'reactstrap';
+import { Table, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import axios from 'axios';
 import ApiConfig from '../../config/ApiConfig';
 import emptyorder from "../../assets/images/emptyorder.svg";
@@ -11,6 +11,8 @@ const OrderHistory = () => {
     const [orders, setOrders] = useState([]);
     const [showOrderDetails, setShowOrderDetails] = useState(false);
     const [selectedOrderId, setSelectedOrderId] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
     const accessToken = localStorage.getItem('accessToken');
     useEffect(() => {
         if (accessToken) {
@@ -54,6 +56,28 @@ const OrderHistory = () => {
         }
     };
 
+    const indexOfLastOrder = currentPage * itemsPerPage;
+    const indexOfFirstOrder = indexOfLastOrder - itemsPerPage;
+    const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+
+    const totalPages = Math.ceil(orders.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+
+    const renderPagination = () => {
+        const pageNumbers = [];
+        for (let i = 1; i <= totalPages; i++) {
+            pageNumbers.push(
+                <PaginationItem key={i} active={i === currentPage}>
+                    <PaginationLink onClick={() => handlePageChange(i)} style={{ backgroundColor: '#832729', fontSize: '12px', borderColor:'white', color:'white' }}>
+                        {i}
+                    </PaginationLink>
+                </PaginationItem>
+            );
+        }
+        return pageNumbers;
+    };
+
     return (
         <>
             {!accessToken ? (
@@ -71,9 +95,10 @@ const OrderHistory = () => {
             ) : !showOrderDetails ? (
                 <>
                     <h2 style={{ fontFamily: 'Nunito Sans', padding: '10px 0px' }}>Placed Order</h2>
-                    <Table>
+                    <Table style={{marginBottom:"8px"}}>
                         <thead style={{ backgroundColor: '#F2E9E9' }}>
                             <tr>
+                                <th className='order-table-head'>#</th>
                                 <th className='order-table-head'>Order Number</th>
                                 <th className='order-table-head'>Order Date</th>
                                 <th className='order-table-head'>Order Status</th>
@@ -83,13 +108,14 @@ const OrderHistory = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {orders.map((order, index) => (
+                            {currentOrders.map((order, index) => (
                                 <tr key={index} style={{ borderBottom: '1px solid #832729' }}>
+                                    <td>{indexOfFirstOrder + index + 1}</td>
                                     <td>{order.order_id}</td>
                                     <td>{order.order_date}</td>
                                     <td>{getStatusText(order.status)}</td>
                                     <td>{parseFloat(order.total_amount).toFixed(2)}</td>
-                                    <td><TbFileInvoice style={{fontSize:'25px'}} onClick={handleinvoice} /></td>
+                                    <td><TbFileInvoice style={{ fontSize: '25px' }} onClick={handleinvoice} /></td>
                                     <td>
                                         <button
                                             style={{ border: 'none', backgroundColor: 'white', color: '#832729', borderBottom: '2px solid #832729', paddingBottom: '0px', fontWeight: '600' }}
@@ -105,6 +131,11 @@ const OrderHistory = () => {
                             ))}
                         </tbody>
                     </Table>
+                    <div style={{ textAlign: 'right' }}>
+                        <Pagination aria-label="Page navigation example" style={{display:'flex', justifyContent:'end'}}>
+                            {renderPagination()}
+                        </Pagination>
+                    </div>
                 </>
             ) : (
                 <DetailOrder orderId={selectedOrderId} />

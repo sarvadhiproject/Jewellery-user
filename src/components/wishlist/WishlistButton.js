@@ -5,6 +5,7 @@ import { useSnackbar } from 'notistack';
 import axios from 'axios';
 import ApiConfig from '../../config/ApiConfig';
 
+
 const WishlistButton = ({ product_id }) => {
     const { enqueueSnackbar } = useSnackbar();
     const [isAdded, setIsAdded] = useState(false);
@@ -96,21 +97,23 @@ const WishlistButton = ({ product_id }) => {
         return null;
     }
 
+    const button = (
+        <button
+            className="wishlist-button"
+            onClick={isAdded ? removeFromWishlist : addToWishlist}
+            style={{ zIndex: 1 }}
+        >
+            {isAdded ? (
+                <FaHeart style={{ marginRight: '0px', fontSize: '17px', color: '#832729' }} />
+            ) : (
+                <FaRegHeart style={{ marginRight: '0px', fontSize: '17px', color: '#832729' }} />
+            )}
+        </button>
+    );
+
     return (
         <>
-            <Tooltip placement="bottom" title={isAdded ? 'Remove' : 'Add to Wishlist'} style={{pointAtCenter: true}}>
-                <button
-                    className="wishlist-button"
-                    onClick={isAdded ? removeFromWishlist : addToWishlist}
-                    style={{ zIndex: 1 }}
-                >
-                    {isAdded ? (
-                        <FaHeart style={{ marginRight: '0px', fontSize: '17px', color: '#832729' }} />
-                    ) : (
-                        <FaRegHeart style={{ marginRight: '0px', fontSize: '17px', color: '#832729' }} />
-                    )}
-                </button>
-            </Tooltip>
+            {isAdded ? button : <Tooltip overlayClassName="custom-tooltip" placement="bottomRight" title="Add to Wishlist" color='white'>{button}</Tooltip>}
         </>
     );
 };

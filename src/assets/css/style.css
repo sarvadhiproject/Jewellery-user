@@ -1026,14 +1026,18 @@ textarea.form-control {
 
 /* Customize the tooltip content */
 .ant-tooltip-inner {
-  background-color: white !important; /* Set the desired background color */
-  color: #832729 !important; /* Set the desired text color */
-  font-size: 12px !important; /* Set the desired font size */
-  border-radius: 0px !important; /* Set the desired border radius */
-  padding: 0px 4px !important; /* Adjust the padding as needed */
+  background-color: white !important; 
+  color: #832729 !important; 
+  border-radius: 0px !important;
+  padding: 0px 4px !important; 
   font-family: 'Nunito Sans' I !important;
   font-weight: 600 !important;
   text-align: center;
+}
+
+.custom-tooltip .ant-tooltip-inner {
+  min-height: 10px; 
+  font-size: 12px; 
 }
 
 /*==== quantity picker =====*/
@@ -1311,6 +1315,10 @@ select.cart-qty:focus {
 .order-table-head {
   background-color: #F2E9E9 !important;
   color: #832729 !important;
+}
+
+.page-link:focus {
+  box-shadow: 0 0 0 0.2rem #95272e6f !important;
 }
 
 

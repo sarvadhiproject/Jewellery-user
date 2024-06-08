@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Row, Table, Col, CardImg } from 'reactstrap';
-// import { VscSync } from "react-icons/vsc";
+import Rating from 'react-rating-stars-component';
 import { BsBagCheckFill } from "react-icons/bs";
 import ApiConfig from '../../config/ApiConfig';
+import ReviewModal from '../review/ReviewModal';
 
 const DetailOrder = ({ orderId }) => {
   const [order, setOrder] = useState(null);
+  const [modal, setModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [initialRating, setInitialRating] = useState(0);
 
   useEffect(() => {
     fetchOrderDetails();
@@ -24,6 +28,16 @@ const DetailOrder = ({ orderId }) => {
     } catch (error) {
       console.error('Error fetching order details:', error);
     }
+  };
+
+  const handleRatingChange = (newRating, productId) => {
+    toggleModal(productId, newRating);
+  };
+
+  const toggleModal = (productId = null, rating = 0) => {
+    setSelectedProduct(productId);
+    setInitialRating(rating);
+    setModal(!modal);
   };
 
   if (!order) {
@@ -44,13 +58,12 @@ const DetailOrder = ({ orderId }) => {
       case 5:
         return 'Delivered';
       default:
-        return 'Unknown Status';
+        return 'Order Placed';
     }
   };
 
   const subtotal = order.orderItems.reduce((total, item) => total + parseFloat(item.sub_total), 0);
-  const gstAmount = (subtotal * 0.03).toFixed(2);
-  const totalWithGST = (parseFloat(subtotal) + parseFloat(gstAmount)).toFixed(2);
+  const gstAmount = (order.discounted_amount * 0.03).toFixed(2);
 
   return (
     <div className="detail-order-container" style={{ marginTop: '20px' }}>
@@ -81,23 +94,42 @@ const DetailOrder = ({ orderId }) => {
                 <Col xs='2'>
                   <CardImg src={`${ApiConfig.cloudprefix}${orderItem.product.p_images[0]}`} alt={orderItem.product.product_name} style={{ height: '100px', width: '100px' }} />
                 </Col>
-                <Col xs='4'>
-                  <div>
-                    <strong>{orderItem.product.product_name}</strong>
-                    <div style={{ marginTop: '8px' }}> Qty: <strong>{orderItem.quantity}</strong></div>
-                  </div>
+                <Col>
+                  <Row>
+                    <Col xs='5'>
+                      <div>
+                        <strong>{orderItem.product.product_name}</strong>
+                        <div style={{ marginTop: '8px' }}> Qty: <strong>{orderItem.quantity}</strong></div>
+                      </div>
+                    </Col>
+                    <Col xs='6'>
+                      <div style={{ position: 'relative', left: '260px', paddingRight: '5px' }}>
+                        <div>Item Price: <strong>₹{parseFloat(orderItem.sub_total).toFixed(2)}</strong></div>
+                      </div>
+                    </Col>
+                  </Row>
+                  {order.status === 5 && (
+                    <Row>
+                      <div style={{ display: 'flex' }}>
+                        <Rating
+                          count={5}
+                          size={24}
+                          activeColor="#ffd700"
+                          onChange={(newRating) => handleRatingChange(newRating, orderItem.product_id)}
+                        />
+                        <label style={{ marginLeft: '15px', position: 'relative', top: '10px', fontFamily: 'Nunito Sans', color: '#872329', fontWeight: '600' }}>Rate the Product</label>
+                      </div>
+                    </Row>
+                  )}
                 </Col>
-                <Col xs='6'>
-                  <div style={{ position: 'relative', left: '260px', paddingRight: '5px' }}>
-                    <div>Item Price: <strong>₹{parseFloat(orderItem.sub_total).toFixed(2)}</strong></div>
-                  </div>
-                </Col>
+
               </Row>
+
             </Card>
           ))}
           <hr style={{ margin: '0px', marginBottom: '8px' }}></hr>
           <div style={{ position: 'relative', left: '80%' }}>
-            Total Price: <strong> ₹{order.orderItems.reduce((total, item) => total + parseFloat(item.sub_total), 0)}</strong>
+            Total Price: <strong> ₹{subtotal}</strong>
           </div>
         </div>
       </div>
@@ -116,7 +148,7 @@ const DetailOrder = ({ orderId }) => {
             </tr>
             <tr>
               <td>Discount</td>
-              <td><strong>₹0</strong></td>
+              <td><strong>₹{order.discount_value || 0}</strong></td>
             </tr>
             <tr>
               <td>GST</td>
@@ -124,12 +156,17 @@ const DetailOrder = ({ orderId }) => {
             </tr>
             <tr>
               <td>Total</td>
-              <td><strong>₹{totalWithGST}</strong></td>
+              <td><strong>₹{order.total_amount}</strong></td>
             </tr>
           </tbody>
         </Table>
       </div>
-
+      <ReviewModal
+        isOpen={modal}
+        toggle={toggleModal}
+        productId={selectedProduct}
+        initialRating={initialRating}
+      />
     </div>
   );
 };
