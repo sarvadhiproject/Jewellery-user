@@ -5,9 +5,11 @@ import ApiConfig from '../../config/ApiConfig';
 import emptyorder from "../../assets/images/emptyorder.svg";
 import DetailOrder from './DetailOrder';
 import { Link } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 import { TbFileInvoice } from "react-icons/tb";
 
 const OrderHistory = () => {
+    const { enqueueSnackbar } = useSnackbar();
     const [orders, setOrders] = useState([]);
     const [showOrderDetails, setShowOrderDetails] = useState(false);
     const [selectedOrderId, setSelectedOrderId] = useState(null);
@@ -35,8 +37,33 @@ const OrderHistory = () => {
     };
 
 
-    const handleinvoice = () => {
-        console.log("downloading");
+    const handleDownloadInvoice = async (orderId) => {
+        try {
+            const response = await axios.get(`${ApiConfig.ApiPrefix}/invoice/${orderId}/invoice`, {
+                responseType: 'blob',
+            });
+
+            // Create a URL for the PDF file
+            const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+
+            // Create a temporary anchor element
+            const downloadLink = document.createElement('a');
+            downloadLink.href = fileURL;
+            downloadLink.download = `invoice_${orderId}.pdf`;
+
+            // Append the anchor element to the document and trigger the click event
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+
+            // Clean up the temporary anchor element
+            document.body.removeChild(downloadLink);
+
+            // Revoke the object URL to free up memory
+            window.URL.revokeObjectURL(fileURL);
+        } catch (error) {
+            console.error('Error downloading invoice:', error);
+            enqueueSnackbar('Failed to download, try again later', { variant: 'error' });
+        }
     };
 
     const getStatusText = (status) => {
@@ -69,7 +96,7 @@ const OrderHistory = () => {
         for (let i = 1; i <= totalPages; i++) {
             pageNumbers.push(
                 <PaginationItem key={i} active={i === currentPage}>
-                    <PaginationLink onClick={() => handlePageChange(i)} style={{ backgroundColor: '#832729', fontSize: '12px', borderColor:'white', color:'white' }}>
+                    <PaginationLink onClick={() => handlePageChange(i)} style={{ backgroundColor: '#832729', fontSize: '12px', borderColor: 'white', color: 'white' }}>
                         {i}
                     </PaginationLink>
                 </PaginationItem>
@@ -95,7 +122,7 @@ const OrderHistory = () => {
             ) : !showOrderDetails ? (
                 <>
                     <h2 style={{ fontFamily: 'Nunito Sans', padding: '10px 0px' }}>Placed Order</h2>
-                    <Table style={{marginBottom:"8px"}}>
+                    <Table style={{ marginBottom: "8px" }}>
                         <thead style={{ backgroundColor: '#F2E9E9' }}>
                             <tr>
                                 <th className='order-table-head'>#</th>
@@ -115,7 +142,7 @@ const OrderHistory = () => {
                                     <td>{order.order_date}</td>
                                     <td>{getStatusText(order.status)}</td>
                                     <td>{parseFloat(order.total_amount).toFixed(2)}</td>
-                                    <td><TbFileInvoice style={{ fontSize: '25px' }} onClick={handleinvoice} /></td>
+                                    <td><TbFileInvoice style={{ fontSize: '25px', cursor: 'pointer' }} onClick={() => handleDownloadInvoice(order.order_id)} /></td>
                                     <td>
                                         <button
                                             style={{ border: 'none', backgroundColor: 'white', color: '#832729', borderBottom: '2px solid #832729', paddingBottom: '0px', fontWeight: '600' }}
@@ -132,7 +159,7 @@ const OrderHistory = () => {
                         </tbody>
                     </Table>
                     <div style={{ textAlign: 'right' }}>
-                        <Pagination aria-label="Page navigation example" style={{display:'flex', justifyContent:'end'}}>
+                        <Pagination aria-label="Page navigation example" style={{ display: 'flex', justifyContent: 'end' }}>
                             {renderPagination()}
                         </Pagination>
                     </div>

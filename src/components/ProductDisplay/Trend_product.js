@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Card, CardImg, CardBody } from 'reactstrap';
 import Slider from 'react-slick';
-import StarRating from './StarRating';
 import WishlistButton from '../wishlist/WishlistButton';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import ApiConfig from '../../config/ApiConfig';
 
-const Bestseller = () => {
+const Trending = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -17,46 +16,41 @@ const Bestseller = () => {
     const sliderRef = useRef(null);
 
     useEffect(() => {
-        fetchHighRatedProducts();
+        fetchtrendingproduct();
     }, []);
 
-    const fetchHighRatedProducts = async () => {
+    const fetchtrendingproduct = async () => {
         try {
-            const response = await axios.get(`${ApiConfig.ApiPrefix}/view-products-ratings-cloudinary`);
-            if (Array.isArray(response.data)) {
-                const highproduct = response.data.map((d) => ({
+            const response = await axios.get(`${ApiConfig.ApiPrefix}/products/trending`);
+            console.log(response.data.data);
+            if (response.data && Array.isArray(response.data.data)) {
+                const trendingproduct = response.data.data.map((d) => ({
                     ...d,
-                    Images: Array.isArray(d.p_images) ? d.p_images.map(image => `${ApiConfig.cloudprefix}` + image) : []
+                    Images: Array.isArray(d.p_images) ? d.p_images.map(image => {
+                        const completeUrl = `${ApiConfig.cloudprefix}` + image;
+                        return completeUrl;
+                    }) : []
                 }));
-                setProducts(highproduct);
+                setProducts(trendingproduct);
                 setLoading(false);
             } else {
-                console.error("Response data is not an array:", response.data);
+                console.error("Response data is not in the expected format:", response.data);
                 setError(true);
                 setLoading(false);
             }
         } catch (error) {
-            console.error('Error fetching high-rated products:', error.message);
+            console.error('Error fetching best-selling products:', error.message);
             setError(true);
             setLoading(false);
         }
     };
+
 
     const handleDotClick = (index) => {
         setActiveDot(index);
         if (sliderRef.current) {
             sliderRef.current.slickGoTo(index);
         }
-    };
-
-    const handleMouseEnter = (index) => {
-        const cardImage = document.getElementById(`card-image-${index}`);
-        if (cardImage && products[index].p_images[1]) cardImage.src = products[index].p_images[1];
-    };
-
-    const handleMouseLeave = (index) => {
-        const cardImage = document.getElementById(`card-image-${index}`);
-        if (cardImage) cardImage.src = products[index].p_images[0];
     };
 
     const settings = {
@@ -98,11 +92,14 @@ const Bestseller = () => {
         return null;
     }
 
+    if (loading || error || products.length === 0) {
+        return null;
+    }
+
     return (
         <>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0px' }}>
-                <h2 style={{ textAlign: 'left', textTransform: 'uppercase', marginTop: '50px', marginBottom: '30px', color: "#832729", fontWeight: "bold", marginRight: '20px', marginLeft: '35px', fontFamily: 'Gill Sans', fontSize: '25px' }}>Best seller</h2>
-                <a href="/view-more" style={{ color: '#832729', fontWeight: 'bold', textAlign: 'center', paddingTop: '25px', fontFamily: 'Gill Sans', fontSize: '18px', marginRight: '50px', borderBottom: '1px solid #832729' }}>View More</a>
+                <h2 style={{ textAlign: 'left', textTransform: 'uppercase', marginTop: '50px', marginBottom: '30px', color: "#832729", fontWeight: "bold", marginRight: '20px', marginLeft: '35px', fontFamily: 'Gill Sans', fontSize: '25px' }}>New Trends</h2>
             </div>
             <div style={{ marginLeft: '60px', marginBottom: '20px' }}>
                 <Slider {...settings} ref={sliderRef}>
@@ -111,8 +108,6 @@ const Bestseller = () => {
                             <Card
                                 className='product-card'
                                 style={{ marginBottom: '20px' }}
-                                onMouseEnter={() => { handleMouseEnter(index); }}
-                                onMouseLeave={() => { handleMouseLeave(index); }}
                             >
                                 <WishlistButton
                                     product_id={product.product_id}
@@ -122,7 +117,7 @@ const Bestseller = () => {
                                         <CardImg
                                             top
                                             id={`card-image-${index}`}
-                                            src={product.p_images[0]}
+                                            src={product.Images[0]}
                                             alt={product.product_name}
                                             className="product-card-img"
                                         />
@@ -130,7 +125,6 @@ const Bestseller = () => {
                                     <CardBody style={{ padding: '10px' }}>
                                         <div className='product-cardbody-div' style={{ textAlign: 'center' }}>
                                             <p className='product-names'>{product.product_name}</p>
-                                            <StarRating ratings={product.ratings} />
                                             <span style={{ marginTop: '10px', display: 'flex' }}>
                                                 <p>&#8377;{product.selling_price}</p>
                                                 <label className='text-muted' style={{ marginLeft: '5px', fontSize: '12px', marginTop: '2px' }}> MRP</label>
@@ -148,5 +142,5 @@ const Bestseller = () => {
     );
 };
 
-export default Bestseller;
+export default Trending;
 
