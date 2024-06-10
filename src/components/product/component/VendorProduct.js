@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Card, CardImg, CardBody } from 'reactstrap';
 import Slider from 'react-slick';
-import StarRating from '../../bestseller/StarRating';
 import WishlistButton from '../../wishlist/WishlistButton';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -137,7 +136,6 @@ const VendorProduct = ({ product_id }) => {
                                     <CardBody style={{ padding: '10px' }}>
                                         <div className='product-cardbody-div' style={{ textAlign: 'center' }}>
                                             <p className='product-names'>{product.product_name}</p>
-                                            <StarRating ratings={product.ratings} />
                                             <span style={{ marginTop: '10px', display: 'flex' }}>
                                                 <p>&#8377;{product.selling_price}</p>
                                                 <label className='text-muted' style={{ marginLeft: '5px', fontSize: '12px', marginTop: '2px' }}> MRP</label>

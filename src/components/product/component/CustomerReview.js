@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardBody, Col, Row, Container, Button, Modal, ModalBody } from 'reactstrap';
 import { FaUserCircle } from "react-icons/fa";
-import StarRating from '../../bestseller/StarRating';
+import StarRating from '../../ProductDisplay/StarRating';
 import ApiConfig from '../../../config/ApiConfig';
 import axios from 'axios';
 import { IoIosArrowForward } from "react-icons/io";

@@ -7,7 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Select from 'react-select';
 import axios from 'axios';
-import StarRating from '../../bestseller/StarRating';
+import StarRating from '../../ProductDisplay/StarRating';
 import QuantityPicker from './QuantityPicker';
 import ApiConfig from '../../../config/ApiConfig';
 import { useCart } from '../../cart/Context/CartContext';
