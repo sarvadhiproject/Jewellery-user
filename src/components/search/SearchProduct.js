@@ -4,6 +4,7 @@ import axios from 'axios';
 import ApiConfig from '../../config/ApiConfig';
 import { Card, Col, Row, CardImg, CardBody } from 'reactstrap';
 import BreadcrumbNavigation from '../Navbar/BreadcrumbNavigation';
+import Filter from './Filter';
 import WishlistButton from '../wishlist/WishlistButton';
 
 const SearchResults = () => {
@@ -13,29 +14,29 @@ const SearchResults = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    const fetchSearchResults = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(`${ApiConfig.ApiPrefix}/products/search?q=${query}`);
-        if (response.data && Array.isArray(response.data)) {
-          const searchProducts = response.data.map((product) => ({
-            ...product,
-            p_images: Array.isArray(product.p_images) ? product.p_images.map(image => `${ApiConfig.cloudprefix}` + image) : []
-          }));
-          setSearchResults(searchProducts);
-        } else {
-          console.error("Response data is not an array:", response.data);
-          setError(true);
-        }
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching search results:', error);
+  const fetchSearchResults = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${ApiConfig.ApiPrefix}/products/search?q=${query}`);
+      if (response.data && Array.isArray(response.data)) {
+        const searchProducts = response.data.map((product) => ({
+          ...product,
+          p_images: Array.isArray(product.p_images) ? product.p_images.map(image => `${ApiConfig.cloudprefix}` + image) : []
+        }));
+        setSearchResults(searchProducts);
+      } else {
+        console.error("Response data is not an array:", response.data);
         setError(true);
-        setLoading(false);
       }
-    };
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+      setError(true);
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     if (query) {
       fetchSearchResults();
     } else {
@@ -43,6 +44,10 @@ const SearchResults = () => {
       setLoading(false);
     }
   }, [query]);
+
+  const handleFiltersApplied = (filteredProducts) => {
+    setSearchResults(filteredProducts);
+  };
 
   const handleMouseEnter = (index) => {
     const cardImage = document.getElementById(`card-image-${index}`);
@@ -67,7 +72,10 @@ const SearchResults = () => {
       <div style={{ padding: '90px 0px 0px' }}>
         <BreadcrumbNavigation />
       </div>
-      <div className='container' style={{ padding: '20px 0px 20px', marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
+      <div style={{ padding: '10px 150px', marginTop: '20px', display: 'flex', justifyContent: 'right' }}>
+        <Filter onFiltersApplied={handleFiltersApplied} />
+      </div>
+      <div className='container' style={{ padding: '20px 0px 20px', display: 'flex', justifyContent: 'center' }}>
         <Row>
           {searchResults.map((product, index) => (
             <Col className='col' key={product.product_id} style={{ marginBottom: '20px' }}>

@@ -22,7 +22,6 @@ const Bestseller = () => {
     const fetchBestSellingProducts = async () => {
         try {
             const response = await axios.get(`${ApiConfig.ApiPrefix}/products/bestsellers`);
-            console.log(response.data.data);
             if (response.data && Array.isArray(response.data.data)) {
                 const bestSellingProducts = response.data.data.map((d) => ({
                     ...d,

@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Row, Table, Col, CardImg } from 'reactstrap';
-import Rating from 'react-rating-stars-component';
+import { Rating } from 'react-simple-star-rating'
 import { BsBagCheckFill } from "react-icons/bs";
 import ApiConfig from '../../config/ApiConfig';
 import ReviewModal from '../review/ReviewModal';
+import { FaRegStar, FaStar } from "react-icons/fa";
 
 const DetailOrder = ({ orderId }) => {
-  const [order, setOrder] = useState(null);
+  const [orders, setOrders] = useState(null);
   const [modal, setModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [productReviews, setProductReviews] = useState({});
   const [initialRating, setInitialRating] = useState(0);
 
   useEffect(() => {
@@ -22,11 +24,37 @@ const DetailOrder = ({ orderId }) => {
       const userid = localStorage.getItem('userId');
       const response = await axios.get(`${ApiConfig.ApiPrefix}/order/detailed/${userid}/${orderId}`);
       console.log(response.data);
-      setOrder(response.data.order);
-      const Subtotal = order.orderItems.reduce((total, item) => total + parseFloat(item.sub_total))
-      console.log(Subtotal);
+      setOrders(response.data.order);
+      if (response.data.order) {
+        fetchProductReviews(response.data.order);
+      }
     } catch (error) {
       console.error('Error fetching order details:', error);
+    }
+  };  
+
+  const fetchProductReviews = async (order) => {
+    try {
+      const userId = localStorage.getItem('userId');
+      const productIds = order.orderItems.map(item => item.product_id);
+
+      const response = await axios.post(`${ApiConfig.ApiPrefix}/reviews/user-product-reviews`, {
+        user_id: userId,
+        product_ids: productIds,
+      });
+
+      const reviewsMap = response.data.reviews.reduce((acc, reviewData) => {
+        if (reviewData.review === "No review found") {
+          acc[reviewData.product_id] = null;
+        } else {
+          acc[reviewData.product_id] = reviewData.review;
+        }
+        return acc;
+      }, {});
+
+      setProductReviews(reviewsMap);
+    } catch (error) {
+      console.error('Error fetching product reviews:', error);
     }
   };
 
@@ -40,7 +68,7 @@ const DetailOrder = ({ orderId }) => {
     setModal(!modal);
   };
 
-  if (!order) {
+  if (!orders) {
     return <div>Loading...</div>;
   }
 
@@ -62,20 +90,20 @@ const DetailOrder = ({ orderId }) => {
     }
   };
 
-  const subtotal = order.orderItems.reduce((total, item) => total + parseFloat(item.sub_total), 0);
-  const gstAmount = (order.discounted_amount * 0.03).toFixed(2);
+  const subtotal = orders.orderItems.reduce((total, item) => total + parseFloat(item.sub_total), 0);
+  const gstAmount = (orders.discounted_amount * 0.03).toFixed(2);
 
   return (
     <div className="detail-order-container" style={{ marginTop: '20px' }}>
       <div className="order-info">
         <div>
-          <strong>Order ID: {order.order_id} </strong>
+          <strong>Order ID: {orders.order_id} </strong>
         </div>
         <div>
-          <strong>Date: {new Date(order.order_date).toLocaleDateString('en-GB')} </strong>
+          <strong>Date: {new Date(orders.order_date).toLocaleDateString('en-GB')} </strong>
         </div>
         <div>
-          <strong>Total Amount: ₹{parseFloat(order.total_amount).toFixed(2)}</strong>
+          <strong>Total Amount: ₹{parseFloat(orders.total_amount).toFixed(2)}</strong>
         </div>
       </div>
 
@@ -84,11 +112,11 @@ const DetailOrder = ({ orderId }) => {
           <strong>Ordered Items: </strong>
           <div style={{ marginRight: '15px' }}>
             <BsBagCheckFill style={{ color: '#832729', fontWeight: 'bold' }} />
-            <strong style={{ color: 'green', fontSize: '15px', marginLeft: '4px' }}>{getStatusText(order.status)}</strong>
+            <strong style={{ color: 'green', fontSize: '15px', marginLeft: '4px' }}>{getStatusText(orders.status)}</strong>
           </div>
         </div>
         <div style={{ padding: '15px' }}>
-          {order.orderItems.map((orderItem, index) => (
+          {orders.orderItems.map((orderItem, index) => (
             <Card style={{ height: '120px', border: 'none' }} key={orderItem.order_id}>
               <Row>
                 <Col xs='2'>
@@ -108,23 +136,44 @@ const DetailOrder = ({ orderId }) => {
                       </div>
                     </Col>
                   </Row>
-                  {order.status === 5 && (
+                  {orders.status === 5 && (
                     <Row>
-                      <div style={{ display: 'flex' }}>
-                        <Rating
-                          count={5}
-                          size={24}
-                          activeColor="#ffd700"
-                          onChange={(newRating) => handleRatingChange(newRating, orderItem.product_id)}
-                        />
-                        <label style={{ marginLeft: '15px', position: 'relative', top: '10px', fontFamily: 'Nunito Sans', color: '#872329', fontWeight: '600' }}>Rate the Product</label>
+                      <div style={{ display: 'flex', marginTop: '5px' }}>
+                        {productReviews[orderItem.product_id] ? (
+                          <>
+                            <Rating
+                              initialValue={productReviews[orderItem.product_id].ratings}
+                              readonly
+                              fillColor="#ffd700"
+                              emptyColor="#ddd"
+                              emptyIcon={<FaRegStar style={{ color: 'gray', fontSize: '20px' }} />}
+                              fillIcon={<FaStar style={{ fontSize: '20px' }} />}
+                            />
+                            <label style={{ marginLeft: '15px', position: 'relative', top: '1px', fontFamily: 'Nunito Sans sans-serif', color: '#872329', fontWeight: '600', fontSize: '16px' }}>
+                              Thanks for the feedback!
+                            </label>
+                          </>
+                        ) : (
+                          <>
+                            <Rating
+                              initialValue={0}
+                              allowHalfIcon
+                              fillColor="#ffd700"
+                              emptyColor="#ddd"
+                              emptyIcon={<FaRegStar style={{ color: 'gray', fontSize: '20px' }} />}
+                              fillIcon={<FaStar style={{ fontSize: '20px' }} />}
+                              onClick={(value) => handleRatingChange(value, orderItem.product_id)}
+                            />
+                            <label style={{ marginLeft: '15px', position: 'relative', top: '1px', fontFamily: 'Nunito Sans sans-serif', color: '#872329', fontWeight: '600', fontSize: '16px' }}>
+                              Rate Our Product
+                            </label>
+                          </>
+                        )}
                       </div>
                     </Row>
                   )}
                 </Col>
-
               </Row>
-
             </Card>
           ))}
           <hr style={{ margin: '0px', marginBottom: '8px' }}></hr>
@@ -148,7 +197,7 @@ const DetailOrder = ({ orderId }) => {
             </tr>
             <tr>
               <td>Discount</td>
-              <td><strong>₹{order.discount_value || 0}</strong></td>
+              <td><strong>₹{orders.discount_value || 0}</strong></td>
             </tr>
             <tr>
               <td>GST</td>
@@ -156,7 +205,7 @@ const DetailOrder = ({ orderId }) => {
             </tr>
             <tr>
               <td>Total</td>
-              <td><strong>₹{order.total_amount}</strong></td>
+              <td><strong>₹{orders.total_amount}</strong></td>
             </tr>
           </tbody>
         </Table>

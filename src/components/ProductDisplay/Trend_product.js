@@ -22,7 +22,6 @@ const Trending = () => {
     const fetchtrendingproduct = async () => {
         try {
             const response = await axios.get(`${ApiConfig.ApiPrefix}/products/trending`);
-            console.log(response.data.data);
             if (response.data && Array.isArray(response.data.data)) {
                 const trendingproduct = response.data.data.map((d) => ({
                     ...d,

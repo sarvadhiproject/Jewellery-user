@@ -75,7 +75,7 @@ const Checkout = () => {
                                     <Col md="12" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '50px', marginTop: '30px', color: '#832729' }}>
                                         <div style={{ textAlign: 'center' }}>
                                             <img src={emptycart} alt='Empty Cart' style={{ width: '120px' }} />
-                                            <h3 style={{ fontFamily: 'Nunito Sans' }}>Your cart is empty </h3>
+                                            <h3 style={{ fontFamily: 'Nunito Sans sans-serif' }}>Your cart is empty </h3>
                                             <Link to="/" ><label className='cart-product-name' style={{ color: '#832729', fontSize: '13px' }} > Continue Shopping </label></Link>
                                         </div>
                                     </Col>
@@ -97,7 +97,7 @@ const Checkout = () => {
                                 <Col md="12" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '50px', marginTop: '30px', color: '#832729' }}>
                                     <div style={{ textAlign: 'center' }}>
                                         <img src={loginfirst} alt='login first' />
-                                        <h3 style={{ fontFamily: 'Nunito Sans' }}>Please login to view cart items</h3>
+                                        <h3 style={{ fontFamily: 'Nunito Sans sans-serif' }}>Please login to view cart items</h3>
                                     </div>
                                 </Col>
                             )
@@ -105,7 +105,7 @@ const Checkout = () => {
                             <Col md="12" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '50px', marginTop: '30px', color: '#832729' }}>
                                 <div style={{ textAlign: 'center' }}>
                                     <img src={loginfirst} alt='login first' />
-                                    <h3 style={{ fontFamily: 'Nunito Sans' }}>Please login to view cart items</h3>
+                                    <h3 style={{ fontFamily: 'Nunito Sans sans-serif' }}>Please login to view cart items</h3>
                                 </div>
                             </Col>
                         )}

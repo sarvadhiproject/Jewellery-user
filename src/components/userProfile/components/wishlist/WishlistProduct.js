@@ -77,20 +77,20 @@ const WishlistProduct = () => {
                 <div>
                     <div style={{ textAlign: 'center' }}>
                         <img src={emptywishlist} alt='Empty wishlist' style={{ width: '130px' }} />
-                        <h3 style={{ fontFamily: 'Nunito Sans' }}>Login to view your wishlist</h3>
+                        <h3 style={{ fontFamily: 'Nunito Sans sans-serif' }}>Login to view your wishlist</h3>
                     </div>
                 </div>
             ) : wishlistItems.length === 0 ? (
                 <div>
                     <div style={{ textAlign: 'center' }}>
                         <img src={emptywishlist} alt='Empty wishlist' style={{ width: '130px' }} />
-                        <h3 style={{ fontFamily: 'Nunito Sans' }}>Your Wishlist Is Empty !</h3>
+                        <h3 style={{ fontFamily: 'Nunito Sans sans-serif' }}>Your Wishlist Is Empty !</h3>
                         <Link to="/" ><label className='cart-product-name' style={{ color: '#832729', fontSize: '13px' }} > Continue Shopping </label></Link>
                     </div>
                 </div>
             ) : (
                 <>
-                    <h2 style={{ fontFamily: 'Nunito Sans' }}>Wishlist</h2>
+                    <h2 style={{ fontFamily: 'Nunito Sans sans-serif' }}>Wishlist</h2>
                     <div className='container' style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-start' }}>
                         <Row>
                             {wishlistItems.map((product, index) => (

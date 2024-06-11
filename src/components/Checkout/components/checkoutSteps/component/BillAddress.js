@@ -122,7 +122,7 @@ const handleSubmit = async (values, { setSubmitting }) => {
                 {addressDetails ? (
                     <>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <div style={{ fontFamily: 'Nunito Sans', fontSize: '15px', fontWeight: '500' }}>
+                            <div style={{ fontFamily: 'Nunito Sans sans-serif', fontSize: '15px', fontWeight: '500' }}>
                                 <>{console.log(addressDetails)}</>
                                 <div>{addressDetails.first_name} {addressDetails.last_name}</div>
                                 <div>{addressDetails.city.city_name}, {addressDetails.state.state_name}, {addressDetails.pincode}</div>
@@ -142,7 +142,7 @@ const handleSubmit = async (values, { setSubmitting }) => {
                                 onChange={() => {
                                     handleCheckboxChange(); 
                                 }} />
-                            <label htmlFor="sameAsShipping" style={{ marginLeft: '0.5rem', fontFamily: 'Nunito Sans', fontSize: '15px' }}>Same as Shipping Address</label>
+                            <label htmlFor="sameAsShipping" style={{ marginLeft: '0.5rem', fontFamily: 'Nunito Sans sans-serif', fontSize: '15px' }}>Same as Shipping Address</label>
                         </div>
                         <Button className='save-address-btn' onClick={toggle}>Add Address</Button>
                     </div>
@@ -151,7 +151,7 @@ const handleSubmit = async (values, { setSubmitting }) => {
 
             <Modal isOpen={modal} toggle={toggle}>
                 <ModalHeader style={{ justifyContent: 'flex-start', minWidth: '100%', alignItems: 'center', paddingBottom: '10px' }}>
-                    <label style={{ color: '#832729', fontSize: '18px', fontFamily: 'Nunito Sans' }}> Add New Address </label>
+                    <label style={{ color: '#832729', fontSize: '18px', fontFamily: 'Nunito Sans sans-serif' }}> Add New Address </label>
                     <label style={{ marginLeft: '280px' }}> <IoMdClose style={{ fontSize: '20px', fontWeight: 'bold' }} onClick={toggle} /> </label>
                 </ModalHeader>
                 <ModalBody style={{ paddingBottom: '0px' }}>

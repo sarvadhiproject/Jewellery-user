@@ -250,10 +250,10 @@ const ProductDetail = ({ product_id }) => {
                                     </div>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0px 5px' }}>
-                                    <CardText className="text-muted" style={{ margin: '30px 0px 15px', paddingLeft: '8px' }}>Gold Type: {product.gold_type} </CardText>
-                                    <CardText className="text-muted" style={{ margin: '30px 0px 15px', paddingLeft: '8px' }}>Gold Purity: {product.purity} </CardText>
+                                    <CardText className="text-muted" style={{ margin: '30px 0px 15px', paddingLeft: '2px' }}>Gold Type: {product.gold_type} </CardText>
+                                    <CardText className="text-muted" style={{ margin: '30px 0px 15px', paddingLeft: '2px' }}>Gold Purity: {product.purity} </CardText>
                                 </div>
-                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                <div style={{padding:'0px 7px'}}>
                                     <Button className='product-details-cart-btn' onClick={handleAddToCart} disabled={isAddToCartLoading}>
                                         {isAddToCartLoading ? <Spinner size='sm' color="light" /> : 'Add To Cart'}
                                     </Button>
@@ -262,7 +262,7 @@ const ProductDetail = ({ product_id }) => {
                                     <Select options={countries} className='country' defaultValue={defaultCountry} />
                                     <div style={{ marginBottom: '25px' }}>
                                         <div style={{ display: 'flex', alignItems: 'center', maxWidth: '190px', border: '1px solid lightgray', minHeight: '38px', borderRadius: '4px' }}>
-                                            <input placeholder='Pincode ' className='border-0' maxLength={6} style={{ minWidth: '120px', height: '35px' }} value={pincode} onChange={(e) => setPincode(e.target.value)} />
+                                            <input placeholder='Pincode ' className='border-0 pincode-input' maxLength={6} style={{ minWidth: '120px', height: '35px' }} value={pincode} onChange={(e) => setPincode(e.target.value)} />
                                             <span style={{ cursor: 'pointer', margin: '0 5px', color: '#832729' }} onClick={handlePincodeCheck}>Check</span>
                                         </div>
                                         <label style={{ color: 'green' }}>{deliveryAvailability}</label>

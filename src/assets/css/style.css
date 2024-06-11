@@ -21,6 +21,13 @@ Table of contents
 
 ---------------------*/
 
+@font-face {
+  font-family: 'Nunito Sans';
+  src: url('../fonts/NunitoSans-VariableFont_YTLC\,opsz\,wdth\,wght.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
 
 body {
   font-family: 'Open Sans', sans-serif;
@@ -175,11 +182,7 @@ textarea.form-control {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  /* or adjust the height as per your layout */
 }
-
-
-
 
 /* ==== 2. Helper classes ==== */
 
@@ -348,18 +351,18 @@ textarea.form-control {
 }
 
 .bg-dribbble:hover {
-  background-color: #ea4c89 !important;
+  background-color: #832729 !important;
 }
 
 .bg-googleplus:hover {
   background-color: #dd4b39 !important;
 }
 
-
-
+.bg-instagram:hover{
+  background-color: #d62976 !important;
+}
 
 /*===== 4. Navbar Custom ======*/
-
 .navbar-custom {
   width: 100%;
   border-radius: 0px;
@@ -447,7 +450,6 @@ textarea.form-control {
 
 .search-container .input-group-text {
   display: block;
-  /* Show the search icon by default */
 }
 
 .input-group {
@@ -515,7 +517,6 @@ textarea.form-control {
   text-overflow: ellipsis;
   border-bottom: 2px solid #832729;
   padding-bottom: 5px;
-  /* Add padding-bottom to ensure space between text and border */
 }
 
 /* ==== 8. login =====*/
@@ -697,11 +698,6 @@ textarea.form-control {
   position: relative;
 }
 
-/* .input-group .form-group {
-  margin-right: 10px;
-  margin-bottom: 10px;
-} */
-
 .input-group .otp-button-container {
   margin-top: 10px;
 }
@@ -764,7 +760,6 @@ textarea.form-control {
 }
 
 .register-button {
-  /* position: fixed; */
   background-color: #832729;
   color: #ffffff;
   border: none;
@@ -793,7 +788,7 @@ textarea.form-control {
   font-size: 13px !important;
   padding-top: 8px !important;
   padding: 10px 5px;
-  font-family: 'Nunito Sans';
+  font-family:  'Nunito Sans', sans-serif;
   background-color: white;
   color: #832729 !important;
   border: none;
@@ -831,9 +826,7 @@ textarea.form-control {
 
 .sidebar-container {
   width: 20%;
-  /* Set a fixed width for the sidebar */
   min-width: 210px;
-  /* Set a minimum width for the sidebar */
   box-sizing: border-box;
 }
 
@@ -927,7 +920,6 @@ textarea.form-control {
   padding-left: 5px;
   padding-right: 5px;
   width: calc(5% - 20px);
-  /* Set the desired width for the column */
   margin-right: 10px;
 }
 
@@ -942,7 +934,6 @@ textarea.form-control {
 
 .view-category-card:hover {
   box-shadow: 0 2px 4px rgb(181, 89, 91);
-  /* Add a bottom shadow on hover */
 }
 
 .view-category-img {
@@ -995,7 +986,7 @@ textarea.form-control {
 .product-cardbody-div {
   color: #832729;
   font-weight: bold;
-  font-family: 'Nunito Sans';
+  font-family:   'Nunito Sans', sans-serif;
   margin: 0px;
 }
 
@@ -1005,6 +996,7 @@ textarea.form-control {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  font-family:  'Nunito Sans', sans-serif;
 }
 
 .wishlist-button {
@@ -1012,7 +1004,6 @@ textarea.form-control {
   top: 10px;
   right: 10px;
   width: 30px;
-  /* Adjust width and height as needed */
   height: 30px;
   border-radius: 50%;
   border: none;
@@ -1030,7 +1021,7 @@ textarea.form-control {
   color: #832729 !important; 
   border-radius: 0px !important;
   padding: 0px 4px !important; 
-  font-family: 'Nunito Sans' I !important;
+  font-family: 'Nunito Sans', sans-serif !important;
   font-weight: 600 !important;
   text-align: center;
 }
@@ -1100,12 +1091,79 @@ textarea.form-control {
   text-align: center;
 }
 
+.custom-slider .rc-slider-track {
+  background-color: #832729;
+  height: 4px;
+}
+
+.custom-slider .rc-slider-handle {
+  background-color: #fff;
+  border-color: #832729;
+  border-width: 2px;
+  height: 16px;
+  width: 16px;
+  margin-top: -6px;
+  box-shadow: none;
+}
+
+.custom-slider .rc-slider-handle:focus,
+.custom-slider .rc-slider-handle:active {
+  border-color: #832729;
+  box-shadow: 0 0 5px #832729;
+}
+
+.filter-btn{
+  color: #832729 !important;
+  background-color: #fff;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.filter-btn:hover{
+  background-color: white !important;
+  box-shadow: none;
+}
+
+.filter-cancel{
+  color: #832729 !important;
+  background-color: white !important;
+  border-color: #832729 !important;
+  border-radius: 0%;
+  margin: 0%;
+  height: 100%;
+  flex: 1;
+}
+
+.apply-filter{
+  background-color: #832729;
+  color: white;
+  border-radius: 0%;
+  margin: 0%;
+  height: 100%;
+  flex: 1;
+}
+
+.filter-group input[type="checkbox"]:focus,
+.filter-group input[type="checkbox"]:active {
+  box-shadow: 0 0 5px #832729;
+}
+
+/* Checked Background Color */
+.filter-group input[type="checkbox"]:checked {
+  background-color: #832729;
+  border-color: #832729;
+}
 
 /*==== product details ===*/
 
 .product-details-cart-btn {
   margin-bottom: 10px;
-  min-width: 26rem;
+  min-width: 100%;
   border-radius: 5px;
   border-color: #832729;
   background-color: #fff;
@@ -1134,7 +1192,6 @@ textarea.form-control {
 .large-image-container {
   position: absolute;
   z-index: 990;
-  /* Ensure it's above other elements */
   top: 0;
   left: 0;
   width: 100%;
@@ -1143,6 +1200,11 @@ textarea.form-control {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.pincode-input:focus-visible{
+  border-radius: 2px;
+  outline: 2px solid #832729 !important;
 }
 
 
@@ -1238,7 +1300,7 @@ select.cart-qty:focus {
   display: flex;
   align-items: center;
   padding: 10px;
-  font-family: 'Nunito Sans';
+  font-family: 'Nunito Sans', sans-serif;
 }
 
 .coupon-card:hover{
@@ -1257,7 +1319,7 @@ select.cart-qty:focus {
 
 .custom-steps .ant-steps-item-title {
   font-weight: 600;
-  font-family: 'Nunito Sans';
+  font-family: 'Nunito Sans', sans-serif;
   font-size: 18px;
 }
 
@@ -1367,7 +1429,7 @@ select.cart-qty:focus {
 .product-order {
   padding: 15px;
   font-size: 21px;
-  font-family: 'Nunito Sans';
+  font-family: 'Nunito Sans', sans-serif;
   color: #832729;
 }
 
@@ -1425,7 +1487,7 @@ select.cart-qty:focus {
 .review-btn {
   background-color: #ffffff !important;
   color: black !important;
-  font-family: 'Nunito Sans';
+  font-family:'Nunito Sans', sans-serif;
   border-radius: 5px;
   padding: 8px;
   width: 100%;

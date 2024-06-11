@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Container, Card, CardImg, CardBody, CardTitle, CardText } from "reactstrap";
+import { Container, Card, CardBody, CardTitle, CardText } from "reactstrap";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FaUserCircle } from "react-icons/fa";
+import axios from 'axios'; 
+import ApiConfig from '../../config/ApiConfig';
 
 const NextArrow = (props) => {
     const { onClick } = props;
@@ -20,6 +22,21 @@ const PrevArrow = (props) => {
 }
 
 class CustomerLove extends Component {
+    state = {
+        reviews: []
+    }
+    componentDidMount() {
+        this.fetchApprovedReviews();
+    }
+    fetchApprovedReviews = async () => {
+        try {
+            const response = await axios.get(`${ApiConfig.ApiPrefix}/website-reviews/approved`);
+            console.log(response.data);
+            this.setState({ reviews: response.data });
+        } catch (error) {
+            console.error('Error fetching approved reviews:', error);
+        }
+    }
     render() {
         const settings = {
             dots: false,
@@ -33,7 +50,6 @@ class CustomerLove extends Component {
             prevArrow: <PrevArrow />,
             adaptiveHeight: true
         };
-
         return (
             <React.Fragment>
                 <section id="customer-love">
@@ -41,17 +57,19 @@ class CustomerLove extends Component {
                         <h3 style={{ textAlign: 'center', color: '#832729', fontFamily: 'Domine' }}>CUSTOMER LOVE</h3>
                         <div id="customer-slider" className="flexslider">
                             <Slider {...settings}>
-                                {this.props.reviews.map((review, index) => (
+                                {this.state.reviews.map((review, index) => (
                                     <div key={index}>
                                         <Card className="review-card">
                                             <div className="profile-picture">
-                                                <FaUserCircle style={{ fontSize: '50px', marginRight: '10px' , color:'#872329'}} />
+                                                <FaUserCircle style={{ fontSize: '50px', marginRight: '10px', color: '#872329' }} />
                                             </div>
-                                            <CardBody style={{paddingTop:'0px'}}>
+                                            <CardBody style={{ paddingTop: '0px' }}>
                                                 <div className="customer-info">
-                                                    <CardTitle style={{ fontWeight: 'bold',  fontSize:'20px' , marginBottom:'0px'}}>A Review by {review.customerName}</CardTitle>
+                                                    <CardTitle style={{ fontWeight: 'bold', fontSize: '20px', marginBottom: '0px' }}>
+                                                        A Review by {review.user.first_name} {review.user.last_name}
+                                                    </CardTitle>
                                                     <CardText style={{ marginTop: 20, fontStyle: 'italic', color: '#B18376', fontWeight: 'bold' }}>
-                                                        <span>&ldquo;</span>{review.review}<span>&rdquo;</span>
+                                                        <span>&ldquo;</span>{review.review_text}<span>&rdquo;</span>
                                                     </CardText>
                                                 </div>
                                             </CardBody>
@@ -66,5 +84,4 @@ class CustomerLove extends Component {
         );
     }
 }
-
 export default CustomerLove;

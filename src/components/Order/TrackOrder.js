@@ -91,7 +91,7 @@ const TrackOrder = () => {
       {!Order ? (
         <div style={{ padding: '12px 20px' }}>
 
-          <div style={{ fontFamily: 'Nunito Sans', textAlign: 'center' }}>
+          <div style={{ fontFamily: 'Nunito Sans sans-serif', textAlign: 'center' }}>
             <h3 style={{ fontWeight: '600' }}>Track your Order</h3>
             <p>Gain insight into your order's status. Enter your Order ID to proceed </p>
           </div>
@@ -125,7 +125,7 @@ const TrackOrder = () => {
           <Card style={{}}>
             <CardBody>
               <Row>
-                <div style={{ padding: '15px', paddingTop: '0px', color: '#832729', fontFamily: 'Nunito Sans', fontSize: '20px', fontWeight: 'bold' }}><p>Track the Order</p></div>
+                <div style={{ padding: '15px', paddingTop: '0px', color: '#832729', fontFamily: 'Nunito Sans sans-serif', fontSize: '20px', fontWeight: 'bold' }}><p>Track the Order</p></div>
                 <Col md={12}>
                   <Steps progressDot={customDot} current={currentStep} >
                     {Object.entries(statusMap).map(([statusValue, statusText], index) => (
@@ -141,10 +141,10 @@ const TrackOrder = () => {
               </Row>
 
               <Row style={{ marginTop: '80px' }}>
-                <div style={{ padding: '0px 15px', color: '#832729', fontFamily: 'Nunito Sans', fontSize: '20px', fontWeight: 'bold' }}> <p>Delivery Details</p> </div>
+                <div style={{ padding: '0px 15px', color: '#832729', fontFamily: 'Nunito Sans sans-serif', fontSize: '20px', fontWeight: 'bold' }}> <p>Delivery Details</p> </div>
                 <Col md={6}>
                   <Card style={{ backgroundColor: '#F2E9E9', border: 'none' }}>
-                    <CardBody style={{ fontFamily: 'Nunito Sans', fontWeight: '600' }}>
+                    <CardBody style={{ fontFamily: 'Nunito Sans sans-serif', fontWeight: '600' }}>
                       <h4 style={{ color: '#832729' }}>Shipping Address</h4>
                       <div>{Order.shippingAddresses[0].first_name} {Order.shippingAddresses[0].last_name}</div>
                       <div>{Order.shippingAddresses[0].street_address}</div>
@@ -155,7 +155,7 @@ const TrackOrder = () => {
                 </Col>
                 <Col md={6}>
                   <Card style={{ backgroundColor: '#F2E9E9', border: 'none' }}>
-                    <CardBody style={{ fontFamily: 'Nunito Sans', fontWeight: '600' }}>
+                    <CardBody style={{ fontFamily: 'Nunito Sans sans-serif', fontWeight: '600' }}>
                       <h4 style={{ color: '#832729' }}>Billing Address</h4>
                       {Order.billingAddresses ? (
                         <>

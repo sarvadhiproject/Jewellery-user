@@ -5,6 +5,7 @@ import WishlistButton from '../wishlist/WishlistButton';
 import axios from 'axios';
 import ApiConfig from '../../config/ApiConfig';
 import BreadcrumbNavigation from '../Navbar/BreadcrumbNavigation';
+import Filter from '../search/Filter';
 
 
 const ProductsByCategory = () => {
@@ -40,6 +41,10 @@ const ProductsByCategory = () => {
         fetchProductsByCategory();
     }, [category_id]);
 
+    const handleFiltersApplied = (filteredProducts) => {
+        setProducts(filteredProducts);
+      };
+
     const handleMouseEnter = (index) => {
         const cardImage = document.getElementById(`card-image-${index}`);
         if (cardImage && products[index].p_images[1]) cardImage.src = products[index].p_images[1];
@@ -61,8 +66,11 @@ const ProductsByCategory = () => {
     return (
         <>
             <>
-                <div style={{ padding: '90px 0px 0px'}}>
+                <div style={{ padding: '90px 0px 0px' }}>
                     <BreadcrumbNavigation />
+                </div>
+                <div style={{ padding: '10px 150px', marginTop: '20px', display: 'flex', justifyContent: 'right' }}>
+                    <Filter onFiltersApplied={handleFiltersApplied} />
                 </div>
                 <div className='container' style={{ padding: '20px 0px 20px', marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
                     <Row>
@@ -72,8 +80,8 @@ const ProductsByCategory = () => {
                                     onMouseEnter={() => { handleMouseEnter(index); }}
                                     onMouseLeave={() => { handleMouseLeave(index); }}
                                 >
-                                   <WishlistButton product_id={product.product_id}/>
-                                    <Link to={`/product-details`} state={{ product_id: product.product_id, product_name: product.product_name}} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <WishlistButton product_id={product.product_id} />
+                                    <Link to={`/product-details`} state={{ product_id: product.product_id, product_name: product.product_name }} style={{ textDecoration: 'none', color: 'inherit' }}>
                                         <div style={{ position: 'relative' }}>
                                             {product.p_images && product.p_images.length > 0 && (
                                                 <CardImg

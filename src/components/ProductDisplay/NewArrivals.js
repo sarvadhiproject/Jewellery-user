@@ -22,7 +22,6 @@ const NewArrivals = () => {
     const fetchnewproducts = async () => {
         try {
             const response = await axios.get(`${ApiConfig.ApiPrefix}/products/recent`);
-            console.log(response.data.data);
             if (response.data && Array.isArray(response.data.data)) {
                 const newproducts = response.data.data.map((d) => ({
                     ...d,

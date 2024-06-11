@@ -117,7 +117,7 @@ const AddressForm = ({ onStepCompleted }) => {
                 {addressDetails ? (
                     <div key={addressDetails.address_id}>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <div style={{ fontFamily: 'Nunito Sans', fontSize: '15px', fontWeight: '500' }}>
+                            <div style={{ fontFamily: 'Nunito Sans sans-serif', fontSize: '15px', fontWeight: '500' }}>
                                 <div>{addressDetails.first_name} {addressDetails.last_name}</div>
                                 <div>{addressDetails.city.city_name}, {addressDetails.state.state_name}, {addressDetails.pincode}</div>
                                 <div>{addressDetails.phone_no}</div>
@@ -127,7 +127,7 @@ const AddressForm = ({ onStepCompleted }) => {
                     </div>
                 ) : (
                     <Card>
-                        <CardBody style={{ fontWeight: '600', fontFamily: 'Nunito Sans' }}>
+                        <CardBody style={{ fontWeight: '600', fontFamily: 'Nunito Sans sans-serif' }}>
 
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <label>No Saved Address</label>

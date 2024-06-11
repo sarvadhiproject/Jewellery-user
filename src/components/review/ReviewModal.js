@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, Button } from 'reactstrap';
-import Rating from 'react-rating-stars-component';
+import { Rating } from 'react-simple-star-rating'
 import axios from 'axios';
+import { FaRegStar, FaStar } from "react-icons/fa";
 import ApiConfig from '../../config/ApiConfig';
 
 const ReviewModal = ({ isOpen, toggle, productId, initialRating }) => {
@@ -47,13 +48,15 @@ const ReviewModal = ({ isOpen, toggle, productId, initialRating }) => {
                 </ModalHeader>
                 <ModalBody>
                     <FormGroup>
-                        <Label for="rating" style={{marginBottom:'0px', }}>Rating</Label>
+                        <Label for="rating" style={{ marginBottom: '0px', }}>Rating</Label>
                         <div>
                             <Rating
                                 count={5}
-                                size={30}
-                                activeColor="#ffd700"
-                                value={Math.ceil(initialRating)}
+                                fillColor="#ffd700"
+                                emptyColor="#ddd"
+                                emptyIcon={<FaRegStar style={{ color: 'gray', fontSize: '20px' }} />}
+                                fillIcon={<FaStar style={{ fontSize: '20px' }} />}
+                                initialValue={Math.ceil(initialRating)}
                                 onChange={handleRatingChange}
                                 isHalf={false}
                             />

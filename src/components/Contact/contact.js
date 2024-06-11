@@ -36,7 +36,7 @@ class GetInTouch extends Component {
           <Container>
             <Row>
               <Col sm="12">
-                <div className="title-box text-center" style={{fontFamily:'Nunito Sans', color:'#832729'}}>
+                <div className="title-box text-center" style={{fontFamily:'Nunito Sans sans-serif', color:'#832729'}}>
                   <h1>Shine Brighter Than Ever</h1>
                   <h4 style={{fontWeight:'500'}}>Be First in Line for Exclusive Offers & Dazzling New Jewelry Designs!</h4>
                 </div>

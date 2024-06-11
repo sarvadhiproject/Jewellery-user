@@ -27,7 +27,7 @@ const OrderSuccess = () => {
       <div style={{ backgroundColor: 'transparent' }}>
         <img src={success} alt="Order Success GIF" style={{ width: '220px' }} />
       </div>
-      <h2 style={{ color: '#832729', fontFamily: 'Nunito Sans' }}>Order Placed Successfully</h2>
+      <h2 style={{ color: '#832729', fontFamily: 'Nunito Sans sans-serif' }}>Order Placed Successfully</h2>
       <Button className='order-success' onClick={handleViewOrder}>View Order Details</Button>
     </div>
   );

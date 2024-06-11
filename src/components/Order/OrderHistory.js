@@ -39,32 +39,13 @@ const OrderHistory = () => {
 
     const handleDownloadInvoice = async (orderId) => {
         try {
-            const response = await axios.get(`${ApiConfig.ApiPrefix}/invoice/${orderId}/invoice`, {
-                responseType: 'blob',
-            });
-
-            // Create a URL for the PDF file
-            const fileURL = window.URL.createObjectURL(new Blob([response.data]));
-
-            // Create a temporary anchor element
-            const downloadLink = document.createElement('a');
-            downloadLink.href = fileURL;
-            downloadLink.download = `invoice_${orderId}.pdf`;
-
-            // Append the anchor element to the document and trigger the click event
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-
-            // Clean up the temporary anchor element
-            document.body.removeChild(downloadLink);
-
-            // Revoke the object URL to free up memory
-            window.URL.revokeObjectURL(fileURL);
+            window.open(`${ApiConfig.ApiPrefix}/invoice/${orderId}/invoice`, '_blank');
         } catch (error) {
             console.error('Error downloading invoice:', error);
             enqueueSnackbar('Failed to download, try again later', { variant: 'error' });
         }
     };
+
 
     const getStatusText = (status) => {
         switch (status) {
@@ -109,19 +90,19 @@ const OrderHistory = () => {
         <>
             {!accessToken ? (
                 <div>
-                    <h3 style={{ fontFamily: 'Nunito Sans' }}>Login to view your order history</h3>
+                    <h3 style={{ fontFamily: 'Nunito Sans sans-serif' }}>Login to view your order history</h3>
                 </div>
             ) : orders.length === 0 ? (
                 <>
                     <div style={{ textAlign: 'center' }}>
                         <img src={emptyorder} alt='Empty order' style={{ width: '130px' }} />
-                        <h3 style={{ fontFamily: 'Nunito Sans' }}>No Order Placed</h3>
+                        <h3 style={{ fontFamily: 'Nunito Sans sans-serif' }}>No Order Placed</h3>
                         <Link to="/" ><label className='cart-product-name' style={{ color: '#832729', fontSize: '13px' }} > Continue Shopping </label></Link>
                     </div>
                 </>
             ) : !showOrderDetails ? (
                 <>
-                    <h2 style={{ fontFamily: 'Nunito Sans', padding: '10px 0px' }}>Placed Order</h2>
+                    <h2 style={{ fontFamily: 'Nunito Sans sans-serif', padding: '10px 0px' }}>Placed Order</h2>
                     <Table style={{ marginBottom: "8px" }}>
                         <thead style={{ backgroundColor: '#F2E9E9' }}>
                             <tr>
