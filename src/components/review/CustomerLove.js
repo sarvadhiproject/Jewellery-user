@@ -66,7 +66,7 @@ class CustomerLove extends Component {
                                             <CardBody style={{ paddingTop: '0px' }}>
                                                 <div className="customer-info">
                                                     <CardTitle style={{ fontWeight: 'bold', fontSize: '20px', marginBottom: '0px' }}>
-                                                        A Review by {review.user.first_name} {review.user.last_name}
+                                                        A Review by {review.first_name} {review.last_name}
                                                     </CardTitle>
                                                     <CardText style={{ marginTop: 20, fontStyle: 'italic', color: '#B18376', fontWeight: 'bold' }}>
                                                         <span>&ldquo;</span>{review.review_text}<span>&rdquo;</span>
