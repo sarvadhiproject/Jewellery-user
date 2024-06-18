@@ -5,7 +5,7 @@ import { Rating } from 'react-simple-star-rating';
 import ApiConfig from "../../config/ApiConfig";
 import { FaRegStar, FaStar } from "react-icons/fa";
 
-const FormWebsiteReview = () => {
+const FormWebsiteReview = ({ handleformSubmit }) => {
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -26,6 +26,13 @@ const FormWebsiteReview = () => {
     try {
       const response = await axios.post(`${ApiConfig.ApiPrefix}/website-reviews/add`, formData);
       console.log(response.data);
+      handleformSubmit();
+      setFormData({
+        first_name: "",
+        last_name: "",
+        ratings: 0,
+        review_text: "",
+      });
     } catch (error) {
       console.error(error);
     }
@@ -35,7 +42,7 @@ const FormWebsiteReview = () => {
     <Form onSubmit={handleSubmit}>
       <FormGroup>
         <Row>
-          <Col style={{marginLeft:'3px'}}>
+          <Col style={{ marginLeft: '3px' }}>
             <Input
               type="text"
               name="first_name"
@@ -53,7 +60,7 @@ const FormWebsiteReview = () => {
               onChange={handleInputChange}
             />
           </Col>
-          <Col style={{display:'flex', justifyContent:'center'}}>
+          <Col style={{ display: 'flex', justifyContent: 'center' }}>
             <Rating
               fillColor="#832729"
               emptyColor="#ddd"

@@ -11,7 +11,7 @@ class WebsiteReview extends Component {
     };
   }
 
-  handleSubmit = () => {
+  handleformSubmit = () => {
     this.setState({ msgSendSuccess: true });
     setTimeout(() => {
       this.setState({ msgSendSuccess: false });
@@ -56,7 +56,7 @@ class WebsiteReview extends Component {
                     </Animated>
                   )}
                 </div>
-                <FormWebsiteReview handleSubmit={this.handleSubmit} />
+                <FormWebsiteReview handleformSubmit={this.handleformSubmit} />
               </Col>
             </Row>
           </Container>
