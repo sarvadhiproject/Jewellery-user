@@ -75,7 +75,7 @@ const ProductsByCategory = () => {
                     <Filter onFiltersApplied={handleFiltersApplied} />
                 </div>
                 <div className='container' style={{ padding: '20px 0px 20px', marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
-                    <Row>
+                    <Row xs={1} sm={2} md={3} lg={4} className="g-4">
                         {products.map((product, index) => (
                             <Col className='col' key={product.product_id} style={{ marginBottom: '20px' }}>
                                 <Card className='product-card'

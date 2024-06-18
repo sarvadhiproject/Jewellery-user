@@ -1031,6 +1031,17 @@ textarea.form-control {
   font-size: 12px; 
 }
 
+/* WishlistProduct.css */
+.wishlist-product-container .row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}
+
+.wishlist-product-container .col {
+  margin-bottom: 20px;
+}
+
 /*==== quantity picker =====*/
 .quantity-picker {
   margin-top: 2px;

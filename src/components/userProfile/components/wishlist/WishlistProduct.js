@@ -32,9 +32,9 @@ const WishlistProduct = () => {
             }
 
             fetchWishlistProducts();
-             // eslint-disable-next-line react-hooks/exhaustive-deps
+            // eslint-disable-next-line react-hooks/exhaustive-deps
         }
-         // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleRemoveFromWishlist = (productId) => {
@@ -72,35 +72,36 @@ const WishlistProduct = () => {
     };
 
     return (
-        <>
-            {!accessToken ? (
-                <div>
-                    <div style={{ textAlign: 'center' }}>
-                        <img src={emptywishlist} alt='Empty wishlist' style={{ width: '130px' }} />
-                        <h3 style={{ fontFamily: 'Nunito Sans sans-serif' }}>Login to view your wishlist</h3>
+        <div className="wishlist-product-container">
+            <>
+                {!accessToken ? (
+                    <div>
+                        <div style={{ textAlign: 'center' }}>
+                            <img src={emptywishlist} alt='Empty wishlist' style={{ width: '130px' }} />
+                            <h3 style={{ fontFamily: 'Nunito Sans sans-serif' }}>Login to view your wishlist</h3>
+                        </div>
                     </div>
-                </div>
-            ) : wishlistItems.length === 0 ? (
-                <div>
-                    <div style={{ textAlign: 'center' }}>
-                        <img src={emptywishlist} alt='Empty wishlist' style={{ width: '130px' }} />
-                        <h3 style={{ fontFamily: 'Nunito Sans sans-serif' }}>Your Wishlist Is Empty !</h3>
-                        <Link to="/" ><label className='cart-product-name' style={{ color: '#832729', fontSize: '13px' }} > Continue Shopping </label></Link>
+                ) : wishlistItems.length === 0 ? (
+                    <div>
+                        <div style={{ textAlign: 'center' }}>
+                            <img src={emptywishlist} alt='Empty wishlist' style={{ width: '130px' }} />
+                            <h3 style={{ fontFamily: 'Nunito Sans sans-serif' }}>Your Wishlist Is Empty !</h3>
+                            <Link to="/" ><label className='cart-product-name' style={{ color: '#832729', fontSize: '13px' }} > Continue Shopping </label></Link>
+                        </div>
                     </div>
-                </div>
-            ) : (
-                <>
-                    <h2 style={{ fontFamily: 'Nunito Sans sans-serif' }}>Wishlist</h2>
-                    <div className='container' style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-start' }}>
-                        <Row>
-                            {wishlistItems.map((product, index) => (
-                                <Col className='col' key={product.product_id} style={{ marginBottom: '20px' }}>
-                                    <Card className='product-card'
-                                        onMouseEnter={() => { handleMouseEnter(index); }}
-                                        onMouseLeave={() => { handleMouseLeave(index); }}
-                                    >
-                                        <WishlistButton product_id={product.product_id} />
-                                        <Link to={`/product-details`}  state={{ product_id: product.product_id }} style={{ textDecoration: 'none', color: 'inherit' }}>                                            <div style={{ position: 'relative' }}>
+                ) : (
+                    <>
+                        <h2 style={{ fontFamily: 'Nunito Sans sans-serif' }}>Wishlist</h2>
+                        <div className='container' style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-start' }}>
+                            <Row>
+                                {wishlistItems.map((product, index) => (
+                                    <Col className='col' key={product.product_id} style={{ marginBottom: '20px' }}>
+                                        <Card className='product-card'
+                                            onMouseEnter={() => { handleMouseEnter(index); }}
+                                            onMouseLeave={() => { handleMouseLeave(index); }}
+                                        >
+                                            <WishlistButton product_id={product.product_id} />
+                                            <Link to={`/product-details`} state={{ product_id: product.product_id }} style={{ textDecoration: 'none', color: 'inherit' }}>                                            <div style={{ position: 'relative' }}>
                                                 {product.p_images && product.p_images.length > 0 && (
                                                     <CardImg
                                                         top
@@ -111,25 +112,26 @@ const WishlistProduct = () => {
                                                     />
                                                 )}
                                             </div>
-                                            <CardBody style={{ padding: '10px' }}>
-                                                <div className='product-cardbody-div'>
-                                                    <p className='product-names'>{product.product_name}</p>
-                                                    <span style={{ marginTop: '10px', display: 'flex' }}>
-                                                        <p>&#8377;{product.selling_price}</p>
-                                                        <label className='text-muted' style={{ marginLeft: '5px', fontSize: '12px', marginTop: '2px' }}> MRP</label>
-                                                        <p className='text-muted' style={{ textDecoration: 'line-through', marginLeft: '5px', fontSize: '12px', marginTop: '2px' }}>&#8377;{product.mrp}</p>
-                                                    </span>
-                                                </div>
-                                            </CardBody>
-                                        </Link>
-                                    </Card>
-                                </Col>
-                            ))}
-                        </Row>
-                    </div>
-                </>
-            )}
-        </>
+                                                <CardBody style={{ padding: '10px' }}>
+                                                    <div className='product-cardbody-div'>
+                                                        <p className='product-names'>{product.product_name}</p>
+                                                        <span style={{ marginTop: '10px', display: 'flex' }}>
+                                                            <p>&#8377;{product.selling_price}</p>
+                                                            <label className='text-muted' style={{ marginLeft: '5px', fontSize: '12px', marginTop: '2px' }}> MRP</label>
+                                                            <p className='text-muted' style={{ textDecoration: 'line-through', marginLeft: '5px', fontSize: '12px', marginTop: '2px' }}>&#8377;{product.mrp}</p>
+                                                        </span>
+                                                    </div>
+                                                </CardBody>
+                                            </Link>
+                                        </Card>
+                                    </Col>
+                                ))}
+                            </Row>
+                        </div>
+                    </>
+                )}
+            </>
+        </div>
     );
 };
 

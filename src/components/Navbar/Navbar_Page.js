@@ -51,6 +51,7 @@ const NavbarPage = () => {
   const handleSearch = () => {
     if (searchTerm.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+      setSearchTerm('');
     }
   };
 
