@@ -12,6 +12,7 @@ import Section from '../../pages/Indexmain/component/section';
 const ProductsByCategory = () => {
     const location = useLocation();
     const category_id = location.state?.category_id;
+    const category_name = location.state?.category_name;
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -65,16 +66,17 @@ const ProductsByCategory = () => {
     }
 
     return (
-        <>
             <>
                 <div style={{ padding: '90px 0px 0px' }}>
                     <BreadcrumbNavigation />
                 </div>
-                <Section startIndex={0} endIndex={2} category={'general'}/>
-                <div style={{ padding: '10px 150px', marginTop: '20px', display: 'flex', justifyContent: 'right' }}>
+                <div style={{position:'relative', bottom:'60px'}}>
+                <Section category={category_name}/>
+                </div>
+                <div style={{ padding: '10px 150px', display: 'flex', justifyContent: 'right', bottom:'50px', position:'relative' }}>
                     <Filter onFiltersApplied={handleFiltersApplied} />
                 </div>
-                <div className='container' style={{ padding: '20px 0px 20px', marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
+                <div className='container' style={{ padding: '0px 0px 20px', display: 'flex', justifyContent: 'center' , bottom:'45px', position:'relative'}}>
                     <Row xs={1} sm={2} md={3} lg={4} className="g-4">
                         {products.map((product, index) => (
                             <Col className='col' key={product.product_id} style={{ marginBottom: '20px' }}>
@@ -112,7 +114,6 @@ const ProductsByCategory = () => {
                     </Row>
                 </div>
             </>
-        </>
     );
 };
 
