@@ -1,54 +1,84 @@
-import React from "react";
-import { Button, Input, Form, FormFeedback, FormGroup,Row, Col } from "reactstrap";
-import * as Yup from "yup";
-import { useFormik } from "formik";
+import React, { useState } from "react";
+import { Button, Input, Form, FormGroup, Row, Col } from "reactstrap";
+import axios from "axios";
+import { Rating } from 'react-simple-star-rating';
+import ApiConfig from "../../config/ApiConfig";
+import { FaRegStar, FaStar } from "react-icons/fa";
 
-const FormContact = ({ handleSubmit }) => {
-  const validation = useFormik({
-    initialValues: {
-      email: "",
-    },
-    validationSchema: Yup.object({
-      email: Yup.string()
-        .email("Invalid email address")
-        .required("Please Enter Your Email"),
-    }),
-    onSubmit: (values) => {
-      handleSubmit(values.email);
-    },
+const FormWebsiteReview = () => {
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    ratings: 0,
+    review_text: "",
   });
 
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleRatingChange = (rate) => {
+    setFormData({ ...formData, ratings: rate });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`${ApiConfig.ApiPrefix}/website-reviews/add`, formData);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <React.Fragment>
-      <Form onSubmit={validation.handleSubmit}>
-        <FormGroup>
-          <Row style={{ alignItems:'center'}}>
-            <Col xs={5}>
-              <Input type="text" name="name" id="name" placeholder="Your Name.." />
-            </Col>
-            <Col xs={5}>
-              <Input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="Your email..."
-                value={validation.values.email}
-                onChange={validation.handleChange}
-                onBlur={validation.handleBlur}
-                invalid={validation.touched.email && !!validation.errors.email}
-              />
-              {validation.touched.email && validation.errors.email && (
-                <FormFeedback>{validation.errors.email}</FormFeedback>
-              )}
-            </Col>
-            <Col>
-              <Button type="submit" className="sign-button">Sign Up</Button>
-            </Col>
-          </Row>
-        </FormGroup>
-      </Form>
-    </React.Fragment>
+    <Form onSubmit={handleSubmit}>
+      <FormGroup>
+        <Row>
+          <Col style={{marginLeft:'3px'}}>
+            <Input
+              type="text"
+              name="first_name"
+              placeholder="First Name"
+              value={formData.first_name}
+              onChange={handleInputChange}
+            />
+          </Col>
+          <Col>
+            <Input
+              type="text"
+              name="last_name"
+              placeholder="Last Name"
+              value={formData.last_name}
+              onChange={handleInputChange}
+            />
+          </Col>
+          <Col style={{display:'flex', justifyContent:'center'}}>
+            <Rating
+              fillColor="#832729"
+              emptyColor="#ddd"
+              emptyIcon={<FaRegStar style={{ color: 'gray', fontSize: '35px' }} />}
+              fillIcon={<FaStar style={{ fontSize: '35px' }} />}
+              initialValue={formData.ratings}
+              onClick={handleRatingChange}
+            />
+          </Col>
+        </Row>
+      </FormGroup>
+      <FormGroup>
+        <Input
+          type="textarea"
+          name="review_text"
+          placeholder="Your Review...."
+          value={formData.review_text}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <Button type="submit" className="website-review">
+        Submit Review
+      </Button>
+    </Form>
   );
 };
 
-export default FormContact;
+export default FormWebsiteReview;

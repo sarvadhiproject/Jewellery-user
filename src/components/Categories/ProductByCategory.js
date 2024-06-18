@@ -6,6 +6,7 @@ import axios from 'axios';
 import ApiConfig from '../../config/ApiConfig';
 import BreadcrumbNavigation from '../Navbar/BreadcrumbNavigation';
 import Filter from '../search/Filter';
+import Section from '../../pages/Indexmain/component/section';
 
 
 const ProductsByCategory = () => {
@@ -69,6 +70,7 @@ const ProductsByCategory = () => {
                 <div style={{ padding: '90px 0px 0px' }}>
                     <BreadcrumbNavigation />
                 </div>
+                <Section startIndex={0} endIndex={2} category={'general'}/>
                 <div style={{ padding: '10px 150px', marginTop: '20px', display: 'flex', justifyContent: 'right' }}>
                     <Filter onFiltersApplied={handleFiltersApplied} />
                 </div>

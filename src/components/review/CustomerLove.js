@@ -10,14 +10,14 @@ import ApiConfig from '../../config/ApiConfig';
 const NextArrow = (props) => {
     const { onClick } = props;
     return (
-        <button className="is-next" onClick={onClick}><i className="ti-arrow-circle-right"></i></button>
+        <button className="is-next" onClick={onClick} style={{right:'340px', top:'120px'}}><i className="ti-arrow-circle-right"></i></button>
     );
 }
 
 const PrevArrow = (props) => {
     const { onClick } = props;
     return (
-        <button className="is-prev" onClick={onClick}><i className="ti-arrow-circle-left"></i></button>
+        <button className="is-prev" onClick={onClick} style={{zIndex:'9', left:'340px', top:'120px'}}><i className="ti-arrow-circle-left"></i></button>
     );
 }
 
